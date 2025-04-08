@@ -1,2 +1,4 @@
 # Student-Communication-and-Reporting-Network
 CS 102 Term Project
+
+The project “Student Communication and Reporting Network” aims to address daily issues on campus, which students encounter. These issues include classroom problems like improper ventilation, broken classroom materials, and other campus problems. Our project provides a communication place between students and authorities, which accelerates the resolution of problems while serving an interactive communication base. Brief summary of the process is that users can post the issues that they encounter in campus life and they can comment or upvote on posts. The most upvoted and debated issues will appear at the top of the screen, which will have a greater possibility to get fixed by the university’s authorities. Thus, such diverse features will provide unique opportunities to every student within campus life.
