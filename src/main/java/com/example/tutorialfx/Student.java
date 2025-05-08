@@ -1,20 +1,14 @@
 /*import java.util.*;
 
 public class Student extends User {
-    private ArrayList<ProblemReport> savedReports;
-    private Set<ProblemReport> upvotes;
-    private Set<ProblemReport> downvotes;
-    private Set<Comment> likes;
-    private Map<ProblemReport, Boolean> wasPostHelpful;
-
-    public Student(int userId, String userName, String userSurname, String email, String password) {
-        super(userId, userName, userSurname, email, password);
-        this.savedReports = new ArrayList<>();
-        this.upvotes = new HashSet<>();
-        this.downvotes = new HashSet<>();
-        this.likes = new HashSet<>();
-        this.wasPostHelpful = new HashMap<>();
+    public Student(int userId, String name, String surname, String email, String password) {
+        super(name, surname, email, password);
     }
+    private ArrayList<ProblemReport> savedReports = new ArrayList<>();
+    private Set<ProblemReport> upvotes = new HashSet<>();
+    private Set<ProblemReport> downvotes = new HashSet<>();
+    private Set<Comment> likes = new HashSet<>();
+    private Map<ProblemReport, Boolean> wasPostHelpful = new HashMap<>();
 
     public void incrementUpvotes(ProblemReport pr) {
         upvotes.add(pr);
