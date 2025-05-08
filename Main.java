@@ -2,11 +2,6 @@ import java.sql.*;
 
 public class Main {
     public static void main(String[] args) {
-        //Notification n = new Notification(1, "System maintenance at 10 PM.");
-        //n.saveToDatabase();
-        //Notification n2 = new Notification(100, "Notification Test");
-        //n2.saveToDatabase();
-
         //This code will clear the Users table before we upload a user.
         //This code is only for test purposes.
         try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb", "root", "12345678");
@@ -21,5 +16,19 @@ public class Main {
         u.saveToDatabase();
         User u2 = new User("Hayati", "Kocur", "hayati@example.com", "pass123");
         u2.saveToDatabase();
+
+        //Same for notification table.
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb", "root", "12345678");
+            Statement stmt = conn.createStatement()) {
+            stmt.executeUpdate("TRUNCATE TABLE notifications");
+            System.out.println("Notifications table cleared.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        Notification n1 = new Notification("Notification 1");
+        n1.saveToDatabase();
+        Notification n2 = new Notification("Notification 2");
+        n2.saveToDatabase();
     }
 }
