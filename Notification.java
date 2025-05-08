@@ -15,12 +15,15 @@ public class Notification {
     public void saveToDatabase() {
         String url = "jdbc:mysql://localhost:3306/mydb"; // Replace with your DB name
         String user = "root";
-        String password = "your_mysql_password";
+        String password = "12345678";
 
         String sql = "INSERT INTO notifications (notification_id, notif_content) VALUES (?, ?)";
 
+        System.out.println("Loading MySQL driver...");
+        System.out.println("Connection URL: jdbc:mysql://localhost:3306/mydb");
+
         try (Connection conn = DriverManager.getConnection(url, user, password);
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, this.notificationId);
             stmt.setString(2, this.notifContent);
             stmt.executeUpdate();
