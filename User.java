@@ -1,3 +1,6 @@
+
+import java.util.Objects;
+
 public abstract class User {
     protected int userId;
     protected String userName;
@@ -5,12 +8,20 @@ public abstract class User {
     protected String email;
     protected String password;
 
-    public boolean validatePassword(String password) {
-        return this.password.equals(password);
+    public User(int userId, String userName, String userSurname, String email, String password) {
+        this.userId = userId;
+        this.userName = userName;
+        this.userSurname = userSurname;
+        this.email = email;
+        this.password = password;
     }
 
-    public void changePassword(String password) {
-        this.password = password;
+    public boolean validatePassword(String inputPassword) {
+        return this.password.equals(inputPassword);
+    }
+
+    public void changePassword(String newPassword) {
+        this.password = newPassword;
     }
 
     public void changeName(String newName) {
@@ -21,7 +32,21 @@ public abstract class User {
         this.userSurname = newSurname;
     }
 
-    public void addComment(ProblemReport pr, String comment) {
-        pr.addComment(new Comment(this, comment));
+    public abstract String getUserType();
+
+    // Getters & Setters
+    public int getUserId() { return userId; }
+    public String getEmail() { return email; }
+    public String getFullName() { return userName + " " + userSurname; }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof User other)) return false;
+        return this.userId == other.userId;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userId);
     }
 }

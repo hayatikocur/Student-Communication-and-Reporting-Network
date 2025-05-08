@@ -1,28 +1,23 @@
+
 import java.util.*;
 
 public class Student extends User {
-    private ArrayList<ProblemReport> savedReports = new ArrayList<>();
-    private Set<ProblemReport> upvotes = new HashSet<>();
-    private Set<ProblemReport> downvotes = new HashSet<>();
-    private Set<Comment> likes = new HashSet<>();
-    private Map<ProblemReport, Boolean> wasPostHelpful = new HashMap<>();
+    private List<ProblemReport> savedReports = new ArrayList<>();
+    private Set<ProblemReport> upvotedReports = new HashSet<>();
+    private Set<ProblemReport> downvotedReports = new HashSet<>();
+    private Set<Comment> likedComments = new HashSet<>();
+    private Map<ProblemReport, Boolean> helpfulness = new HashMap<>();
 
-    public void incrementUpvotes(ProblemReport pr) {
-        upvotes.add(pr);
-        pr.incrementUpvoteCount();
+    public Student(int userId, String userName, String userSurname, String email, String password) {
+        super(userId, userName, userSurname, email, password);
     }
 
-    public void incrementDownvotes(ProblemReport pr) {
-        downvotes.add(pr);
-        pr.incrementDownvoteCount();
-    }
-
-    public void incrementComments(ProblemReport pr) {
-        pr.incrementCommentNumber();
-    }
-
-    public void attachMedia(ProblemReport pr, MediaAttachment attachment) {
-        pr.addMediaAttachment(attachment);
+    public void createReport(String title, String description, Category category, Location location, MediaAttachment media) {
+        ProblemReport report = new ProblemReport(title, description, category, location);
+        if (media != null) {
+            report.addMediaAttachment(media);
+        }
+        // Save to DB...
     }
 
     public void saveReport(ProblemReport pr) {
@@ -33,8 +28,24 @@ public class Student extends User {
         savedReports.remove(pr);
     }
 
-    public void createReport(String title, String description, Category category, Location location, MediaAttachment attachment) {
-        ProblemReport report = new ProblemReport(title, description, category, location, attachment);
-        // Add report to global list or DB
+    public void upvoteReport(ProblemReport pr) {
+        upvotedReports.add(pr);
+        pr.incrementUpvoteCount();
+    }
+
+    public void downvoteReport(ProblemReport pr) {
+        downvotedReports.add(pr);
+        pr.incrementDownvoteCount();
+    }
+
+    public void markHelpful(ProblemReport pr, boolean wasHelpful) {
+        helpfulness.put(pr, wasHelpful);
+        if (wasHelpful) pr.incrementUseful();
+        else pr.incrementNotUseful();
+    }
+
+    @Override
+    public String getUserType() {
+        return "Student";
     }
 }

@@ -1,13 +1,20 @@
+
+import java.util.List;
+
 public class Category {
     private int categoryId;
     private String categoryName;
-    private String[] categories;
+    private static String[] categories = {"Cleaning", "Facility", "Academic", "Transport"};
 
-    public void sortByDate() {
-        // implement sorting
+    public Category(int categoryId, String categoryName) {
+        this.categoryId = categoryId;
+        this.categoryName = categoryName;
     }
 
-    public void listPRBasedOnCategory(int categoryId) {
-        // filtering logic
+    public int getCategoryId() { return categoryId; }
+    public String getCategoryName() { return categoryName; }
+
+    public static String[] getAvailableCategories() {
+        return categories;
     }
 }
