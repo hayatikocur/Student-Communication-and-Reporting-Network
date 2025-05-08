@@ -1,6 +1,9 @@
 import java.util.*;
 
 public class Student extends User {
+    public Student(int userId, String name, String surname, String email, String password) {
+        super(name, surname, email, password);
+    }
     private ArrayList<ProblemReport> savedReports = new ArrayList<>();
     private Set<ProblemReport> upvotes = new HashSet<>();
     private Set<ProblemReport> downvotes = new HashSet<>();

@@ -4,7 +4,7 @@
       {
         "label": "compile-java",
         "type": "shell",
-        "command": "mkdir -p bin && javac -d bin -cp mysql.jar Notification.java Main.java",
+        "command": "mkdir -p bin && javac -d bin -cp mysql.jar *.java",
         "problemMatcher": []
       }
     ]

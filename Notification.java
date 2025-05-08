@@ -20,6 +20,7 @@ public class Notification {
         String sql = "INSERT INTO notifications (notification_id, notif_content) VALUES (?, ?)";
 
         System.out.println("Loading MySQL driver...");
+
         System.out.println("Connection URL: jdbc:mysql://localhost:3306/mydb");
 
         try (Connection conn = DriverManager.getConnection(url, user, password);
