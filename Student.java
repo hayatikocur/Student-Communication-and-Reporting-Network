@@ -26,8 +26,6 @@ public class Student extends User {
         pr.incrementDownvoteCount();
     }
 
-
-
     public void attachMedia(ProblemReport pr, MediaAttachment attachment) {
         pr.addMediaAttachment(attachment);
     }
@@ -35,6 +33,7 @@ public class Student extends User {
     public void saveReport(ProblemReport pr) {
         if (!savedReports.contains(pr)) {
             savedReports.add(pr);
+            pr.getSavedUsers().add(this);
         }
     }
 
