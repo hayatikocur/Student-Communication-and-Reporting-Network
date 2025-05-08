@@ -1,3 +1,5 @@
+package com.example.tutorialfx;
+
 public class Category {
     private int categoryId;
     private String categoryName;

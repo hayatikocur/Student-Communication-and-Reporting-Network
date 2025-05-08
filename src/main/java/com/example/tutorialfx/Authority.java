@@ -1,3 +1,5 @@
+package com.example.tutorialfx;
+
 public class Authority extends User {
     public void resolveReport(ProblemReport pr) {
         pr.setResolved(true);

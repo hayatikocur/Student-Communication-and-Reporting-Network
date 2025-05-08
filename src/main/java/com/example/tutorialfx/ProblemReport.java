@@ -1,3 +1,5 @@
+package com.example.tutorialfx;
+
 import java.util.*;
 
 public class ProblemReport {

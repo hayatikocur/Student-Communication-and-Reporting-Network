@@ -1,3 +1,5 @@
+package com.example.tutorialfx;
+
 public abstract class User {
     protected int userId;
     protected String userName;

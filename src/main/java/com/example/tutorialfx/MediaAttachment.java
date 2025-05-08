@@ -1,3 +1,5 @@
+package com.example.tutorialfx;
+
 public class MediaAttachment {
     private String fileLocation;
 
