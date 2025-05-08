@@ -1,23 +1,11 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.*;
 
 public class Student extends User {
-
-    private ArrayList<ProblemReport> savedReports;
-    private HashSet<ProblemReport> upvotes;
-    private HashSet<ProblemReport> downvotes;
-    private HashSet<Comment> likes;
-    private HashMap<ProblemReport, Boolean> wasPostHelpful;
-
-    public Student(int userId, String userName, String userSurname, String email, String password) {
-        super(userId, userName, userSurname, email, password);
-        this.savedReports = new ArrayList<>();
-        this.upvotes = new HashSet<>();
-        this.downvotes = new HashSet<>();
-        this.likes = new HashSet<>();
-        this.wasPostHelpful = new HashMap<>();
-    }
+    private ArrayList<ProblemReport> savedReports = new ArrayList<>();
+    private Set<ProblemReport> upvotes = new HashSet<>();
+    private Set<ProblemReport> downvotes = new HashSet<>();
+    private Set<Comment> likes = new HashSet<>();
+    private Map<ProblemReport, Boolean> wasPostHelpful = new HashMap<>();
 
     public void incrementUpvotes(ProblemReport pr) {
         upvotes.add(pr);
@@ -38,9 +26,7 @@ public class Student extends User {
     }
 
     public void saveReport(ProblemReport pr) {
-        if (!savedReports.contains(pr)) {
-            savedReports.add(pr);
-        }
+        savedReports.add(pr);
     }
 
     public void unsaveReport(ProblemReport pr) {
@@ -48,9 +34,7 @@ public class Student extends User {
     }
 
     public void createReport(String title, String description, Category category, Location location, MediaAttachment attachment) {
-        ProblemReport pr = new ProblemReport(title, description, category, location, attachment);
-        //  this will be added to the system-wide database or report list
+        ProblemReport report = new ProblemReport(title, description, category, location, attachment);
+        // Add report to global list or DB
     }
-
-    //  add getters and setters as needed
 }
