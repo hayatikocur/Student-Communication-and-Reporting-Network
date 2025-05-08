@@ -1,0 +1,55 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "GmailNotification",
+            "request": "launch",
+            "mainClass": "GmailNotification",
+            "projectName": "denemeler_f700c7b3"
+        },
+        {
+            "type": "java",
+            "name": "MapViewer",
+            "request": "launch",
+            "mainClass": "MapViewer",
+            "projectName": "denemeler_f700c7b3"
+        },
+        {
+            "type": "java",
+            "name": "MapViewers",
+            "request": "launch",
+            "mainClass": "MapViewers",
+            "projectName": "denemeler_f700c7b3"
+        },
+        {
+            "type": "java",
+            "name": "LeafletMapViewer",
+            "request": "launch",
+            "mainClass": "LeafletMapViewer",
+            "projectName": "denemeler_f700c7b3"
+        },
+        {
+            "type": "java",
+            "name": "MapImageViewer",
+            "request": "launch",
+            "mainClass": "MapImageViewer",
+            "projectName": "denemeler_f700c7b3"
+        },
+        {
+            "type": "java",
+            "name": "MapsViewer",
+            "request": "launch",
+            "mainClass": "MapsViewer",
+            "projectName": "denemeler_f700c7b3",
+            "vmArgs": "-Dprism.order=sw --module-path \"C:/Users/mert/Downloads/javafx-sdk-21.0.7/lib\" --add-modules javafx.controls,javafx.fxml,javafx.web"
+        },
+        {
+            "type": "java",
+            "name": "GoogleMapsViewer",
+            "request": "launch",
+            "mainClass": "GoogleMapsViewer",
+            "vmArgs": "--module-path \"C:/Users/mert/Downloads/javafx-sdk-21.0.7/lib\" --add-modules javafx.controls,javafx.web"
+        }
+    ]
+}
