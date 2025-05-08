@@ -46,7 +46,16 @@ public class ProblemReport {
     public void setResolved(boolean resolved) {
         this.resolved = resolved;
     }
+  
     public void incrementCommentNumber() {
-        
+      
+    }
+
+    public void incrementWasNotUsefulCount(){
+        wasNotUsefulCount++;
+    }
+
+    public void incrementWasUsefulCount(){
+        wasUsefulCount++;
     }
 }

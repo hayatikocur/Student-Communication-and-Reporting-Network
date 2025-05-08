@@ -29,7 +29,9 @@ public class Student extends User {
     }
 
     public void saveReport(ProblemReport pr) {
-        savedReports.add(pr);
+        if (!savedReports.contains(pr)) {
+            savedReports.add(pr);
+        }
     }
 
     public void unsaveReport(ProblemReport pr) {
