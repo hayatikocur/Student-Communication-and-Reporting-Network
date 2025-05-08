@@ -26,9 +26,7 @@ public class Student extends User {
         pr.incrementDownvoteCount();
     }
 
-    public void incrementComments(ProblemReport pr) {
-        pr.incrementCommentNumber();
-    }
+
 
     public void attachMedia(ProblemReport pr, MediaAttachment attachment) {
         pr.addMediaAttachment(attachment);
