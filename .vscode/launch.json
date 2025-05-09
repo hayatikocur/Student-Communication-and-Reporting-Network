@@ -3,6 +3,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "MapViewer",
+      "request": "launch",
+      "mainClass": "MapViewer",
+      "projectName": "Student-Communication-and-Reporting-Network_d595cdf1"
+    },
+    {
+      "type": "java",
       "name": "Run ImageViewer with MySQL",
       "request": "launch",
       "mainClass": "ImageViewer",
