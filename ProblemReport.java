@@ -15,6 +15,7 @@ public class ProblemReport {
     private Location location;
     private Category category;
     private boolean resolved = false;
+    private ArrayList<User> savedUsers;
 
     public ProblemReport(String title, String description, Category category, Location location, MediaAttachment attachment) {
         this.reportId = ++counter;
@@ -22,6 +23,7 @@ public class ProblemReport {
         this.description = description;
         this.category = category;
         this.location = location;
+        savedUsers = new ArrayList<>();
         if (attachment != null)
             mediaAttachments.add(attachment);
     }
@@ -57,5 +59,9 @@ public class ProblemReport {
 
     public void incrementWasUsefulCount(){
         wasUsefulCount++;
+    }
+
+    public ArrayList<User> getSavedUsers(){
+        return savedUsers;
     }
 }
