@@ -36,7 +36,7 @@ public class MapViewer extends Application {
         WebView webView = new WebView();
 
         // map.html dosyasını resources içinden yükle
-        URL htmlURL = getClass().getResource("/map.html");
+        URL htmlURL = getClass().getResource("/com/example/map.html");
         if (htmlURL != null) {
             webView.getEngine().load(htmlURL.toExternalForm());
         } else {
