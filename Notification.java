@@ -12,7 +12,7 @@ public class Notification {
     }
 
     public void saveToDatabase() {
-        String url = "jdbc:mysql://localhost:3306/mydb"; // Replace with your DB name
+        String url = "jdbc:mysql://localhost:3306/mydb";
         String user = "root";
         String password = "12345678";
 
