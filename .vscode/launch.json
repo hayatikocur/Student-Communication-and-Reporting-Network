@@ -3,6 +3,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "SendGmail",
+      "request": "launch",
+      "mainClass": "SendGmail",
+      "projectName": "Student-Communication-and-Reporting-Network_d595cdf1"
+    },
+    {
+      "type": "java",
       "name": "MapViewer",
       "request": "launch",
       "mainClass": "MapViewer",
