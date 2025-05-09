@@ -4,11 +4,11 @@ import java.sql.*;
 
 public class ImageUploader {
     public static void main(String[] args) {
-        String url = "jdbc:mysql://localhost:3306/mydb";
-        String user = "root";
-        String password = "12345678";
+        String url = "jdbc:mysql://139.179.224.206:3306/mydb";
+        String user = "hayati";
+        String password = "hayati123";
 
-        String filePath = "myphoto.jpg";
+        String filePath = "rubberduck.jpg";
 
         String sql = "INSERT INTO media_attachments (image_name, mime_type, image_data) VALUES (?, ?, ?)";
 

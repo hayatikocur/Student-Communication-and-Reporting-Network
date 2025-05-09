@@ -8,16 +8,16 @@ import javax.imageio.ImageIO;
 public class ImageViewer {
 
     public static void main(String[] args) {
-        String url = "jdbc:mysql://localhost:3306/mydb";
-        String user = "root";
-        String password = "12345678";
+        String url = "jdbc:mysql://139.179.224.206:3306/mydb";
+        String user = "hayati";
+        String password = "hayati123";
 
         String sql = "SELECT image_name, image_data FROM media_attachments WHERE picture_id = ?";
 
         try (Connection conn = DriverManager.getConnection(url, user, password);
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setInt(1, 1);  // change to the ID of the image you want to view
+            stmt.setInt(1, 2);  // change to the ID of the image you want to view
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
