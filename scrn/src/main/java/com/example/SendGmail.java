@@ -47,7 +47,7 @@ public class SendGmail {
 
         names.add("mert.mumcu@ug.bilkent.edu.tr");
         // names.add("yigitkaanonder@ug.bilkent.edu.tr");
-        // names.add("hayati.kocur@ug.bilkent.edu.tr");
+        names.add("hayati.kocur@ug.bilkent.edu.tr");
         // names.add("burhan.bulut@ug.bilkent.edu.tr");
         // names.add("emir.akar@ug.bilkent.edu.tr");
 
