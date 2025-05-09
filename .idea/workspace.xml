@@ -5,7 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="362777a0-6e49-4eb6-b060-e9cb74d31dc5" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/com/example/homeIcon.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/SignUp.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/SignUp.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,8 +17,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="FxmlFile" />
         <option value="JavaFXApplication" />
+        <option value="FxmlFile" />
       </list>
     </option>
   </component>
@@ -55,6 +57,7 @@
       <recent name="C:\projects\Student-Communication-and-Reporting-Network\src\main\resources\com\example" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\projects\Student-Communication-and-Reporting-Network\src\main\resources\com\example" />
       <recent name="C:\projects\Student-Communication-and-Reporting-Network\src\main\java\com\example\Application" />
       <recent name="C:\Users\emira\IdeaProjects\TutorialFx\src\main\resources\com\example\tutorialfx" />
     </key>
