@@ -2,18 +2,25 @@
   "version": "0.2.0",
   "configurations": [
     {
+  "type": "java",
+  "name": "Run MapViewer with JavaFX",
+  "request": "launch",
+  "mainClass": "MapViewer",
+  "classPaths": [
+    "${workspaceFolder}/bin",
+    "${workspaceFolder}/mysql.jar",
+    "${workspaceFolder}/javafx-sdk/lib/javafx.controls.jar",
+    "${workspaceFolder}/javafx-sdk/lib/javafx.fxml.jar",
+    "${workspaceFolder}/javafx-sdk/lib/javafx.web.jar"
+  ],
+  "vmArgs": "--module-path javafx-sdk/lib --add-modules javafx.controls,javafx.fxml,javafx.web -Dprism.order=sw -Dsun.java2d.opengl=true -Dsun.java2d.metal=true -Djavafx.verbose=true",
+  "preLaunchTask": "compile-javafx"
+},
+    {
       "type": "java",
       "name": "SendGmail",
       "request": "launch",
-      "mainClass": "SendGmail",
-      "projectName": "Student-Communication-and-Reporting-Network_d595cdf1"
-    },
-    {
-      "type": "java",
-      "name": "MapViewer",
-      "request": "launch",
-      "mainClass": "MapViewer",
-      "projectName": "Student-Communication-and-Reporting-Network_d595cdf1"
+      "mainClass": "SendGmail"
     },
     {
       "type": "java",

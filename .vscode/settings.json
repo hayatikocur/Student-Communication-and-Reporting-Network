@@ -1,5 +1,6 @@
 {
   "java.project.referencedLibraries": [
-    "lib/**/*.jar"
+    "javafx-sdk/lib/**/*.jar",
+    "mysql.jar"
   ]
 }

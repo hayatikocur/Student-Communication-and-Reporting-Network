@@ -2,9 +2,9 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "compile-java",
+      "label": "compile-javafx",
       "type": "shell",
-      "command": "mkdir -p bin && javac -d bin -cp mysql.jar *.java",
+      "command": "mkdir -p bin && javac -d bin --module-path javafx-sdk/lib --add-modules javafx.controls,javafx.fxml,javafx.web -cp \"mysql.jar:javafx-sdk/lib/*\" *.java",
       "problemMatcher": [],
       "group": {
         "kind": "build",
