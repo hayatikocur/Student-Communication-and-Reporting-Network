@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Bilkent Rapor Yoğunluk Haritası</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+  <style>
+    #map { height: 100vh; width: 100vw; }
+  </style>
+</head>
+<body>
+<div id="map"></div>
+<script>
+  const map = L.map('map').setView([39.8678, 32.7494], 17);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19
+  }).addTo(map);
+
+  const buildings = [
+    { name: "B Binası", lat: 39.868880, lng: 32.747980, reports: 15 },
+    { name: "SB Binası", lat: 39.868378, lng: 32.748163, reports: 22 },
+    { name: "V Binası", lat: 39.867069, lng: 32.750051, reports: 5 },
+    { name: "FC Binası", lat: 39.867028, lng: 32.749364, reports: 9 },
+    { name: "FB Binası", lat: 39.866707, lng: 32.749654, reports: 13 },
+    { name: "FA Binası", lat: 39.866188, lng: 32.750008, reports: 6 },
+    { name: "FD Binası", lat: 39.866377, lng: 32.749203, reports: 18 },
+    { name: "FF Binası", lat: 39.865867, lng: 32.748774, reports: 11 },
+    { name: "Kütüphane", lat: 39.870181, lng: 32.750013, reports: 30 }
+  ];
+
+  const maxReports = Math.max(...buildings.map(b => b.reports));
+
+  function getColor(reports) {
+    const intensity = reports / maxReports;
+    const red = 255;
+    const green = Math.round(200 - intensity * 180);
+    const blue = Math.round(200 - intensity * 180);
+    return `rgb(${red},${green},${blue})`;
+  }
+
+  buildings.forEach(b => {
+    const circle = L.circleMarker([b.lat, b.lng], {
+      radius: 18,
+      color: "#000000",
+      weight: 1,
+      fillColor: getColor(b.reports),
+      fillOpacity: 0.7
+    }).addTo(map);
+    circle.bindPopup(`<b>${b.name}</b><br>${b.reports} rapor`);
+  });
+</script>
+</body>
+</html>
