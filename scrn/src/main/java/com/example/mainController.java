@@ -53,8 +53,7 @@ public class mainController implements Initializable{
     @FXML
     TextField tfProfileName;
     @FXML
-    ImageView profileEditIcon;
-
+    
   
     //
     
@@ -252,26 +251,33 @@ public class mainController implements Initializable{
 
 
     //Şunları database bağlayın.
-    public void setProfileIconAction(Event arg0){ 
+    public void setEditAction(Event arg0){ 
 
-        tfProfilePassword.setEditable(true);
-        tfProfilePassword.setVisible(true);
-        tfProfileMail.setEditable(true);
-        tfProfileName.setEditable(true);
-        tfProfileSurname.setEditable(true);
+        if (tfProfilePassword.isEditable() == false) {
+            tfProfilePassword.setEditable(true);
+            tfProfilePassword.setVisible(true);
+            tfProfileName.setEditable(true);
+            tfProfileSurname.setEditable(true);
+        }
+        else{
+            tfProfileSurname.setEditable(false);
+            tfProfilePassword.setVisible(false);
+            tfProfileName.setEditable(false);
+            tfProfilePassword.setEditable(false);
+
+        }
+
+
         
         
     }
 
     //Bunu da
     public void confirmChangesToProfile(ActionEvent event){
-
-        tfProfileSurname.setEditable(false);
-        tfProfilePassword.setEditable(false);
-        tfProfilePassword.setVisible(false);
-        tfProfileMail.setEditable(false);
-        tfProfileName.setEditable(false);
-        
+        //User'ın passwordu ve username i değiştirmesi lazım.
+        currentUser.changeName(tfProfileName.getText());
+        currentUser.changeSurname(tfProfileSurname.getText());
+        currentUser.changePassword(tfProfilePassword.getText());
     }
 
 

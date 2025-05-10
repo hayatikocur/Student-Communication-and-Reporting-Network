@@ -87,7 +87,7 @@
          <opaqueInsets>
             <Insets />
          </opaqueInsets></AnchorPane>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ffffff00" height="465.0" layoutX="268.0" layoutY="79.0" stroke="BLACK" strokeType="INSIDE" style="-fx-arc-width: 50; -fx-arc-height: 50;" width="580.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ffffff00" height="465.0" layoutX="274.0" layoutY="79.0" stroke="BLACK" strokeType="INSIDE" style="-fx-arc-width: 50; -fx-arc-height: 50;" width="580.0" />
       <Label layoutX="287.0" layoutY="133.0" style="-fx-font-weight: bold;" text="Name:">
          <font>
             <Font size="25.0" />
@@ -108,11 +108,6 @@
             <Font size="25.0" />
          </font>
       </Label>
-      <ImageView fx:id="profileEditIcon" fitHeight="45.0" fitWidth="45.0" layoutX="788.0" layoutY="88.0" onMouseClicked="#setProfileIconAction" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@editIcon.png" />
-         </image>
-      </ImageView>
       <TextField fx:id="tfProfileName" editable="false" layoutX="406.0" layoutY="138.0" prefHeight="31.0" prefWidth="378.0" style="-fx-background-color: transparent;" text="username123">
          <font>
             <Font size="15.0" />
@@ -163,6 +158,11 @@
       <Button layoutX="724.0" layoutY="79.0" mnemonicParsing="false" onAction="#confirmChangesToProfile" prefHeight="66.0" prefWidth="86.0" style="-fx-background-color: transparent;" text="✔">
          <font>
             <Font size="30.0" />
+         </font>
+      </Button>
+      <Button id="editButton" fx:id="editButton" layoutX="724.0" layoutY="53.0" mnemonicParsing="false" onAction="#setEditAction" prefHeight="118.0" prefWidth="180.0" style="-fx-background-color: transparent;" text="✎">
+         <font>
+            <Font size="50.0" />
          </font>
       </Button>
    </children>

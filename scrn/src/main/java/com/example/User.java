@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class User {
+    
     protected int userId;
     protected String userName;
     protected String userSurname;
