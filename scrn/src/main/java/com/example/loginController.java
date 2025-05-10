@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 public class loginController {
 
     //TODO: those will be used for sign in page you will use those to valiate the password and email. add for sign up in same way.
+    //you can look at the id(variable name) in signup.fxml file
     @FXML
     TextField tfEmailSin;
     @FXML
@@ -84,6 +85,22 @@ public class loginController {
 
     public void forgotPassword(ActionEvent e){
         //TODO: Will check if email exists then send random generated password through email.
+    }
+
+     public void goToMapPage(ActionEvent event){
+        //TODO: Need to check if user's email and password is correct. Then it should go to home page.
+
+        try {
+            Thread.sleep(175);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("mapPage.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }
