@@ -237,7 +237,6 @@ public class mainController implements Initializable{
         try {
             Thread.sleep(175);
             FXMLLoader loader = new FXMLLoader(getClass().getResource("Profile.fxml"));
-            mainController controller = loader.getController();
             Parent root = loader.load();
 
             Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -250,31 +249,29 @@ public class mainController implements Initializable{
         }
     }
 
-    public void setProfileIconAction(ActionEvent event){
-        tfProfileSurname.setEditable(true);
-                tfProfilePassword.setEditable(true);
-                tfProfilePassword.setVisible(true);
-                tfProfileMail.setEditable(true);
-                tfProfileName.setEditable(true);
+    public void setProfileIconAction(Event arg0){
+        if (tfProfileName.isEditable() == false) {
+            tfProfileSurname.setEditable(true);
+            tfProfilePassword.setEditable(true);
+            tfProfilePassword.setVisible(true);
+            tfProfileMail.setEditable(true);
+            tfProfileName.setEditable(true);
+        }
+        else{
+            tfProfileSurname.setEditable(false);
+            tfProfilePassword.setEditable(false);
+            tfProfilePassword.setVisible(false);
+            tfProfileMail.setEditable(false);
+            tfProfileName.setEditable(false);
+        }
+       
 
     }
 
 
      @Override
      public void initialize(URL arg0, ResourceBundle arg1) {
-
-
-        profileEditIcon.setOnMouseClicked(new EventHandler<Event>() {
-
-            @Override
-            public void handle(Event arg0) {
-
-
-                
-                
-            }
-            
-        });
+      
      }    
 
 

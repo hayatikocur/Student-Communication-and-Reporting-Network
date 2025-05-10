@@ -108,7 +108,7 @@
             <Font size="25.0" />
          </font>
       </Label>
-      <ImageView fx:id="profileEditIcon" fitHeight="45.0" fitWidth="45.0" layoutX="788.0" layoutY="88.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="profileEditIcon" fitHeight="45.0" fitWidth="45.0" layoutX="788.0" layoutY="88.0" onMouseClicked="#setProfileIconAction" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@editIcon.png" />
          </image>
