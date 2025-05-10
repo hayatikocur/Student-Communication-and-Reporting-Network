@@ -40,8 +40,7 @@ public class mainController implements Initializable{
 
     //
 
-    User currentUser;
-    //Şunu authority veya student olarak değiştirmek lazım duruma göre.
+    
     @FXML
     Label profileLabel;
     @FXML
@@ -168,8 +167,8 @@ public class mainController implements Initializable{
     public boolean validationOnSignIn(String email, String password){
         for(int i=0; i<App.getUsers().size(); i++){
             if(tfEmailSin.getText().equals(App.getUsers().get(i).getEmail())){
-                currentUser = App.getUsers().get(i);
-                if(currentUser.getPassword().equals(password)){
+                App.setCurrentUser(App.getUsers().get(i));
+                if(App.getCurrentUser().getPassword().equals(password)){
 
                     return true;
                 }
@@ -276,15 +275,18 @@ public class mainController implements Initializable{
     //Bunu da
     public void confirmChangesToProfile(ActionEvent event){
         //User'ın passwordu ve username i değiştirmesi lazım.
-        currentUser.changeName(tfProfileName.getText());
-        currentUser.changeSurname(tfProfileSurname.getText());
-        currentUser.changePassword(tfProfilePassword.getText());
+        App.getCurrentUser().changeName(tfProfileName.getText());
+        App.getCurrentUser().changeSurname(tfProfileSurname.getText());
+        App.getCurrentUser().changePassword(tfProfilePassword.getText());
+
+        //System.out.println("hello world");
+        //System.out.println(App.getCurrentUser().getUserName());
     }
 
-     @Override
-     public void initialize(URL arg0, ResourceBundle arg1) {
-      
-     }    
+    @Override
+    public void initialize(URL arg0, ResourceBundle arg1) {
+     
+    }    
 
 
 }

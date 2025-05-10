@@ -155,12 +155,12 @@
             </Label>
          </children>
       </StackPane>
-      <Button layoutX="724.0" layoutY="79.0" mnemonicParsing="false" onAction="#confirmChangesToProfile" prefHeight="66.0" prefWidth="86.0" style="-fx-background-color: transparent;" text="✔">
+      <Button layoutX="753.0" layoutY="267.0" mnemonicParsing="false" onAction="#confirmChangesToProfile" prefHeight="66.0" prefWidth="86.0" style="-fx-background-color: transparent;" text="✔">
          <font>
             <Font size="30.0" />
          </font>
       </Button>
-      <Button id="editButton" fx:id="editButton" layoutX="724.0" layoutY="53.0" mnemonicParsing="false" onAction="#setEditAction" prefHeight="118.0" prefWidth="180.0" style="-fx-background-color: transparent;" text="✎">
+      <Button id="editButton" fx:id="editButton" layoutX="706.0" layoutY="55.0" mnemonicParsing="false" onAction="#setEditAction" prefHeight="118.0" prefWidth="180.0" style="-fx-background-color: transparent;" text="✎">
          <font>
             <Font size="50.0" />
          </font>
