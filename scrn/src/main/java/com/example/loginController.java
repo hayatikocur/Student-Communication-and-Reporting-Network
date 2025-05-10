@@ -17,6 +17,7 @@ public class loginController {
 
     public void changeToSignUp(ActionEvent event){
         try {
+            Thread.sleep(175);
             FXMLLoader loader = new FXMLLoader(getClass().getResource("SignUp.fxml"));
             Parent root = loader.load();
             Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -31,7 +32,7 @@ public class loginController {
 
     public void changeToSignIn(ActionEvent event){
         try {
-            Thread.sleep(150);
+            Thread.sleep(175);
             FXMLLoader loader = new FXMLLoader(getClass().getResource("SignIn.fxml"));
             Parent root = loader.load();
             Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -46,6 +47,7 @@ public class loginController {
 
     public void returnToFirstPage(ActionEvent event){
         try {
+            Thread.sleep(175);
             FXMLLoader loader = new FXMLLoader(getClass().getResource("loginPage.fxml"));
             Parent root = loader.load();
             Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -58,9 +60,24 @@ public class loginController {
 
     }
 
+    public void goToHomePage(ActionEvent event){
+        //TODO: Need to check if user's email and password is correct. Then it should go to home page.
+
+        try {
+            Thread.sleep(175);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("homePage.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void forgotPassword(ActionEvent e){
-        //TODO: send random generated password through email.
-        System.out.println("hello world");
+        //TODO: Will check if email exists then send random generated password through email.
     }
 
 }

@@ -39,7 +39,7 @@
                   <Font size="24.0" />
                </font>
             </Button>
-            <Button id="bReturn2" layoutX="-20.0" layoutY="-25.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="←" textFill="WHITE">
+            <Button id="bReturn2" layoutX="-20.0" layoutY="-25.0" mnemonicParsing="false" onAction="#returnToFirstPage" style="-fx-background-color: transparent;" text="←" textFill="WHITE">
                <cursor>
                   <Cursor fx:constant="OPEN_HAND" />
                </cursor>
