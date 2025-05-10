@@ -1,5 +1,8 @@
 package com.example;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,10 +13,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-
+import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 
-public class loginController {
+public class loginController implements Initializable{
 
     //TODO: those will be used for sign in page you will use those to valiate the password and email. add for sign up in same way.
     //you can look at the id(variable name) in signup.fxml file
@@ -21,6 +24,9 @@ public class loginController {
     TextField tfEmailSin;
     @FXML
     TextField tfPasswordSin;
+
+    @FXML
+    WebView mapView;
     
     public void changeToSignUp(ActionEvent event){
         try {
@@ -88,19 +94,24 @@ public class loginController {
     }
 
      public void goToMapPage(ActionEvent event){
-        //TODO: Need to check if user's email and password is correct. Then it should go to home page.
 
         try {
             Thread.sleep(175);
             FXMLLoader loader = new FXMLLoader(getClass().getResource("mapPage.fxml"));
             Parent root = loader.load();
+
             Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+     @Override
+     public void initialize(URL arg0, ResourceBundle arg1) {
+     }
 
 }

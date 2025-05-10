@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.loginController">
    <children>
       <ImageView fitHeight="44.0" fitWidth="39.0" layoutX="228.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -68,7 +68,7 @@
                   <Font size="20.0" />
                </font>
             </Button>
-            <Button layoutX="59.0" layoutY="251.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Map">
+            <Button layoutX="59.0" layoutY="251.0" mnemonicParsing="false" onAction="#goToMapPage" style="-fx-background-color: transparent;" text="Map">
                <font>
                   <Font size="20.0" />
                </font>
