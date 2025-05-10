@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="509.0" prefWidth="704.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="509.0" prefWidth="704.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.loginController">
    <children>
       <AnchorPane layoutY="-7.0" prefHeight="517.0" prefWidth="504.0" style="-fx-background-color: linear-gradient(to right, #0d54a1, #ff0000);">
          <children>
@@ -39,7 +39,7 @@
                   <Font size="24.0" />
                </font>
             </Button>
-            <Button id="bReturn2" layoutX="-20.0" layoutY="-25.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="←" textFill="WHITE">
+            <Button id="bReturn2" layoutX="-20.0" layoutY="-25.0" mnemonicParsing="false" onAction="#returnToFirstPage" style="-fx-background-color: transparent;" text="←" textFill="WHITE">
                <cursor>
                   <Cursor fx:constant="OPEN_HAND" />
                </cursor>
