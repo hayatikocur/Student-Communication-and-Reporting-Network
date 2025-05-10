@@ -113,22 +113,22 @@
             <Image url="@editIcon.png" />
          </image>
       </ImageView>
-      <TextField fx:id="tfProfileName" editable="false" layoutX="406.0" layoutY="138.0" prefHeight="31.0" prefWidth="378.0" style="-fx-background-color: transparent;" text="userName123">
+      <TextField fx:id="tfProfileName" editable="false" layoutX="406.0" layoutY="138.0" prefHeight="31.0" prefWidth="378.0" style="-fx-background-color: transparent;">
          <font>
             <Font size="15.0" />
          </font>
       </TextField>
-      <TextField fx:id="tfProfileSurname" editable="false" layoutX="406.0" layoutY="174.0" prefHeight="31.0" prefWidth="378.0" style="-fx-background-color: transparent;" text="userSurname123">
+      <TextField fx:id="tfProfileSurname" editable="false" layoutX="406.0" layoutY="174.0" prefHeight="31.0" prefWidth="378.0" style="-fx-background-color: transparent;">
          <font>
             <Font size="15.0" />
          </font>
       </TextField>
-      <TextField fx:id="tfProfileMail" editable="false" layoutX="406.0" layoutY="210.0" prefHeight="31.0" prefWidth="378.0" style="-fx-background-color: transparent;" text="user.name@ug.bilkent.edu.tr">
+      <TextField fx:id="tfProfileMail" editable="false" layoutX="406.0" layoutY="210.0" prefHeight="31.0" prefWidth="378.0" style="-fx-background-color: transparent;">
          <font>
             <Font size="15.0" />
          </font>
       </TextField>
-      <TextField fx:id="tfProfilePassword" editable="false" layoutX="406.0" layoutY="246.0" prefHeight="31.0" prefWidth="378.0" style="-fx-background-color: transparent;" text="password123" visible="false">
+      <TextField fx:id="tfProfilePassword" editable="false" layoutX="406.0" layoutY="246.0" prefHeight="31.0" prefWidth="378.0" style="-fx-background-color: transparent;" visible="false">
          <font>
             <Font size="15.0" />
          </font>
@@ -160,5 +160,10 @@
             </Label>
          </children>
       </StackPane>
+      <Button layoutX="724.0" layoutY="79.0" mnemonicParsing="false" prefHeight="66.0" prefWidth="86.0" style="-fx-background-color: transparent;" text="✔">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

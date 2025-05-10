@@ -268,6 +268,24 @@ public class mainController implements Initializable{
             tfProfileMail.setEditable(false);
             tfProfileName.setEditable(false);
         }
+    public void setProfileIconAction(Event arg0){ 
+        tfProfilePassword.setEditable(true);
+        tfProfilePassword.setVisible(true);
+        tfProfileMail.setEditable(true);
+        tfProfileName.setEditable(true);
+        tfProfileSurname.setEditable(true);
+        
+        
+    }
+
+    public void confirmChangesToProfile(ActionEvent event){
+
+        tfProfileSurname.setEditable(false);
+        tfProfilePassword.setEditable(false);
+        tfProfilePassword.setVisible(false);
+        tfProfileMail.setEditable(false);
+        tfProfileName.setEditable(false);
+        
     }
 
 
