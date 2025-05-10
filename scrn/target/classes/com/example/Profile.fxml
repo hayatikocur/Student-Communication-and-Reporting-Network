@@ -7,6 +7,10 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
@@ -84,11 +88,6 @@
             <Insets />
          </opaqueInsets></AnchorPane>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ffffff00" height="465.0" layoutX="268.0" layoutY="79.0" stroke="BLACK" strokeType="INSIDE" style="-fx-arc-width: 50; -fx-arc-height: 50;" width="580.0" />
-      <Button fx:id="bProfileIdentity" layoutX="287.0" layoutY="88.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="98.0" style="-fx-background-radius: 10; -fx-background-color: linear-gradient(to right, #ff5757, #8c52ff);" text="STUDENT">
-         <font>
-            <Font name="System Bold" size="14.0" />
-         </font>
-      </Button>
       <Label layoutX="287.0" layoutY="133.0" style="-fx-font-weight: bold;" text="Name:">
          <font>
             <Font size="25.0" />
@@ -134,5 +133,32 @@
             <Font size="15.0" />
          </font>
       </TextField>
+      <StackPane layoutX="287.0" layoutY="91.0">
+         <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" height="39.0" stroke="BLACK" strokeType="INSIDE" style="-fx-arc-height: 30; -fx-arc-width: 30;" width="105.0">
+               <fill>
+                  <LinearGradient endX="1.0" endY="1.0" startX="0.07575756311416615" startY="0.9924242713234642">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="0.2175000011920929" green="0.6290386915206909" blue="0.8700000047683716" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="0.9100000262260437" green="0.10010000318288803" blue="0.6643577218055725" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </LinearGradient>
+               </fill>
+            </Rectangle>
+            <Label fx:id="profileLabel" text="Student">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+         </children>
+      </StackPane>
    </children>
 </AnchorPane>

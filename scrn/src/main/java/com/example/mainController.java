@@ -14,6 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
@@ -32,12 +33,10 @@ public class mainController implements Initializable{
     TextField tfPasswordSup;
     @FXML
     TextField tfConfirmPasswordSup;
-<<<<<<< HEAD
-=======
+    //Şunu authority veya student olarak değiştirmek lazım duruma göre.
     @FXML
-    Button bProfileIdentity;
+    Label profileLabel;
     //
->>>>>>> 2acd7f60841d5346c23fff2fe9e6ad065d9c1b64
     
     public void changeToSignUp(ActionEvent event){
         try {
@@ -212,8 +211,6 @@ public class mainController implements Initializable{
 
      @Override
      public void initialize(URL arg0, ResourceBundle arg1) {
-        bProfileIdentity.setText("Authority");
-
      }
 
 }
