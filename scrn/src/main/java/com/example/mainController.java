@@ -7,8 +7,11 @@ import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
+<<<<<<< Updated upstream
 import javafx.event.Event;
 import javafx.event.EventHandler;
+=======
+>>>>>>> Stashed changes
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -57,6 +60,7 @@ public class mainController implements Initializable{
     @FXML
     ImageView profileEditIcon;
 
+<<<<<<< Updated upstream
     @FXML
     TextField tfProfileSurname;
     @FXML
@@ -68,6 +72,8 @@ public class mainController implements Initializable{
     @FXML
     ImageView profileEditIcon;
 
+=======
+>>>>>>> Stashed changes
     //
     
     public void changeToSignUp(ActionEvent event){
@@ -250,7 +256,10 @@ public class mainController implements Initializable{
             Thread.sleep(175);
             FXMLLoader loader = new FXMLLoader(getClass().getResource("Profile.fxml"));
             mainController controller = loader.getController();
+<<<<<<< Updated upstream
             mainController controller = loader.getController();
+=======
+>>>>>>> Stashed changes
             Parent root = loader.load();
 
             Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -272,6 +281,7 @@ public class mainController implements Initializable{
 
     }
 
+<<<<<<< Updated upstream
     public void setProfileIconAction(ActionEvent event){
         tfProfileSurname.setEditable(true);
                 tfProfilePassword.setEditable(true);
@@ -307,6 +317,10 @@ public class mainController implements Initializable{
 =======
 >>>>>>> Stashed changes
 
+=======
+     @Override
+     public void initialize(URL arg0, ResourceBundle arg1) {
+>>>>>>> Stashed changes
 
         profileEditIcon.setOnMouseClicked(new EventHandler<Event>() {
 
