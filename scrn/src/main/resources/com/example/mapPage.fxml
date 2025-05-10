@@ -69,12 +69,12 @@
                   <Font size="20.0" />
                </font>
             </Button>
-            <Button layoutX="59.0" layoutY="425.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Profile">
+            <Button layoutX="59.0" layoutY="425.0" mnemonicParsing="false" onAction="#goToOptionPage" style="-fx-background-color: transparent;" text="Profile">
                <font>
                   <Font size="20.0" />
                </font>
             </Button>   
-            <Button layoutX="65.0" layoutY="502.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Settings">
+            <Button layoutX="65.0" layoutY="502.0" mnemonicParsing="false" onAction="#goToProfilePage" style="-fx-background-color: transparent;" text="Settings">
                <font>
                   <Font size="20.0" />
                </font>

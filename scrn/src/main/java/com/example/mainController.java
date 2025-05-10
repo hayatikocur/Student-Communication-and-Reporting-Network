@@ -111,7 +111,7 @@ public class mainController implements Initializable{
 
         try {
             Thread.sleep(175);
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("Options.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("Settings.fxml"));
             Parent root = loader.load();
 
             Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
