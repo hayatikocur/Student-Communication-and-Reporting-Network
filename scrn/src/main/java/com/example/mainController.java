@@ -32,6 +32,8 @@ public class mainController implements Initializable{
     TextField tfPasswordSup;
     @FXML
     TextField tfConfirmPasswordSup;
+    @FXML
+    Button bProfileIdentity;
     //
     
     public void changeToSignUp(ActionEvent event){
@@ -191,6 +193,8 @@ public class mainController implements Initializable{
 
      @Override
      public void initialize(URL arg0, ResourceBundle arg1) {
+        bProfileIdentity.setText("Authority");
+
      }
 
 }

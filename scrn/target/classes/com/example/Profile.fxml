@@ -84,7 +84,7 @@
             <Insets />
          </opaqueInsets></AnchorPane>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ffffff00" height="465.0" layoutX="268.0" layoutY="79.0" stroke="BLACK" strokeType="INSIDE" style="-fx-arc-width: 50; -fx-arc-height: 50;" width="580.0" />
-      <Button layoutX="287.0" layoutY="88.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="98.0" style="-fx-background-radius: 10; -fx-background-color: linear-gradient(to right, #ff5757, #8c52ff);" text="STUDENT">
+      <Button fx:id="bProfileIdentity" layoutX="287.0" layoutY="88.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="98.0" style="-fx-background-radius: 10; -fx-background-color: linear-gradient(to right, #ff5757, #8c52ff);" text="STUDENT">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
