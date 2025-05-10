@@ -32,6 +32,12 @@ public class mainController implements Initializable{
     TextField tfPasswordSup;
     @FXML
     TextField tfConfirmPasswordSup;
+<<<<<<< HEAD
+=======
+    @FXML
+    Button bProfileIdentity;
+    //
+>>>>>>> 2acd7f60841d5346c23fff2fe9e6ad065d9c1b64
     
     public void changeToSignUp(ActionEvent event){
         try {
@@ -206,6 +212,8 @@ public class mainController implements Initializable{
 
      @Override
      public void initialize(URL arg0, ResourceBundle arg1) {
+        bProfileIdentity.setText("Authority");
+
      }
 
 }
