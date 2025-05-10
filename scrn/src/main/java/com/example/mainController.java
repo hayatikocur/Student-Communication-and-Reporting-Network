@@ -11,6 +11,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.web.WebView;
@@ -18,12 +20,18 @@ import javafx.stage.Stage;
 
 public class mainController implements Initializable{
 
-    //TODO: those will be used for sign in page you will use those to valiate the password and email. add for sign up in same way.
+    //TODO: those will be used for sign in page you will use those to validate the password and email. add for sign up in same way.
     //you can look at the id(variable name) in signup.fxml file
     @FXML
     TextField tfEmailSin;
     @FXML
     TextField tfPasswordSin;
+    @FXML
+    TextField tfEmailSup;
+    @FXML
+    TextField tfPasswordSup;
+    @FXML
+    TextField tfConfirmPasswordSup;
     
     public void changeToSignUp(ActionEvent event){
         try {
@@ -37,7 +45,31 @@ public class mainController implements Initializable{
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
 
+    public void changeToSignInFromSignUp(ActionEvent event){
+        try {
+            validateBilkentEmail(tfEmailSup.getText());
+            Thread.sleep(175);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("SignIn.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void validateBilkentEmail(String email){
+        if(!email.contains("bilkent.edu.tr")){
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Invalid Email");
+            alert.setHeaderText(null); // No header
+            alert.setContentText("The email address you entered is invalid.");
+            alert.showAndWait();
+        }
     }
 
     public void changeToSignIn(ActionEvent event){
@@ -52,7 +84,6 @@ public class mainController implements Initializable{
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     public void returnToFirstPage(ActionEvent event){
@@ -68,6 +99,22 @@ public class mainController implements Initializable{
             e.printStackTrace();
         }
 
+    }
+
+     public void goToHomePageFromLogin(ActionEvent event){
+        //TODO: Need to check if user's email and password is correct. Then it should go to home page.
+
+        try {
+            Thread.sleep(175);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("homePage.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void goToHomePage(ActionEvent event){

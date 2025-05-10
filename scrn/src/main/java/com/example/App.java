@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * JavaFX App
@@ -14,6 +15,8 @@ import java.io.IOException;
 public class App extends Application {
 
     private static Scene scene;
+
+    private static ArrayList<User> allUsers = new ArrayList();
     
     @Override
     public void start(Stage stage) throws IOException{
@@ -25,6 +28,10 @@ public class App extends Application {
 
     public static void main(String[] args) {
         launch();
+    }
+
+    public ArrayList<User> getUsers(){
+        return allUsers;
     }
 
 }
