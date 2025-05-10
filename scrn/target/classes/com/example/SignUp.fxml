@@ -34,12 +34,12 @@
                </font>
             </Label>
             <TextField id="tfConfirmPasswordSup" layoutX="66.0" layoutY="325.0" prefHeight="38.0" prefWidth="366.0" style="-fx-background-radius: 10;" />
-            <Button layoutX="66.0" layoutY="389.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="255.0" style="-fx-background-radius: 20;" styleClass="bSignUp" text="SIGN UP">
+            <Button layoutX="66.0" layoutY="389.0" mnemonicParsing="false" onAction="#changeToSignIn" prefHeight="38.0" prefWidth="255.0" style="-fx-background-radius: 20;" styleClass="bSignUp" text="SIGN UP">
                <font>
                   <Font size="24.0" />
                </font>
             </Button>
-            <Button id="bReturn2" layoutX="-20.0" layoutY="-25.0" mnemonicParsing="false" onAction="#returnToFirstPage" style="-fx-background-color: transparent;" text="←" textFill="WHITE">
+            <Button id="bReturn2" layoutX="-20.0" layoutY="-25.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="←" textFill="WHITE">
                <cursor>
                   <Cursor fx:constant="OPEN_HAND" />
                </cursor>

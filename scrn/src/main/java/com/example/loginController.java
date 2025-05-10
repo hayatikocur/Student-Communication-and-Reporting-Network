@@ -13,10 +13,7 @@ import javafx.stage.Stage;
 
 public class loginController {
 
-    @FXML
-    Button fPageSignUp;
-    @FXML
-    Button fPageSignIn;
+ 
 
     public void changeToSignUp(ActionEvent event){
         try {
@@ -34,6 +31,7 @@ public class loginController {
 
     public void changeToSignIn(ActionEvent event){
         try {
+            Thread.sleep(150);
             FXMLLoader loader = new FXMLLoader(getClass().getResource("SignIn.fxml"));
             Parent root = loader.load();
             Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -59,5 +57,9 @@ public class loginController {
         }
 
     }
+
+
+
+
     
 }
