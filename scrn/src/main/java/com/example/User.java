@@ -23,6 +23,18 @@ public class User {
         return this.password.equals(password);
     }
 
+    public int getUserId() {
+        return userId;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public String getUserSurname() {
+        return userSurname;
+    }
+
     public void changePassword(String password) {
         this.password = password;
     }

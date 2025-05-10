@@ -160,7 +160,7 @@
             </Label>
          </children>
       </StackPane>
-      <Button layoutX="724.0" layoutY="79.0" mnemonicParsing="false" prefHeight="66.0" prefWidth="86.0" style="-fx-background-color: transparent;" text="✔">
+      <Button layoutX="724.0" layoutY="79.0" mnemonicParsing="false" onAction="#confirmChangesToProfile" prefHeight="66.0" prefWidth="86.0" style="-fx-background-color: transparent;" text="✔">
          <font>
             <Font size="30.0" />
          </font>
