@@ -41,7 +41,7 @@
                   <Font size="50.0" />
                </font>
             </Button>
-            <Button id="bForgotPassword" layoutX="314.0" layoutY="436.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Forgot Password">
+            <Button id="bForgotPassword" layoutX="314.0" layoutY="436.0" mnemonicParsing="false" onAction="#forgotPassword" style="-fx-background-color: transparent;" text="Forgot Password">
                <font>
                   <Font size="20.0" />
                </font>

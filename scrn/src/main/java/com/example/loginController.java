@@ -58,8 +58,9 @@ public class loginController {
 
     }
 
+    public void forgotPassword(ActionEvent e){
+        //TODO: send random generated password through email.
+        System.out.println("hello world");
+    }
 
-
-
-    
 }
