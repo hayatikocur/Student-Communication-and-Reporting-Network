@@ -16,7 +16,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 
-public class loginController implements Initializable{
+public class mainController implements Initializable{
 
     //TODO: those will be used for sign in page you will use those to valiate the password and email. add for sign up in same way.
     //you can look at the id(variable name) in signup.fxml file
@@ -95,6 +95,40 @@ public class loginController implements Initializable{
         try {
             Thread.sleep(175);
             FXMLLoader loader = new FXMLLoader(getClass().getResource("mapPage.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void goToOptionPage(ActionEvent event){
+
+        try {
+            Thread.sleep(175);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("Options.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void goToProfilePage(ActionEvent event){
+
+        try {
+            Thread.sleep(175);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("Profile.fxml"));
             Parent root = loader.load();
 
             Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
