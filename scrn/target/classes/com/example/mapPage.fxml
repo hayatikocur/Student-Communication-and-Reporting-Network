@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.web.WebView?>
 
-<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller=""com.example.MapController"">
+<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.MapController">
    <children>
       <Label layoutX="513.0" prefHeight="45.0" prefWidth="118.0" text="MAP">
          <font>
@@ -72,7 +72,7 @@
                <font>
                   <Font size="20.0" />
                </font>
-            </Button>
+            </Button>   
             <Button layoutX="65.0" layoutY="502.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Settings">
                <font>
                   <Font size="20.0" />
@@ -82,6 +82,6 @@
          <opaqueInsets>
             <Insets />
          </opaqueInsets></AnchorPane>
-      <WebView fx:id="mapView" layoutX="228.0" layoutY="58.0" mouseTransparent="true" prefHeight="540.0" prefWidth="670.0" />
+      <WebView id="mapView" fx:id="mapView" layoutX="228.0" layoutY="58.0" mouseTransparent="true" prefHeight="540.0" prefWidth="670.0" />
    </children>
 </AnchorPane>

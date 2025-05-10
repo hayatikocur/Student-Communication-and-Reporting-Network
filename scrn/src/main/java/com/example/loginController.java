@@ -24,9 +24,6 @@ public class loginController implements Initializable{
     TextField tfEmailSin;
     @FXML
     TextField tfPasswordSin;
-
-    @FXML
-    WebView mapView;
     
     public void changeToSignUp(ActionEvent event){
         try {
