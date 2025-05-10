@@ -261,8 +261,11 @@ public class mainController implements Initializable{
      @Override
      public void initialize(URL arg0, ResourceBundle arg1) {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
        
 =======
+=======
+>>>>>>> Stashed changes
 
         profileEditIcon.setOnMouseClicked(new EventHandler<Event>() {
 
@@ -276,6 +279,9 @@ public class mainController implements Initializable{
             
         });
 
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 
      }
