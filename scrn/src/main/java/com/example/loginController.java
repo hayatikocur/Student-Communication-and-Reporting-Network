@@ -9,12 +9,18 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+
 import javafx.stage.Stage;
 
 public class loginController {
 
- 
-
+    //TODO: those will be used for sign in page you will use those to valiate the password and email. add for sign up in same way.
+    @FXML
+    TextField tfEmailSin;
+    @FXML
+    TextField tfPasswordSin;
+    
     public void changeToSignUp(ActionEvent event){
         try {
             Thread.sleep(175);
