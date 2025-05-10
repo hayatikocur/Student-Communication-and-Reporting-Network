@@ -27,8 +27,20 @@ public class User {
         this.password = password;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
     public void changeName(String newName) {
         this.userName = newName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public void changeSurname(String newSurname) {
@@ -38,6 +50,7 @@ public class User {
     public void addComment(ProblemReport pr, String comment) {
         pr.addComment(new Comment(this, comment));
     }
+
 
     public void saveToDatabase() {
         String url = "jdbc:mysql://localhost:3306/mydb";

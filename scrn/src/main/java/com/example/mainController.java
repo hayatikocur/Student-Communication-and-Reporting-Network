@@ -32,12 +32,10 @@ public class mainController implements Initializable{
     TextField tfPasswordSup;
     @FXML
     TextField tfConfirmPasswordSup;
-<<<<<<< HEAD
-=======
-    @FXML
-    Button bProfileIdentity;
+
     //
->>>>>>> 2acd7f60841d5346c23fff2fe9e6ad065d9c1b64
+
+    User currentUser;
     
     public void changeToSignUp(ActionEvent event){
         try {
@@ -64,8 +62,7 @@ public class mainController implements Initializable{
                 stage.setScene(scene);
                 stage.show();
             }
-            
-            
+        
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -74,16 +71,20 @@ public class mainController implements Initializable{
     public boolean validateBilkentEmail(String email){
         String regex = "^[a-zA-Z]+\\.[a-zA-Z]+@bilkent\\.edu\\.tr$";
         if(!email.matches(regex)){
+            return false;
+        }
+        if(!tfPasswordSup.getText().equals(tfConfirmPasswordSup.getText())){
             Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Invalid Email");
+            alert.setTitle("Password mistake");
             alert.setHeaderText(null); // No header
-            alert.setContentText("The email address you entered is invalid.");
+            alert.setContentText("passwords do not match");
             alert.showAndWait();
             return false;
         }
         String[] parts = email.split("@")[0].split("\\.");
         String name = parts[0];
         String surname = parts[1];
+        //TODO: in this code everybody is added as users not separated such as student or authority. separate them. 
         App.getUsers().add(new User(name, surname, email, tfPasswordSup.getText()));
         return true;
     }
@@ -121,23 +122,40 @@ public class mainController implements Initializable{
         //TODO: Need to check if user's email and password is correct. Then it should go to home page.
 
         try {
-            Thread.sleep(175);
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("homePage.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
+            if(!validationOnSignIn(tfEmailSin.getText(), tfPasswordSin.getText())){
+                Alert alert = new Alert(AlertType.ERROR);
+                alert.setTitle("wrong email or password");
+                alert.setHeaderText(null); // No header
+                alert.setContentText("you entered email or password wrong");
+                alert.showAndWait();
+            }
+            else{
+                Thread.sleep(175);
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("homePage.fxml"));
+                Parent root = loader.load();
+                Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                stage.show();
+            }
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    //public boolean validationOnSignIn(String email, String password){
-    //    for(int i=0; i<App.getUsers().size(); i++){
-    //        if(tf)
-    //    }
-    //}
+    public boolean validationOnSignIn(String email, String password){
+        for(int i=0; i<App.getUsers().size(); i++){
+            if(tfEmailSin.getText().equals(App.getUsers().get(i).getEmail())){
+                currentUser = App.getUsers().get(i);
+                if(currentUser.getPassword().equals(password)){
+                    return true;
+                }
+                return false;
+            }
+        }
+        return false;
+    }
 
     public void goToHomePage(ActionEvent event){
         //TODO: Need to check if user's email and password is correct. Then it should go to home page.
@@ -212,7 +230,7 @@ public class mainController implements Initializable{
 
      @Override
      public void initialize(URL arg0, ResourceBundle arg1) {
-        bProfileIdentity.setText("Authority");
+       
 
      }
 
