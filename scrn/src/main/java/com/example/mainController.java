@@ -250,6 +250,8 @@ public class mainController implements Initializable{
         }
     }
 
+
+    //Şunları database bağlayın.
     public void setProfileIconAction(Event arg0){ 
 
         tfProfilePassword.setEditable(true);
@@ -261,6 +263,7 @@ public class mainController implements Initializable{
         
     }
 
+    //Bunu da
     public void confirmChangesToProfile(ActionEvent event){
 
         tfProfileSurname.setEditable(false);
