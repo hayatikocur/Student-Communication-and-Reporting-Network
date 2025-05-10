@@ -21,7 +21,7 @@
                   <Font name="Arial Italic" size="20.0" />
                </font>
             </Label>
-            <TextField id="tfEmailSup" layoutX="66.0" layoutY="170.0" prefHeight="38.0" prefWidth="366.0" style="-fx-background-radius: 10;" />
+            <TextField id="tfEmailSup" fx:id="tfEmailSup" layoutX="66.0" layoutY="170.0" prefHeight="38.0" prefWidth="366.0" style="-fx-background-radius: 10;" />
             <Label layoutX="72.0" layoutY="225.0" text="Password" textFill="WHITE">
                <font>
                   <Font name="Arial Italic" size="20.0" />
