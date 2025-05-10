@@ -105,6 +105,9 @@ public class mainController implements Initializable{
         String[] parts = email.split("@")[0].split("\\.");
         String name = parts[0];
         String surname = parts[1];
+        tfProfileName.setText(name);
+        tfProfileSurname.setText(surname);
+        tfProfilePassword.setText(tfPasswordSup.getText());
         //TODO: in this code everybody is added as users not separated such as student or authority. separate them. 
         App.getUsers().add(new User(name, surname, email, tfPasswordSup.getText()));
         return true;
@@ -170,6 +173,7 @@ public class mainController implements Initializable{
             if(tfEmailSin.getText().equals(App.getUsers().get(i).getEmail())){
                 currentUser = App.getUsers().get(i);
                 if(currentUser.getPassword().equals(password)){
+
                     return true;
                 }
                 return false;
@@ -264,8 +268,6 @@ public class mainController implements Initializable{
             tfProfileMail.setEditable(false);
             tfProfileName.setEditable(false);
         }
-       
-
     }
 
 
