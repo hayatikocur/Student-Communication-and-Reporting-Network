@@ -252,10 +252,6 @@ public class mainController implements Initializable{
 
     public void setProfileIconAction(Event arg0){ 
 
-        tfProfileName.setText(currentUser.getUserName());
-        tfProfileSurname.setText(currentUser.getUserSurname());
-        tfProfilePassword.setText(tfPasswordSup.getText());
-
         tfProfilePassword.setEditable(true);
         tfProfilePassword.setVisible(true);
         tfProfileMail.setEditable(true);
