@@ -7,6 +7,7 @@ module com.example {
     requires jakarta.activation;
     requires java.desktop;
     requires javafx.graphics;
+    requires javafx.base;
 
     opens com.example to javafx.fxml;
     exports com.example;

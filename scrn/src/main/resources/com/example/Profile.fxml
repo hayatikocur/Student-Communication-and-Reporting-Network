@@ -108,27 +108,27 @@
             <Font size="25.0" />
          </font>
       </Label>
-      <ImageView fitHeight="45.0" fitWidth="45.0" layoutX="788.0" layoutY="88.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="profileEditIcon" fitHeight="45.0" fitWidth="45.0" layoutX="788.0" layoutY="88.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@editIcon.png" />
          </image>
       </ImageView>
-      <TextField id="tfProfileName" editable="false" layoutX="406.0" layoutY="138.0" prefHeight="31.0" prefWidth="378.0" style="-fx-background-color: transparent;" text="userName123">
+      <TextField fx:id="tfProfileName" editable="false" layoutX="406.0" layoutY="138.0" prefHeight="31.0" prefWidth="378.0" style="-fx-background-color: transparent;" text="userName123">
          <font>
             <Font size="15.0" />
          </font>
       </TextField>
-      <TextField id="tfProfileSurname" editable="false" layoutX="406.0" layoutY="174.0" prefHeight="31.0" prefWidth="378.0" style="-fx-background-color: transparent;" text="userSurname123">
+      <TextField fx:id="tfProfileSurname" editable="false" layoutX="406.0" layoutY="174.0" prefHeight="31.0" prefWidth="378.0" style="-fx-background-color: transparent;" text="userSurname123">
          <font>
             <Font size="15.0" />
          </font>
       </TextField>
-      <TextField id="tfProfileMail" editable="false" layoutX="406.0" layoutY="210.0" prefHeight="31.0" prefWidth="378.0" style="-fx-background-color: transparent;" text="user.name@ug.bilkent.edu.tr">
+      <TextField fx:id="tfProfileMail" editable="false" layoutX="406.0" layoutY="210.0" prefHeight="31.0" prefWidth="378.0" style="-fx-background-color: transparent;" text="user.name@ug.bilkent.edu.tr">
          <font>
             <Font size="15.0" />
          </font>
       </TextField>
-      <TextField id="tfProfilePassword" editable="false" layoutX="406.0" layoutY="246.0" prefHeight="31.0" prefWidth="378.0" style="-fx-background-color: transparent;" text="*********">
+      <TextField fx:id="tfProfilePassword" editable="false" layoutX="406.0" layoutY="246.0" prefHeight="31.0" prefWidth="378.0" style="-fx-background-color: transparent;" text="password123" visible="false">
          <font>
             <Font size="15.0" />
          </font>

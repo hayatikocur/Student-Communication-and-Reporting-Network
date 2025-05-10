@@ -5,6 +5,8 @@ import java.util.ResourceBundle;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -13,6 +15,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.ImageView;
+import javafx.scene.text.Text;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -40,6 +44,17 @@ public class mainController implements Initializable{
     //Şunu authority veya student olarak değiştirmek lazım duruma göre.
     @FXML
     Label profileLabel;
+    @FXML
+    TextField tfProfileSurname;
+    @FXML
+    TextField tfProfilePassword;
+    @FXML
+    TextField tfProfileMail;
+    @FXML
+    TextField tfProfileName;
+    @FXML
+    ImageView profileEditIcon;
+
     //
     
     public void changeToSignUp(ActionEvent event){
@@ -221,6 +236,7 @@ public class mainController implements Initializable{
         try {
             Thread.sleep(175);
             FXMLLoader loader = new FXMLLoader(getClass().getResource("Profile.fxml"));
+            mainController controller = loader.getController();
             Parent root = loader.load();
 
             Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -233,9 +249,34 @@ public class mainController implements Initializable{
         }
     }
 
+    public void setProfileIconAction(ActionEvent event){
+        tfProfileSurname.setEditable(true);
+                tfProfilePassword.setEditable(true);
+                tfProfilePassword.setVisible(true);
+                tfProfileMail.setEditable(true);
+                tfProfileName.setEditable(true);
+
+    }
+
      @Override
      public void initialize(URL arg0, ResourceBundle arg1) {
+<<<<<<< Updated upstream
        
+=======
+
+        profileEditIcon.setOnMouseClicked(new EventHandler<Event>() {
+
+            @Override
+            public void handle(Event arg0) {
+
+
+                
+                
+            }
+            
+        });
+
+>>>>>>> Stashed changes
 
      }
 
