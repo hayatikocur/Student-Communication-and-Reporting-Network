@@ -32,7 +32,6 @@ public class mainController implements Initializable{
     TextField tfPasswordSup;
     @FXML
     TextField tfConfirmPasswordSup;
-    //
     
     public void changeToSignUp(ActionEvent event){
         try {
@@ -50,27 +49,37 @@ public class mainController implements Initializable{
 
     public void changeToSignInFromSignUp(ActionEvent event){
         try {
-            validateBilkentEmail(tfEmailSup.getText());
-            Thread.sleep(175);
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("SignIn.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
+            if(validateBilkentEmail(tfEmailSup.getText())){
+                Thread.sleep(175);
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("SignIn.fxml"));
+                Parent root = loader.load();
+                Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                stage.show();
+            }
+            
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void validateBilkentEmail(String email){
-        if(!email.contains("bilkent.edu.tr")){
+    public boolean validateBilkentEmail(String email){
+        String regex = "^[a-zA-Z]+\\.[a-zA-Z]+@bilkent\\.edu\\.tr$";
+        if(!email.matches(regex)){
             Alert alert = new Alert(AlertType.ERROR);
             alert.setTitle("Invalid Email");
             alert.setHeaderText(null); // No header
             alert.setContentText("The email address you entered is invalid.");
             alert.showAndWait();
+            return false;
         }
+        String[] parts = email.split("@")[0].split("\\.");
+        String name = parts[0];
+        String surname = parts[1];
+        App.getUsers().add(new User(name, surname, email, tfPasswordSup.getText()));
+        return true;
     }
 
     public void changeToSignIn(ActionEvent event){
@@ -117,6 +126,12 @@ public class mainController implements Initializable{
             e.printStackTrace();
         }
     }
+
+    //public boolean validationOnSignIn(String email, String password){
+    //    for(int i=0; i<App.getUsers().size(); i++){
+    //        if(tf)
+    //    }
+    //}
 
     public void goToHomePage(ActionEvent event){
         //TODO: Need to check if user's email and password is correct. Then it should go to home page.

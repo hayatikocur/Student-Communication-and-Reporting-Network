@@ -27,13 +27,13 @@
                   <Font name="Arial Italic" size="20.0" />
                </font>
             </Label>
-            <TextField id="tfPasswordSup" layoutX="66.0" layoutY="249.0" prefHeight="38.0" prefWidth="366.0" style="-fx-background-radius: 10;" />
+            <TextField id="tfPasswordSup" fx:id="tfPasswordSup" layoutX="66.0" layoutY="249.0" prefHeight="38.0" prefWidth="366.0" style="-fx-background-radius: 10;" />
             <Label layoutX="72.0" layoutY="301.0" text="Confirm Password" textFill="WHITE">
                <font>
                   <Font name="Arial Italic" size="20.0" />
                </font>
             </Label>
-            <TextField id="tfConfirmPasswordSup" layoutX="66.0" layoutY="325.0" prefHeight="38.0" prefWidth="366.0" style="-fx-background-radius: 10;" />
+            <TextField id="tfConfirmPasswordSup" fx:id="tfConfirmPasswordSup" layoutX="66.0" layoutY="325.0" prefHeight="38.0" prefWidth="366.0" style="-fx-background-radius: 10;" />
             <Button layoutX="66.0" layoutY="389.0" mnemonicParsing="false" onAction="#changeToSignInFromSignUp" prefHeight="38.0" prefWidth="255.0" style="-fx-background-radius: 20;" styleClass="bSignUp" text="SIGN UP">
                <font>
                   <Font size="24.0" />

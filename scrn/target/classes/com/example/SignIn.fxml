@@ -21,13 +21,13 @@
                   <Font name="Arial Italic" size="20.0" />
                </font>
             </Label>
-            <TextField id="tfEmailSin" layoutX="69.0" layoutY="220.0" prefHeight="38.0" prefWidth="366.0" style="-fx-background-radius: 10;" />
+            <TextField id="tfEmailSin" fx:id="tfEmailSin" layoutX="69.0" layoutY="220.0" prefHeight="38.0" prefWidth="366.0" style="-fx-background-radius: 10;" />
             <Label layoutX="72.0" layoutY="277.0" text="Password" textFill="WHITE">
                <font>
                   <Font name="Arial Italic" size="20.0" />
                </font>
             </Label>
-            <TextField id="tfPasswordSin" layoutX="68.0" layoutY="300.0" prefHeight="38.0" prefWidth="366.0" style="-fx-background-radius: 10;" />
+            <TextField id="tfPasswordSin" fx:id="tfPasswordSin" layoutX="68.0" layoutY="300.0" prefHeight="38.0" prefWidth="366.0" style="-fx-background-radius: 10;" />
             <Button id="bSignIn" layoutX="69.0" layoutY="385.0" mnemonicParsing="false" onAction="#goToHomePageFromLogin" prefHeight="38.0" prefWidth="255.0" style="-fx-background-radius: 20;" text="SIGN IN">
                <font>
                   <Font size="24.0" />
