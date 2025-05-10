@@ -153,6 +153,7 @@ public class mainController implements Initializable{
                 Thread.sleep(175);
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("homePage.fxml"));
                 Parent root = loader.load();
+
                 Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
                 Scene scene = new Scene(root);
                 stage.setScene(scene);
@@ -270,7 +271,7 @@ public class mainController implements Initializable{
 
         
         
-    }
+    }   
 
     //Bunu da
     public void confirmChangesToProfile(ActionEvent event){
@@ -279,7 +280,6 @@ public class mainController implements Initializable{
         currentUser.changeSurname(tfProfileSurname.getText());
         currentUser.changePassword(tfProfilePassword.getText());
     }
-
 
      @Override
      public void initialize(URL arg0, ResourceBundle arg1) {
