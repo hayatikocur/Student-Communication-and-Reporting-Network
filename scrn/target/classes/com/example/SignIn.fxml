@@ -3,6 +3,7 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
@@ -11,23 +12,23 @@
    <children>
       <AnchorPane layoutY="-7.0" prefHeight="518.0" prefWidth="494.0" style="-fx-background-color: linear-gradient(to right, #0d54a1, #ff0000);">
          <children>
-            <Label layoutX="142.0" layoutY="75.0" text="SIGN IN!" textFill="WHITE">
+            <Label layoutX="68.0" layoutY="97.0" text="SIGN IN!" textFill="WHITE">
                <font>
-                  <Font name="Times New Roman Bold" size="50.0" />
+                  <Font name="Arial Bold" size="50.0" />
                </font>
             </Label>
             <Label layoutX="72.0" layoutY="196.0" text="Email" textFill="WHITE">
                <font>
-                  <Font name="Arial Italic" size="20.0" />
+                  <Font name="Arial" size="20.0" />
                </font>
             </Label>
             <TextField id="tfEmailSin" fx:id="tfEmailSin" layoutX="69.0" layoutY="220.0" prefHeight="38.0" prefWidth="366.0" style="-fx-background-radius: 10;" />
             <Label layoutX="72.0" layoutY="277.0" text="Password" textFill="WHITE">
                <font>
-                  <Font name="Arial Italic" size="20.0" />
+                  <Font name="Arial" size="20.0" />
                </font>
             </Label>
-            <TextField id="tfPasswordSin" fx:id="tfPasswordSin" layoutX="68.0" layoutY="300.0" prefHeight="38.0" prefWidth="366.0" style="-fx-background-radius: 10;" />
+            <PasswordField id="tfPasswordSin" fx:id="tfPasswordSin" layoutX="68.0" layoutY="300.0" prefHeight="38.0" prefWidth="366.0" style="-fx-background-radius: 10;" />
             <Button id="bSignIn" layoutX="69.0" layoutY="385.0" mnemonicParsing="false" onAction="#goToHomePageFromLogin" prefHeight="38.0" prefWidth="255.0" style="-fx-background-radius: 20;" text="SIGN IN">
                <font>
                   <Font size="24.0" />
@@ -43,7 +44,7 @@
             </Button>
             <Button id="bForgotPassword" layoutX="314.0" layoutY="436.0" mnemonicParsing="false" onAction="#forgotPassword" style="-fx-background-color: transparent;" text="Forgot Password">
                <font>
-                  <Font size="20.0" />
+                  <Font name="System Bold" size="21.0" />
                </font>
             </Button>
          </children></AnchorPane>

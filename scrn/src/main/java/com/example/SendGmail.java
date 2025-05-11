@@ -42,21 +42,25 @@ public class SendGmail {
         }
     }
 
+    public static void sendEmail (String mail) {
+        sendEmail(mail,  "User Registration Successful", "Welcome! Your account has been successfully created in the Student Communication and Reporting Network System.");
+    }
+
     public static void main(String[] args) {
-        ArrayList<String> names = new ArrayList<>();
+        // ArrayList<String> names = new ArrayList<>();
 
-        names.add("mert.mumcu@ug.bilkent.edu.tr");
-        // names.add("yigitkaanonder@ug.bilkent.edu.tr");
-        names.add("hayati.kocur@ug.bilkent.edu.tr");
-        // names.add("burhan.bulut@ug.bilkent.edu.tr");
-        // names.add("emir.akar@ug.bilkent.edu.tr");
+        // names.add("mert.mumcu@ug.bilkent.edu.tr");
+        // // names.add("yigitkaanonder@ug.bilkent.edu.tr");
+        // names.add("hayati.kocur@ug.bilkent.edu.tr");
+        // // names.add("burhan.bulut@ug.bilkent.edu.tr");
+        // // names.add("emir.akar@ug.bilkent.edu.tr");
 
-        for (int i = 0; i < names.size(); i++) {
-            sendEmail(
-                names.get(i),
-                "Sorununuz Çözüldü!",
-                "B-202'deki Bozuk Bilgisayarlar Tamir Edildi. Detaylı Bilgi İçin..."
-            );
-        }
+        // for (int i = 0; i < names.size(); i++) {
+        //     sendEmail(
+        //         names.get(i),
+        //         "Sorununuz Çözüldü!",
+        //         "B-202'deki Bozuk Bilgisayarlar Tamir Edildi. Detaylı Bilgi İçin..."
+        //     );
+        // }
     }
 }

@@ -19,7 +19,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 
@@ -34,9 +36,9 @@ public class mainController implements Initializable{
     @FXML
     TextField tfEmailSup;
     @FXML
-    TextField tfPasswordSup;
+    PasswordField tfPasswordSup;
     @FXML
-    TextField tfConfirmPasswordSup;
+    PasswordField tfConfirmPasswordSup;
 
     //
 
@@ -88,21 +90,32 @@ public class mainController implements Initializable{
     }
 
     public boolean validateBilkentEmail(String email){
-        String regex = "^[a-zA-Z]+\\.[a-zA-Z]+@bilkent\\.edu\\.tr$";
-        if(!email.matches(regex)){
+        // email must be in this format: name.surname@ug.bilkent.edu.tr
+         String regex = "^[a-zA-Z]+\\.[a-zA-Z]+@ug\\.bilkent\\.edu\\.tr$";
+        if(!email.matches(regex)){    
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Invalid Email");
+            alert.setHeaderText(null); // No header
+            alert.setContentText("Email is not valid!");
+            alert.showAndWait();
             return false;
         }
         if(!tfPasswordSup.getText().equals(tfConfirmPasswordSup.getText())){
             Alert alert = new Alert(AlertType.ERROR);
             alert.setTitle("Password mistake");
             alert.setHeaderText(null); // No header
-            alert.setContentText("passwords do not match");
+            alert.setContentText("Passwords do not match!");
             alert.showAndWait();
             return false;
         }
         String[] parts = email.split("@")[0].split("\\.");
         String name = parts[0];
         String surname = parts[1];
+
+        name = name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
+        surname = surname.substring(0, 1).toUpperCase() + surname.substring(1).toLowerCase();
+
+        SendGmail.sendEmail(email);
         //TODO: in this code everybody is added as users not separated such as student or authority. separate them. 
         App.getUsers().add(new User(name, surname, email, tfPasswordSup.getText()));
         return true;
@@ -143,17 +156,38 @@ public class mainController implements Initializable{
         try {
             if(!validationOnSignIn(tfEmailSin.getText(), tfPasswordSin.getText())){
                 Alert alert = new Alert(AlertType.ERROR);
-                alert.setTitle("wrong email or password");
+                alert.setTitle("Wrong email or password");
                 alert.setHeaderText(null); // No header
-                alert.setContentText("you entered email or password wrong");
+                alert.setContentText("Entered email or password wrong!");
                 alert.showAndWait();
             }
             else{
-                Thread.sleep(175);
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("homePage.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("Profile.fxml"));
                 Parent root = loader.load();
 
-                Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+                // Create elements
+                TextField tfProfileName = (TextField) root.lookup("#tfProfileName");
+                TextField tfProfileSurname = (TextField) root.lookup("#tfProfileSurname");
+                TextField tfProfileMail = (TextField) root.lookup("#tfProfileMail");
+                TextField tfProfilePassword = (TextField) root.lookup("#tfProfilePassword");
+                Label profileLabel = (Label) root.lookup("#profileLabel");
+
+                Stage stage = new Stage();
+                stage.setScene(new Scene(root));
+
+                stage.setOpacity(0);
+                stage.show();                
+
+                // Set profile informations
+                App.getCurrentUser().setProfileFields(tfProfileName, tfProfileSurname, tfProfileMail, tfProfilePassword, profileLabel);
+
+                stage.close();
+
+                Thread.sleep(175);
+                loader = new FXMLLoader(getClass().getResource("homePage.fxml"));
+                root = loader.load();
+
+                stage = (Stage)((Node)event.getSource()).getScene().getWindow();
                 Scene scene = new Scene(root);
                 stage.setScene(scene);
                 stage.show();
@@ -283,10 +317,82 @@ public class mainController implements Initializable{
         //System.out.println(App.getCurrentUser().getUserName());
     }
 
+    @FXML
+    ToggleButton mailToggle;
+
+    @FXML
+    ToggleButton appNotiToggle;
+
+    private void updateToggleText(ToggleButton button) {
+    if (button != null) {
+        button.setText(button.isSelected() ? "Turn On" : "Turn Off");
+        button.setOnAction(e -> {
+        button.setText(button.isSelected() ? "Turn On" : "Turn Off");
+        });
+    }
+}
+
     @Override
-    public void initialize(URL arg0, ResourceBundle arg1) {
-     
-    }    
+    public void initialize(URL location, ResourceBundle resources) {
+        if (tfProfileName != null) {
+            tfProfileName.setText(App.getCurrentUser().getUserName());
+        }
+        if (tfProfileSurname != null) {
+            tfProfileSurname.setText(App.getCurrentUser().getUserSurname());
+        }
+        if (tfProfileMail != null) {
+            tfProfileMail.setText(App.getCurrentUser().getEmail());
+        }
+        if (tfProfilePassword != null) {
+            tfProfilePassword.setText(App.getCurrentUser().getPassword());
+        }
+        if (profileLabel != null) {
+            profileLabel.setText("Student"); // ya da Student / Authority'ye göre ayır
+        }
 
+        
+        if (mailToggle != null) {
+            setupToggleButton(mailToggle, App.getCurrentUser().isMailNotificationEnabled());
+        }
 
+        if (appNotiToggle != null) {
+            setupToggleButton(appNotiToggle, App.getCurrentUser().isAppNotificationEnabled());
+        }
+    }
+
+    
+    @FXML
+    public void deleteAccount(ActionEvent event) {
+        // Şimdilik boş bırakıldı
+    }
+
+    private void setupToggleButton(ToggleButton toggle, boolean isOn) {
+        toggle.setSelected(isOn);
+        updateToggleAppearance(toggle);
+    }
+
+    // Toggle durumuna göre görünüm güncelle
+    private void updateToggleAppearance(ToggleButton toggle) {
+        if (toggle.isSelected()) {
+            toggle.setText("Turn Off");
+            toggle.setStyle("-fx-background-color: #e53935; -fx-text-fill: white; -fx-background-radius: 20;");
+        } else {
+            toggle.setText("Turn On");
+            toggle.setStyle("-fx-background-color: #66bb6a; -fx-text-fill: white; -fx-background-radius: 20;");
+        }
+    }
+
+    @FXML
+    public void toggleMail(ActionEvent event) {
+        boolean currentState = mailToggle.isSelected();
+        App.getCurrentUser().setMailNotification(currentState);
+        updateToggleAppearance(mailToggle);
+    }
+
+    @FXML
+    public void toggleInApp(ActionEvent event) {
+        boolean currentState = appNotiToggle.isSelected();
+        App.getCurrentUser().setAppNotification(currentState);
+        updateToggleAppearance(appNotiToggle);
+    }
 }

@@ -58,32 +58,33 @@
                   <Image url="@settingsIcon.png" />
                </image>
             </ImageView>
-            <Button layoutX="60.0" layoutY="99.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Home">
+            <Button layoutX="60.0" layoutY="99.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Home" textFill="WHITE">
                <font>
                   <Font size="20.0" />
                </font>
             </Button>
-            <Button layoutX="58.0" layoutY="180.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Search">
+            <Button layoutX="58.0" layoutY="180.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Search" textFill="WHITE">
                <font>
                   <Font size="20.0" />
                </font>
             </Button>
-            <Button layoutX="59.0" layoutY="251.0" mnemonicParsing="false" onAction="#goToMapPage" style="-fx-background-color: transparent;" text="Map">
+            <Button layoutX="59.0" layoutY="251.0" mnemonicParsing="false" onAction="#goToMapPage" style="-fx-background-color: transparent;" text="Map" textFill="WHITE">
                <font>
                   <Font size="20.0" />
                </font>
             </Button>
-            <Button layoutX="57.0" layoutY="345.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Saved Issues">
+            <Button layoutX="57.0" layoutY="345.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Saved Issues" textFill="WHITE">
                <font>
                   <Font size="20.0" />
                </font>
             </Button>
-            <Button layoutX="59.0" layoutY="425.0" mnemonicParsing="false" onAction="#goToProfilePage" style="-fx-background-color: transparent;" text="Profile">
+            <Button layoutX="59.0" layoutY="425.0" mnemonicParsing="false" onAction="#goToProfilePage" style="-fx-background-color: transparent;" text="Profile" textFill="WHITE">
                <font>
                   <Font size="20.0" />
                </font>
             </Button>
-            <Button layoutX="65.0" layoutY="502.0" mnemonicParsing="false" onAction="#goToOptionPage" style="-fx-background-color: transparent;" text="Settings">
+            <Button layoutX="65.0" layoutY="502.0" mnemonicParsing="false" onAction="#goToOptionPage" style="-fx-background-color: transparent;" text="Settings" textFill="WHITE">
+nsparent;" text="Settings">
                <font>
                   <Font size="20.0" />
                </font>

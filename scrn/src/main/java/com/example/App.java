@@ -19,8 +19,6 @@ public class App extends Application {
     private static ArrayList<User> allUsers = new ArrayList();
     private static User currentUser;// this is for one time use when user signs in. dont store this in database.
     
-    
-
     @Override
     public void start(Stage stage) throws IOException{
         Parent root = FXMLLoader.load(getClass().getResource("loginPage.fxml"));

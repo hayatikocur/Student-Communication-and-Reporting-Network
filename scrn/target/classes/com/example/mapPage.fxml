@@ -12,11 +12,6 @@
 
 <AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.MapController">
    <children>
-      <Label layoutX="513.0" prefHeight="45.0" prefWidth="118.0" text="MAP">
-         <font>
-            <Font name="System Bold" size="50.0" />
-         </font>
-      </Label>
       <AnchorPane prefHeight="600.0" prefWidth="228.0" style="-fx-background-color: linear-gradient(to right, #0d54a1, #ff0000);">
          <children>
             <ImageView fitHeight="42.0" fitWidth="39.0" layoutX="14.0" layoutY="102.0" pickOnBounds="true" preserveRatio="true">
@@ -49,32 +44,32 @@
                   <Image url="@settingsIcon.png" />
                </image>
             </ImageView>
-            <Button layoutX="60.0" layoutY="99.0" mnemonicParsing="false" onAction="#goToHomePage" style="-fx-background-color: transparent;" text="Home">
+            <Button layoutX="60.0" layoutY="99.0" mnemonicParsing="false" onAction="#goToHomePage" style="-fx-background-color: transparent;" text="Home" textFill="WHITE">
                <font>
                   <Font size="20.0" />
                </font>
             </Button>
-            <Button layoutX="58.0" layoutY="180.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Search">
+            <Button layoutX="58.0" layoutY="180.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Search" textFill="WHITE">
                <font>
                   <Font size="20.0" />
                </font>
             </Button>
-            <Button layoutX="59.0" layoutY="251.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Map">
+            <Button layoutX="59.0" layoutY="251.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Map" textFill="WHITE">
                <font>
                   <Font size="20.0" />
                </font>
             </Button>
-            <Button layoutX="57.0" layoutY="345.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Saved Issues">
+            <Button layoutX="57.0" layoutY="345.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Saved Issues" textFill="WHITE">
                <font>
                   <Font size="20.0" />
                </font>
             </Button>
-            <Button layoutX="59.0" layoutY="425.0" mnemonicParsing="false" onAction="#goToProfilePage" style="-fx-background-color: transparent;" text="Profile">
+            <Button layoutX="59.0" layoutY="425.0" mnemonicParsing="false" onAction="#goToProfilePage" style="-fx-background-color: transparent;" text="Profile" textFill="WHITE">
                <font>
                   <Font size="20.0" />
                </font>
             </Button>   
-            <Button layoutX="65.0" layoutY="502.0" mnemonicParsing="false" onAction="#goToOptionPage" style="-fx-background-color: transparent;" text="Settings">
+            <Button layoutX="65.0" layoutY="502.0" mnemonicParsing="false" onAction="#goToOptionPage" style="-fx-background-color: transparent;" text="Settings" textFill="WHITE">
                <font>
                   <Font size="20.0" />
                </font>
@@ -87,5 +82,10 @@
          <cursor>
             <Cursor fx:constant="CROSSHAIR" />
          </cursor></WebView>
+      <Label layoutX="504.0" layoutY="-5.0" prefHeight="45.0" prefWidth="118.0" text="MAP">
+         <font>
+            <Font name="System Bold" size="50.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

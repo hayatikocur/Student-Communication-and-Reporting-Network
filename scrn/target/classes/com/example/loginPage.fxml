@@ -10,14 +10,14 @@
    <children>
       <AnchorPane layoutX="431.0" prefHeight="510.0" prefWidth="274.0">
          <children>
-            <Label layoutX="34.0" layoutY="72.0" text="Get Started">
+            <Label layoutX="14.0" layoutY="71.0" text="Get Started">
                <font>
                   <Font name="Arial" size="40.0" />
                </font>
             </Label>
             <Label layoutX="14.0" layoutY="163.0" text="Start with Sign Up or Sign In">
                <font>
-                  <Font name="System Italic" size="20.0" />
+                  <Font name="Arial" size="20.0" />
                </font>
             </Label>
             <AnchorPane layoutX="48.0" layoutY="248.0" prefHeight="178.0" prefWidth="225.0" style="-fx-background-color: linear-gradient(to right, #0d54a1, #ff0000); -fx-background-radius: 50 0 0 50;">
