@@ -46,6 +46,10 @@ public class SendGmail {
         sendEmail(mail,  "User Registration Successful", "Welcome! Your account has been successfully created in the Student Communication and Reporting Network System.");
     }
 
+    public static void sendPassword(String mail){
+        sendEmail(mail, "New Password", "Your new password is: " + mainController.tempPassword);
+    }
+
     public static void main(String[] args) {
         // ArrayList<String> names = new ArrayList<>();
 

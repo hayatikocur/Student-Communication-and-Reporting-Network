@@ -1,6 +1,7 @@
 package com.example;
 
 import java.net.URL;
+import java.util.Random;
 import java.util.ResourceBundle;
 
 import javafx.application.Application;
@@ -27,6 +28,7 @@ import javafx.stage.Stage;
 
 public class mainController implements Initializable{
 
+    
     //TODO: those will be used for sign in page you will use those to validate the password and email. add for sign up in same way.
     //you can look at the id(variable name) in signup.fxml file
     @FXML
@@ -56,6 +58,7 @@ public class mainController implements Initializable{
     @FXML
     
   
+    static String tempPassword = "";
     //
     
     public void changeToSignUp(ActionEvent event){
@@ -91,7 +94,7 @@ public class mainController implements Initializable{
 
     public boolean validateBilkentEmail(String email){
         // email must be in this format: name.surname@ug.bilkent.edu.tr
-         String regex = "^[a-zA-Z]+\\.[a-zA-Z]+@ug\\.bilkent\\.edu\\.tr$";
+        String regex = "^[a-zA-Z]+\\.([a-zA-Z]+)?@bilkent\\.edu\\.tr$";
         if(!email.matches(regex)){    
             Alert alert = new Alert(AlertType.ERROR);
             alert.setTitle("Invalid Email");
@@ -229,7 +232,37 @@ public class mainController implements Initializable{
     }
 
     public void forgotPassword(ActionEvent e){
+        if(tfEmailSin.getText().equals("")){
+            Alert alert = new Alert(AlertType.ERROR);
+            //alert.setTitle("Wrong email or password");
+            alert.setHeaderText(null); // No header
+            alert.setContentText("Enter your email to the email field.");
+            alert.showAndWait();
+        }
         //TODO: Will check if email exists then send random generated password through email
+        for(int i=0; i<App.getUsers().size(); i++){
+            if(tfEmailSin.getText().equals(App.getUsers().get(i).getEmail())){
+                tempPassword = createRandomPassword();
+                App.getUsers().get(i).setPassword(tempPassword);
+                SendGmail.sendPassword(App.getUsers().get(i).getEmail());
+                break;
+            }
+        }
+
+        Alert alert = new Alert(AlertType.ERROR);
+        //alert.setTitle("Wrong email or password");
+        alert.setHeaderText(null); // No header
+        alert.setContentText("user not found.");
+        alert.showAndWait();
+    }
+
+    private String createRandomPassword(){
+        String password = "";
+        Random ran = new Random();
+        for(int i=0; i<5; i++){
+            password += ran.nextInt(10);
+        }
+        return password;
     }
 
      public void goToMapPage(ActionEvent event){
