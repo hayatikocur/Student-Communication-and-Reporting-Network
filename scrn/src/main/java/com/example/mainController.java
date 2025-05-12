@@ -423,7 +423,11 @@ public class mainController implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        
+        if (postContainer != null) {
+            postContainer.getChildren().clear();
+            postContainer.getChildren().addAll(App.getAllPosts());
+        }
+    
         if (postFormPane != null) {
             postFormPane.setVisible(true); // Sayfa yüklenince post formu açık gelsin
         }
@@ -533,11 +537,9 @@ public class mainController implements Initializable{
         
     @FXML
     private void submitPost(ActionEvent event) {
-
         String title = tfPostTitle.getText();
         String content = tfPostContent.getText();
 
-        // Yeni post için VBox (tekil kart)
         VBox postBox = new VBox(5);
         postBox.setStyle("-fx-background-color: white; -fx-padding: 10; -fx-border-color: #ccc; -fx-border-width: 1;");
 
@@ -549,25 +551,34 @@ public class mainController implements Initializable{
 
         postBox.getChildren().addAll(titleLabel, contentLabel);
 
-        // Eğer resim seçildiyse, ImageView ile göster
         if (selectedImageFile != null) {
             ImageView imageView = new ImageView(new Image(selectedImageFile.toURI().toString()));
             imageView.setFitWidth(300);
             imageView.setPreserveRatio(true);
             postBox.getChildren().add(imageView);
-            addReport(new ProblemReport(title, content, null, null, imageView));
         }
-        addReport(new ProblemReport(title, content, null, null, null));
 
-        // Post'u scrollPane içindeki container'a ekle
-        postContainer.getChildren().add(0, postBox); // en üste ekler
+        // 📌 Global listeye ekle
+        App.addPost(postBox);
 
-        // Alanları temizle
+        // Temizlik
         tfPostTitle.clear();
         tfPostContent.clear();
         selectedImageFile = null;
         postImagePreview.setImage(null);
+
+        // 🔁 Post sonrası anasayfaya dön
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("homePage.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+
 
     public void addReport(ProblemReport report){
         App.getReports().add(report);

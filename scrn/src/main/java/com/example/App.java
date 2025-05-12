@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -13,6 +14,16 @@ import java.util.ArrayList;
  * JavaFX App
  */
 public class App extends Application {
+
+    private static ArrayList<VBox> allPosts = new ArrayList<>();
+
+    public static ArrayList<VBox> getAllPosts() {
+        return allPosts;
+    }
+
+    public static void addPost(VBox postBox) {
+        allPosts.add(0, postBox); // en üste ekle
+    }
 
     private static Scene scene;
 
