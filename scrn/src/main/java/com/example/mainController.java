@@ -204,13 +204,9 @@ public class mainController implements Initializable{
     }
 
     public boolean validationOnSignIn(String email, String password) {
-        String url = "jdbc:mysql://localhost:3306/mydb";
-        String dbUser = "root";
-        String dbPassword = "12345678";
-
         String sql = "SELECT * FROM users WHERE email = ? AND password = ?";
 
-        try (Connection conn = DriverManager.getConnection(url, dbUser, dbPassword);
+        try (Connection conn = DriverManager.getConnection(DBConfig.url, DBConfig.user, DBConfig.password);
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, email);
