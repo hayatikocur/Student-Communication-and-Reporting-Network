@@ -8,7 +8,19 @@ import javax.imageio.ImageIO;
 
 public class Main {
     public static void main(String[] args) {
+
+        String filePath = "scrn/target/classes/com/example/homeIcon.png";
+
         int mediaAttachmentId = 1;
+
+        try {
+            MediaAttachment attachment = new MediaAttachment(filePath, 1);
+            System.out.println("✅ MediaAttachment created and saved to database.");
+        } catch (Exception e) {
+            System.err.println("❌ Failed to create MediaAttachment:");
+            e.printStackTrace();
+        }
+
 
         byte[] imageData = MediaAttachment.loadImageDataById(mediaAttachmentId);
         if (imageData == null) {
