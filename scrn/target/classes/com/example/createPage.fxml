@@ -6,6 +6,8 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mainController">
@@ -39,10 +41,10 @@
                <image><Image url="@settingsIcon.png" /></image>
             </ImageView>
 
-            <Button layoutX="60.0" layoutY="99.0" style="-fx-background-color: transparent;" text="Home" textFill="WHITE">
+            <Button layoutX="60.0" layoutY="99.0" onAction="#goToHomePage" style="-fx-background-color: transparent;" text="Home" textFill="WHITE">
                <font><Font size="20.0" /></font>
             </Button>
-            <Button layoutX="58.0" layoutY="180.0" style="-fx-background-color: transparent;" text="Search" textFill="WHITE">
+            <Button layoutX="58.0" layoutY="180.0" onAction="#goToSearchPage" style="-fx-background-color: transparent;" text="Search" textFill="WHITE">
                <font><Font size="20.0" /></font>
             </Button>
             <Button layoutX="59.0" layoutY="251.0" onAction="#goToMapPage" style="-fx-background-color: transparent;" text="Map" textFill="WHITE">
@@ -61,14 +63,35 @@
       </AnchorPane>
 
             <!-- 📥 POST FORMU -->
-      <AnchorPane fx:id="postFormPane" layoutX="228.0" layoutY="95.0" prefHeight="279.0" prefWidth="672.0">
+      <AnchorPane fx:id="postFormPane" layoutX="228.0" layoutY="167.0" prefHeight="418.0" prefWidth="671.0">
          <children>
-            <TextField fx:id="tfPostTitle" layoutX="10.0" layoutY="10.0" prefWidth="650.0" promptText="Post title" />
-            <TextField fx:id="tfPostContent" layoutX="10.0" layoutY="43.0" prefHeight="134.0" prefWidth="650.0" promptText="Post content" />
-
-                  <Button fx:id="btnChooseImage" layoutX="303.0" layoutY="203.0" onAction="#chooseImage" prefHeight="43.0" prefWidth="339.0" text="Choose Image" />
-            <ImageView fx:id="postImagePreview" fitHeight="230.0" fitWidth="258.0" layoutX="23.0" layoutY="202.0" preserveRatio="true" />
-            <Button layoutX="303.0" layoutY="252.0" onAction="#submitPost" prefHeight="45.0" prefWidth="339.0" text="Submit Post" />
+            <TextField fx:id="tfPostTitle" layoutX="11.0" layoutY="258.0" prefWidth="650.0" promptText="SET TITLE HERE" style="-fx-background-color: #D9DDDC;" />
+            <TextField fx:id="tfPostContent" layoutX="11.0" layoutY="284.0" prefHeight="134.0" prefWidth="650.0" promptText="DESCRIPTION" style="-fx-background-radius: 0 0 0 20; -fx-background-color: #D9DDDC;" />
+            <ImageView fx:id="postImagePreview" fitHeight="253.0" fitWidth="291.0" layoutX="21.0" layoutY="-51.0" preserveRatio="true" />
+            <Region layoutX="11.0" layoutY="209.0" prefHeight="52.0" prefWidth="650.0" style="-fx-background-color: #D9DDDC; -fx-background-radius: 20 0 0 0;" />
+      
+                  <Button fx:id="btnChooseImage" layoutX="507.0" layoutY="209.0" onAction="#chooseImage" prefHeight="39.0" prefWidth="75.0" style="-fx-background-color: transparent;" text="📁">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Button>
+            <Button layoutX="582.0" layoutY="209.0" onAction="#submitPost" prefHeight="52.0" prefWidth="75.0" style="-fx-background-color: transparent;" text="📩​">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Button>
+            <Line endX="549.3999633789062" layoutX="112.0" layoutY="258.0" startX="-100.0" stroke="#080808" />
+            <Line endX="546.3999633789062" endY="-0.39996337890625" layoutX="115.0" layoutY="284.0" startX="-104.00001525878906" startY="-0.39996337890625" stroke="#8e8d8d" />
+            <Button layoutX="21.0" layoutY="213.0" mnemonicParsing="false" onAction="#toggleItalic" style="-fx-background-color: transparent;" text="I">
+               <font>
+                  <Font name="System Bold Italic" size="20.0" />
+               </font>
+            </Button>
+            <Button layoutX="55.0" layoutY="213.0" mnemonicParsing="false" onAction="#toggleBold" prefHeight="32.0" prefWidth="32.0" style="-fx-background-color: transparent;" text="B">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Button>
          </children>
       </AnchorPane>
 

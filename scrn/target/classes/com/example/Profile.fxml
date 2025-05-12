@@ -58,7 +58,7 @@
                   <Font size="20.0" />
                </font>
             </Button>
-            <Button layoutX="58.0" layoutY="190.0" mnemonicParsing="false" onAction="#goToSearchPage" style="-fx-background-color: transparent;" text="Search" textFill="WHITE">
+            <Button layoutX="58.0" layoutY="180.0" mnemonicParsing="false" onAction="#goToSearchPage" style="-fx-background-color: transparent;" text="Search" textFill="WHITE">
                <font>
                   <Font size="20.0" />
                </font>

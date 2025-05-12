@@ -2,6 +2,7 @@ package com.example;
 
 import java.io.File;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.ResourceBundle;
 
@@ -51,6 +52,9 @@ public class mainController implements Initializable{
     PasswordField tfConfirmPasswordSup;
 
     //
+    private boolean isBold = false;
+    private boolean isItalic = false;
+    private boolean isUnderline = false;
     
     @FXML
     Label profileLabel;
@@ -65,8 +69,29 @@ public class mainController implements Initializable{
     @FXML
     Label profileEditLabel;
     
+    //Category ToggleButtons
+    @FXML private ToggleButton brokenEquipmentBtn;
+    @FXML private ToggleButton roadIssuesBtn;
+    @FXML private ToggleButton buildingIssuesBtn;
+    @FXML private ToggleButton cateringIssuesBtn;
+    @FXML private ToggleButton dormIssuesBtn;
+    @FXML private ToggleButton missingEquipmentBtn;
+    // Time ToggleButtons
+    @FXML private ToggleButton lastWeekButton;
+    @FXML private ToggleButton lastMonthButton;
+    @FXML private ToggleButton lastYearButton;
+    // Location ToggleButtons
+    @FXML private ToggleButton bBuildingButton;
+    @FXML private ToggleButton cateringBuildingButton;
+    @FXML private ToggleButton vBuildingButton;
+    @FXML private ToggleButton sbBuildingButton;
+    @FXML private ToggleButton faBuildingButton;
+    @FXML private ToggleButton fbBuildingButton;
+    @FXML private ToggleButton fcBuildingButton;
+    @FXML private ToggleButton fdBuildingButton;
+    @FXML private ToggleButton ffBuildingButton;
+    @FXML private ToggleButton kutuphaneButton;
 
-    
   
     static String tempPassword = "";
     //
@@ -519,6 +544,86 @@ public class mainController implements Initializable{
     }
 
     @FXML
+    private void confirmSearch(ActionEvent event){
+        if (brokenEquipmentBtn.isSelected()) {
+            selectedCategories.add("brokenEquipment");
+        } 
+    
+        if (roadIssuesBtn.isSelected()) {
+            selectedCategories.add("roadIssues");
+        } 
+    
+        if (buildingIssuesBtn.isSelected()) {
+           selectedCategories.add("buildingIssues");
+        } 
+    
+        if (cateringIssuesBtn.isSelected()) {
+            selectedCategories.add("cateringIssues");
+        } 
+    
+        if (dormIssuesBtn.isSelected()) {
+            selectedCategories.add("dormIssues");
+        } 
+        
+        if (missingEquipmentBtn.isSelected()) {
+            selectedCategories.add("missingEquipment");
+        } 
+
+        // Time selections
+        if (lastWeekButton.isSelected()) {
+            selectedDates.add("Last Week");
+        }
+        if (lastMonthButton.isSelected()) {
+            selectedDates.add("Last Month");
+        }
+        if (lastYearButton.isSelected()) {
+            selectedDates.add("Last Year");
+        }
+
+        // Location selections
+        if (bBuildingButton.isSelected()) {
+            selectedLocations.add("B Building");
+        }
+        if (cateringBuildingButton.isSelected()) {
+            selectedLocations.add("Catering Building");
+        }
+        if (vBuildingButton.isSelected()) {
+            selectedLocations.add("V Building");
+        }
+        if (sbBuildingButton.isSelected()) {
+            selectedLocations.add("SB Building");
+        }
+        if (faBuildingButton.isSelected()) {
+            selectedLocations.add("FA Building");
+        }
+        if (fbBuildingButton.isSelected()) {
+            selectedLocations.add("FB Building");
+        }
+        if (fcBuildingButton.isSelected()) {
+            selectedLocations.add("FC Building");
+        }
+        if (fdBuildingButton.isSelected()) {
+            selectedLocations.add("FD Building");
+        }
+        if (ffBuildingButton.isSelected()) {
+            selectedLocations.add("FF Building");
+        }
+        if (kutuphaneButton.isSelected()) {
+            selectedLocations.add("Kütüphane");
+        }
+
+
+        //create a personalized feed
+        selectedCategories.clear();// at the end empty the arraylists.
+        selectedDates.clear();
+        selectedLocations.clear();
+    }
+    
+    ArrayList<String> selectedCategories = new ArrayList();
+    ArrayList<String> selectedDates = new ArrayList();
+    ArrayList<String> selectedLocations = new ArrayList();
+    
+    @FXML
     private void categoryAction(ActionEvent event){
         ToggleButton source = (ToggleButton) event.getSource();
         updateToggleOfCategories(source);
@@ -526,20 +631,50 @@ public class mainController implements Initializable{
 
     private void updateToggleOfCategories (ToggleButton toggle){
         if (toggle.isSelected()) {
-            //toggle.setStyle("-fx-background-color: #ffffff; -fx-border-color: #000000;-fx-border-radius: 20;");
             toggle.setStyle("-fx-background-color: linear-gradient(to right, #cdffd8, #94b9ff);-fx-border-color: #000000;-fx-border-radius: 20; -fx-background-radius: 20;");
         }
         else{
             toggle.setStyle("-fx-background-color: #ffffff; -fx-border-color: #000000;-fx-border-radius: 20; -fx-background-radius: 20");
-            //toggle.setStyle("-fx-background-color: linear-gradient(to right, #cdffd8, #94b9ff);-fx-border-color: #000000;-fx-border-radius: 20;");
         }
     }
 
-    public void categoryAction(ActionEvent event,ToggleButton button){
-        updateToggleOfCategories(button);
-        
 
+    @FXML
+    private void toggleBold(ActionEvent event) {
+        isBold = !isBold;
+        updateTextFieldStyle();
     }
+
+    @FXML
+    private void toggleItalic(ActionEvent event) {
+        isItalic = !isItalic;
+        updateTextFieldStyle();
+    }
+
+    @FXML
+    private void toggleUnderline(ActionEvent event) {
+        isUnderline = !isUnderline;
+        updateTextFieldStyle();
+    }
+
+    private void updateTextFieldStyle() {
+
+        StringBuilder style = new StringBuilder();
+        style.append("-fx-background-color: #D9DDDC; ");
+        style.append("-fx-background-radius: 0 0 0 20; ");
+
+        if (isBold) {
+            style.append("-fx-font-weight: bold;");
+        }
+        if (isItalic) {
+            style.append("-fx-font-style: italic;");
+        }
+        if (isUnderline) {
+            style.append("-fx-underline: true;");
+        }
+
+        tfPostContent.setStyle(style.toString());
+}
 
     @FXML
     public void toggleMail(ActionEvent event) {
@@ -580,7 +715,7 @@ public class mainController implements Initializable{
         String content = tfPostContent.getText();
 
         VBox postBox = new VBox(5);
-        postBox.setStyle("-fx-background-color: white; -fx-padding: 10; -fx-border-color: #ccc; -fx-border-width: 1;");
+        postBox.setStyle(tfPostContent.getStyle());
 
         // Kullanıcı adı
         String fullName = App.getCurrentUser().getUserName() + " " + App.getCurrentUser().getUserSurname();

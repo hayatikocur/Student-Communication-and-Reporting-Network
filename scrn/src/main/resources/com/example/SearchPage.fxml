@@ -77,7 +77,7 @@
             <Font size="14.0" />
          </font>
       </TextField>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="439.0" layoutX="263.0" layoutY="116.0" stroke="BLACK" strokeType="INSIDE" style="-fx-arc-height: 40; -fx-arc-width: 40;" width="583.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="439.0" layoutX="260.0" layoutY="137.0" stroke="BLACK" strokeType="INSIDE" style="-fx-arc-height: 40; -fx-arc-width: 40;" width="583.0" />
       <Label layoutX="285.0" layoutY="142.0" text="Categories">
          <font>
             <Font name="System Bold" size="20.0" />
@@ -88,24 +88,35 @@
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <Label layoutX="285.0" layoutY="410.0" text="Location">
+      <Label layoutX="285.0" layoutY="393.0" text="Location">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <ToggleButton layoutX="285.0" layoutY="183.0" mnemonicParsing="false" onAction="#categoryAction" prefHeight="27.0" prefWidth="130.0" style="-fx-background-color: #ffffff; -fx-border-color: #000000; -fx-border-radius: 20;" text="Needs maintenance" />
-      <ToggleButton layoutX="421.0" layoutY="183.0" mnemonicParsing="false" onAction="#categoryAction" prefHeight="27.0" prefWidth="130.0" style="-fx-background-color: #ffffff; -fx-border-color: #000000; -fx-border-radius: 20;" text="Road related issues" />
-      <ToggleButton layoutX="562.0" layoutY="183.0" mnemonicParsing="false" onAction="#categoryAction" prefHeight="27.0" prefWidth="138.0" style="-fx-background-color: #ffffff; -fx-border-color: #000000; -fx-border-radius: 20;" text="Building related issues" />
-      <ToggleButton layoutX="705.0" layoutY="183.0" mnemonicParsing="false" onAction="#categoryAction" style="-fx-background-color: #ffffff; -fx-border-color: #000000; -fx-border-radius: 20;" text="Catering related issues" />
-      <ToggleButton layoutX="285.0" layoutY="231.0" mnemonicParsing="false" onAction="#categoryAction" prefHeight="27.0" prefWidth="130.0" style="-fx-background-color: #ffffff; -fx-border-color: #000000; -fx-border-radius: 20;" text="Dorm related issues" />
-      <ToggleButton layoutX="421.0" layoutY="231.0" mnemonicParsing="false" onAction="#categoryAction" prefHeight="27.0" prefWidth="130.0" style="-fx-background-color: #ffffff; -fx-border-color: #000000; -fx-border-radius: 20;" text="Missing equipment" />
-      <ToggleButton layoutX="562.0" layoutY="231.0" mnemonicParsing="false" onAction="#categoryAction" prefHeight="27.0" prefWidth="138.0" style="-fx-background-color: #ffffff; -fx-border-color: #000000; -fx-border-radius: 20;" text="Broken equipment" />
-      <ToggleButton layoutX="285.0" layoutY="343.0" mnemonicParsing="false" onAction="#categoryAction" prefHeight="27.0" prefWidth="130.0" style="-fx-background-color: #ffffff; -fx-border-color: #000000; -fx-border-radius: 20;" text="Last Week" />
-      <ToggleButton layoutX="431.0" layoutY="343.0" mnemonicParsing="false" onAction="#categoryAction" prefHeight="27.0" prefWidth="130.0" style="-fx-background-color: #ffffff; -fx-border-color: #000000; -fx-border-radius: 20;" text="Last month" />
-      <ToggleButton layoutX="574.0" layoutY="343.0" mnemonicParsing="false" onAction="#categoryAction" prefHeight="27.0" prefWidth="130.0" style="-fx-background-color: #ffffff; -fx-border-color: #000000; -fx-border-radius: 20;" text="Last year" />
-      <ToggleButton layoutX="285.0" layoutY="465.0" mnemonicParsing="false" onAction="#categoryAction" prefHeight="27.0" prefWidth="130.0" style="-fx-background-color: #ffffff; -fx-border-color: #000000; -fx-border-radius: 20;" text="B Building" />
-      <ToggleButton layoutX="431.0" layoutY="465.0" mnemonicParsing="false" onAction="#categoryAction" prefHeight="27.0" prefWidth="130.0" style="-fx-background-color: #ffffff; -fx-border-color: #000000; -fx-border-radius: 20;" text="Catering Building" />
-      <ToggleButton layoutX="574.0" layoutY="465.0" mnemonicParsing="false" onAction="#categoryAction" prefHeight="27.0" prefWidth="130.0" style="-fx-background-color: #ffffff; -fx-border-color: #000000; -fx-border-radius: 20;" text="Campus Roads" />
+      <ToggleButton fx:id="roadIssuesBtn" layoutX="421.0" layoutY="183.0" mnemonicParsing="false" onAction="#categoryAction" prefHeight="27.0" prefWidth="130.0" style="-fx-background-color: #ffffff; -fx-border-color: #000000; -fx-border-radius: 20; -fx-background-radius: 20;" text="Road related issues" />
+      <ToggleButton fx:id="buildingIssuesBtn" layoutX="562.0" layoutY="183.0" mnemonicParsing="false" onAction="#categoryAction" prefHeight="27.0" prefWidth="138.0" style="-fx-background-color: #ffffff; -fx-border-color: #000000; -fx-border-radius: 20; -fx-background-radius: 20;" text="Building related issues" />
+      <ToggleButton fx:id="cateringIssuesBtn" layoutX="705.0" layoutY="183.0" mnemonicParsing="false" onAction="#categoryAction" style="-fx-background-color: #ffffff; -fx-border-color: #000000; -fx-border-radius: 20; -fx-background-radius: 20;" text="Catering related issues" />
+      <ToggleButton fx:id="dormIssuesBtn" layoutX="280.0" layoutY="231.0" mnemonicParsing="false" onAction="#categoryAction" prefHeight="27.0" prefWidth="130.0" style="-fx-background-color: #ffffff; -fx-border-color: #000000; -fx-border-radius: 20; -fx-background-radius: 20;" text="Dorm related issues" />
+      <ToggleButton fx:id="missingEquipmentBtn" layoutX="421.0" layoutY="231.0" mnemonicParsing="false" onAction="#categoryAction" prefHeight="27.0" prefWidth="130.0" style="-fx-background-color: #ffffff; -fx-border-color: #000000; -fx-border-radius: 20; -fx-background-radius: 20;" text="Missing equipment" />
+      <ToggleButton fx:id="brokenEquipmentBtn" layoutX="276.0" layoutY="183.0" mnemonicParsing="false" onAction="#categoryAction" prefHeight="27.0" prefWidth="138.0" style="-fx-background-color: #ffffff; -fx-border-color: #000000; -fx-border-radius: 20; -fx-background-radius: 20;" text="Broken equipment" />
+      <ToggleButton fx:id="lastWeekButton" layoutX="285.0" layoutY="343.0" mnemonicParsing="false" onAction="#categoryAction" prefHeight="27.0" prefWidth="130.0" style="-fx-background-color: #ffffff; -fx-border-color: #000000; -fx-border-radius: 20; -fx-background-radius: 20;" text="Last Week" />
+      <ToggleButton fx:id="lastMonthButton" layoutX="431.0" layoutY="343.0" mnemonicParsing="false" onAction="#categoryAction" prefHeight="27.0" prefWidth="130.0" style="-fx-background-color: #ffffff; -fx-border-color: #000000; -fx-border-radius: 20; -fx-background-radius: 20;" text="Last month" />
+      <ToggleButton fx:id="lastYearButton" layoutX="574.0" layoutY="343.0" mnemonicParsing="false" onAction="#categoryAction" prefHeight="27.0" prefWidth="130.0" style="-fx-background-color: #ffffff; -fx-border-color: #000000; -fx-border-radius: 20; -fx-background-radius: 20;" text="Last year" />
+      <ToggleButton fx:id="bBuildingButton" layoutX="285.0" layoutY="437.0" mnemonicParsing="false" onAction="#categoryAction" prefHeight="27.0" prefWidth="130.0" style="-fx-background-color: #ffffff; -fx-border-color: #000000; -fx-border-radius: 20; -fx-background-color: 20;" text="B Building" />
+      <ToggleButton fx:id="cateringBuildingButton" layoutX="431.0" layoutY="437.0" mnemonicParsing="false" onAction="#categoryAction" prefHeight="27.0" prefWidth="130.0" style="-fx-background-color: #ffffff; -fx-border-color: #000000; -fx-border-radius: 20; -fx-background-radius: 20;" text="Catering Building" />
+      <Button layoutX="730.0" layoutY="522.0" mnemonicParsing="false" onAction="#confirmSearch" style="-fx-background-radius: 40; -fx-border-color: #000000; -fx-border-radius: 40; -fx-background-radius: 40;" text="Confirm">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+      <ToggleButton fx:id="sbBuildingButton" layoutX="708.0" layoutY="437.0" mnemonicParsing="false" onAction="#categoryAction" prefHeight="27.0" prefWidth="130.0" style="-fx-background-color: #ffffff; -fx-border-color: #000000; -fx-border-radius: 20; -fx-background-color: 20;" text="SB Building" />
+      <ToggleButton fx:id="faBuildingButton" layoutX="285.0" layoutY="470.0" mnemonicParsing="false" onAction="#categoryAction" prefHeight="27.0" prefWidth="130.0" style="-fx-background-color: #ffffff; -fx-border-color: #000000; -fx-border-radius: 20; -fx-background-color: 20;" text="FA Building" />
+      <ToggleButton fx:id="fbBuildingButton" layoutX="431.0" layoutY="470.0" mnemonicParsing="false" onAction="#categoryAction" prefHeight="27.0" prefWidth="130.0" style="-fx-background-color: #ffffff; -fx-border-color: #000000; -fx-border-radius: 20; -fx-background-color: 20;" text="FB Building" />
+      <ToggleButton fx:id="fcBuildingButton" layoutX="566.0" layoutY="470.0" mnemonicParsing="false" onAction="#categoryAction" prefHeight="27.0" prefWidth="130.0" style="-fx-background-color: #ffffff; -fx-border-color: #000000; -fx-border-radius: 20; -fx-background-color: 20;" text="FC Building" />
+      <ToggleButton fx:id="vBuildingButton" layoutX="566.0" layoutY="437.0" mnemonicParsing="false" onAction="#categoryAction" prefHeight="27.0" prefWidth="130.0" style="-fx-background-color: #ffffff; -fx-border-color: #000000; -fx-border-radius: 20; -fx-background-color: 20;" text="V Building" />
+      <ToggleButton fx:id="ffBuildingButton" layoutX="285.0" layoutY="508.0" mnemonicParsing="false" onAction="#categoryAction" prefHeight="27.0" prefWidth="130.0" style="-fx-background-color: #ffffff; -fx-border-color: #000000; -fx-border-radius: 20; -fx-background-color: 20;" text="FF Building" />
+      <ToggleButton fx:id="kutuphaneButton" layoutX="431.0" layoutY="508.0" mnemonicParsing="false" onAction="#categoryAction" prefHeight="27.0" prefWidth="130.0" style="-fx-background-color: #ffffff; -fx-border-color: #000000; -fx-border-radius: 20; -fx-background-color: 20;" text="Kütüphane" />
+      <ToggleButton fx:id="fdBuildingButton" layoutX="708.0" layoutY="470.0" mnemonicParsing="false" onAction="#categoryAction" prefHeight="27.0" prefWidth="130.0" style="-fx-background-color: #ffffff; -fx-border-color: #000000; -fx-border-radius: 20; -fx-background-color: 20;" text="FD Building" />
 
     </children>
 </AnchorPane>
