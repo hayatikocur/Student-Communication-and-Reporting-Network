@@ -322,14 +322,14 @@ public class mainController implements Initializable{
             tfProfileName.setEditable(true);
             tfProfileSurname.setEditable(true);
             editInfoLabel.setText("Now You Can Edit");
-            editInfoLabel.setStyle("-fx-background-color: #e53935;");
+            editInfoLabel.setStyle("-fx-text-fill: #e53935;");
         }
         else{
             tfProfileSurname.setEditable(false);
             tfProfileName.setEditable(false);
             tfProfilePassword.setEditable(false);
             editInfoLabel.setText("Press Edit");
-            editInfoLabel.setStyle("-fx-background-color: #66bb6a;");
+            editInfoLabel.setStyle("-fx-text-fill #66bb6a;");
 
             App.getCurrentUser().changeName(tfProfileName.getText());
             App.getCurrentUser().changeSurname(tfProfileSurname.getText());
