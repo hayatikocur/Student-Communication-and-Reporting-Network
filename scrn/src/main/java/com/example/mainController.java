@@ -284,6 +284,24 @@ public class mainController implements Initializable{
         }
     }
 
+    public void goToSavedIssuesPage(ActionEvent event){
+
+        try {
+            Thread.sleep(175);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("SavedIssuesPage.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
 
     //Şunları database bağlayın.
     public void setEditAction(Event arg0){ 
