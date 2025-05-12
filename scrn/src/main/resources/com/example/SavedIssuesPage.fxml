@@ -53,7 +53,7 @@
                   <Font size="20.0" />
                </font>
             </Button>
-            <Button layoutX="58.0" layoutY="180.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Search" textFill="WHITE">
+            <Button layoutX="58.0" layoutY="180.0" mnemonicParsing="false" onAction="#goToSearchPage" style="-fx-background-color: transparent;" text="Search" textFill="WHITE">
                <font>
                   <Font size="20.0" />
                </font>
@@ -73,7 +73,7 @@
                   <Font size="20.0" />
                </font>
             </Button>
-            <Button layoutX="65.0" layoutY="502.0" mnemonicParsing="false" onAction="#goToOptionPage" style="-fx-background-color: transparent;" text="Settings" textFill="WHITE">
+            <Button layoutX="77.0" layoutY="502.0" mnemonicParsing="false" onAction="#goToOptionPage" style="-fx-background-color: transparent;" text="Settings" textFill="WHITE">
 nsparent;" text="Settings">
                <font>
                   <Font size="20.0" />

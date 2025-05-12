@@ -48,8 +48,6 @@ public class App extends Application {
         launch();
     }
 
-    
-
     public static User getCurrentUser() {
         return currentUser;
     }

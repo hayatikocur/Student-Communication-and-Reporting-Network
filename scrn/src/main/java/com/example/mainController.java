@@ -28,6 +28,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.web.WebView;
 import javafx.stage.FileChooser;
@@ -379,8 +380,23 @@ public class mainController implements Initializable{
 
     }
 
-    
+    public void goToSearchPage(ActionEvent event){
 
+        try {
+            Thread.sleep(175);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("SearchPage.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 
     //Şunları database bağlayın.
     public void setEditAction(Event arg0){ 
@@ -500,6 +516,29 @@ public class mainController implements Initializable{
             toggle.setText("Turn On");
             toggle.setStyle("-fx-background-color: #66bb6a; -fx-text-fill: white; -fx-background-radius: 20;");
         }
+    }
+
+    @FXML
+    private void categoryAction(ActionEvent event){
+        ToggleButton source = (ToggleButton) event.getSource();
+        updateToggleOfCategories(source);
+    }
+
+    private void updateToggleOfCategories (ToggleButton toggle){
+        if (toggle.isSelected()) {
+            //toggle.setStyle("-fx-background-color: #ffffff; -fx-border-color: #000000;-fx-border-radius: 20;");
+            toggle.setStyle("-fx-background-color: linear-gradient(to right, #cdffd8, #94b9ff);-fx-border-color: #000000;-fx-border-radius: 20; -fx-background-radius: 20;");
+        }
+        else{
+            toggle.setStyle("-fx-background-color: #ffffff; -fx-border-color: #000000;-fx-border-radius: 20; -fx-background-radius: 20");
+            //toggle.setStyle("-fx-background-color: linear-gradient(to right, #cdffd8, #94b9ff);-fx-border-color: #000000;-fx-border-radius: 20;");
+        }
+    }
+
+    public void categoryAction(ActionEvent event,ToggleButton button){
+        updateToggleOfCategories(button);
+        
+
     }
 
     @FXML
