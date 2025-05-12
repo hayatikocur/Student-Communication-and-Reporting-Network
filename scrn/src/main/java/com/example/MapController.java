@@ -18,8 +18,7 @@ public class MapController implements Initializable {
     private WebView mapView;
 
     public void goToHomePage(ActionEvent event){
-        //TODO: Need to check if user's email and password is correct. Then it should go to home page.
-
+        
         try {
             Thread.sleep(175);
             FXMLLoader loader = new FXMLLoader(getClass().getResource("homePage.fxml"));
