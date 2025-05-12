@@ -158,7 +158,7 @@
             <Font size="20.0" />
          </font>
       </PasswordField>
-      <Label id="editInfoLabel" fx:id="editInfoLabel" layoutX="708.0" layoutY="174.0" text="Press Edit" textFill="#ea1010">
+      <Label id="editInfoLabel" fx:id="editInfoLabel" layoutX="708.0" layoutY="174.0" text="E̶D̶I̶T̶" textFill="#ea1010">
          <font>
             <Font size="14.0" />
          </font>
