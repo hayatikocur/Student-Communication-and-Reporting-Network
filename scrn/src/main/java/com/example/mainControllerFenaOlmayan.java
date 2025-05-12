@@ -1,6 +1,5 @@
 package com.example;
 
-import java.io.File;
 import java.net.URL;
 import java.util.Random;
 import java.util.ResourceBundle;
@@ -17,7 +16,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -30,10 +28,9 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.web.WebView;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-public class mainController implements Initializable{
+public class mainControllerFenaOlmayan implements Initializable{
 
     
     //TODO: those will be used for sign in page you will use those to validate the password and email. add for sign up in same way.
@@ -469,6 +466,8 @@ public class mainController implements Initializable{
         updateToggleAppearance(appNotiToggle);
     }
 
+
+
     @FXML
     private TextField tfPostTitle;
 
@@ -487,69 +486,46 @@ public class mainController implements Initializable{
     @FXML
     private ScrollPane scrollPane;
 
-        
+
     @FXML
-    private void submitPost(ActionEvent event) {
+    public void submitPost(ActionEvent event) {
         String title = tfPostTitle.getText();
         String content = tfPostContent.getText();
 
-        // Yeni post için VBox (tekil kart)
-        VBox postBox = new VBox(5);
-        postBox.setStyle("-fx-background-color: white; -fx-padding: 10; -fx-border-color: #ccc; -fx-border-width: 1;");
+        if (title.isEmpty() || content.isEmpty()) {
+            Alert alert = new Alert(AlertType.WARNING);
+            alert.setTitle("Eksik Alan");
+            alert.setHeaderText(null);
+            alert.setContentText("Lütfen hem başlık hem içeriği doldurun.");
+            alert.showAndWait();
+            return;
+        }
+
+        VBox card = new VBox();
+        card.setStyle("-fx-background-color: #ffffff; -fx-border-color: #cccccc; -fx-border-radius: 10; -fx-padding: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);");
+        card.setSpacing(5);
+
+        Label userLabel = new Label("👤 " + App.getCurrentUser().getUserName() + " " + App.getCurrentUser().getUserSurname());
+        userLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14;");
 
         Label titleLabel = new Label(title);
-        titleLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
+        titleLabel.setStyle("-fx-font-size: 16; -fx-font-weight: bold;");
 
         Label contentLabel = new Label(content);
         contentLabel.setWrapText(true);
 
-        postBox.getChildren().addAll(titleLabel, contentLabel);
+        card.getChildren().addAll(userLabel, titleLabel, contentLabel);
+        postContainer.getChildren().add(0, card); // en üste ekle
 
-        // Eğer resim seçildiyse, ImageView ile göster
-        if (selectedImageFile != null) {
-            ImageView imageView = new ImageView(new Image(selectedImageFile.toURI().toString()));
-            imageView.setFitWidth(300);
-            imageView.setPreserveRatio(true);
-            postBox.getChildren().add(imageView);
-        }
-
-        // Post'u scrollPane içindeki container'a ekle
-        postContainer.getChildren().add(0, postBox); // en üste ekler
-
-        // Alanları temizle
         tfPostTitle.clear();
         tfPostContent.clear();
-        selectedImageFile = null;
-        postImagePreview.setImage(null);
+        postFormPane.setVisible(false);
     }
 
     @FXML
     public void createPost(ActionEvent event) {
         // Formu aç
         postFormPane.setVisible(true);
-    }
-
-    @FXML
-    private ImageView postImagePreview;
-
-    @FXML
-    private Button btnChooseImage;
-
-    private File selectedImageFile;
-
-    @FXML
-    private void chooseImage(ActionEvent event) {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Select Image");
-        fileChooser.getExtensionFilters().addAll(
-            new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif")
-        );
-        File file = fileChooser.showOpenDialog(((Node)event.getSource()).getScene().getWindow());
-        if (file != null) {
-            selectedImageFile = file;
-            Image image = new Image(file.toURI().toString());
-            postImagePreview.setImage(image);
-        }
     }
 
 }
