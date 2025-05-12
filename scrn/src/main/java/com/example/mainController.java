@@ -1,6 +1,7 @@
 package com.example;
 
 import java.net.URL;
+import java.util.Random;
 import java.util.ResourceBundle;
 
 import javafx.application.Application;
@@ -62,6 +63,7 @@ public class mainController implements Initializable{
     Label editInfoLabel;
     
   
+    static String tempPassword = "";
     //
     
     public void changeToSignUp(ActionEvent event){
@@ -257,9 +259,27 @@ public class mainController implements Initializable{
             e.printStackTrace();
         }
     }
-
+    
     public void forgotPassword(ActionEvent e){
+        System.out.println("hello world");
         //TODO: Will check if email exists then send random generated password through email.
+        for(int i=0; i<App.getUsers().size(); i++){
+            if(tfEmailSin.getText().equals(App.getUsers().get(i).getEmail())){
+                tempPassword = createRandomPassword();
+                App.getUsers().get(i).setPassword(tempPassword);
+                SendGmail.sendPassword(App.getUsers().get(i).getEmail());
+                break;
+            }
+        }
+    }
+
+    public String createRandomPassword(){
+        String password = "";
+        Random ran = new Random();
+        for(int i=0; i<5; i++){
+            password += ran.nextInt(10);
+        }
+        return password;
     }
 
      public void goToMapPage(ActionEvent event){
