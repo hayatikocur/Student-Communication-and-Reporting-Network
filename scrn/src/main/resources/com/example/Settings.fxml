@@ -50,7 +50,7 @@
                   <Image url="@settingsIcon.png" />
                </image>
             </ImageView>
-            <Button layoutX="60.0" layoutY="99.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Home" textFill="WHITE">
+            <Button layoutX="60.0" layoutY="99.0" mnemonicParsing="false" onAction="#goToHomePage" style="-fx-background-color: transparent;" text="Home" textFill="WHITE">
                <font>
                   <Font size="20.0" />
                </font>
