@@ -132,6 +132,12 @@ public class mainController implements Initializable{
 
         SendGmail.sendEmail(email);
         //TODO: in this code everybody is added as users not separated such as student or authority. separate them. 
+        if(email.contains("ug")){
+            App.getUsers().add(new Student(name, surname, email, tfPasswordSup.getText()));
+        }
+        else{
+            App.getUsers().add(new Authority(name, surname, email, tfPasswordSup.getText()));
+        }
         App.getUsers().add(new User(name, surname, email, tfPasswordSup.getText()));
         return true;
     }

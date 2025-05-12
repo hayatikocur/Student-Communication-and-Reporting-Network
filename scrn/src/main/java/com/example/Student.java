@@ -3,7 +3,7 @@ package com.example;
 import java.util.*;
 
 public class Student extends User {
-    public Student(int userId, String name, String surname, String email, String password) {
+    public Student(String name, String surname, String email, String password) {
         super(name, surname, email, password);
     }
     private ArrayList<ProblemReport> savedReports = new ArrayList<>();

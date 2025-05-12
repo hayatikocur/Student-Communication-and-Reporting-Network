@@ -2,7 +2,7 @@ package com.example;
 
 public class Authority extends User {
 
-    public Authority(int userId, String userName, String userSurname, String email, String password){
+    public Authority(String userName, String userSurname, String email, String password){
         super(userName, userSurname, email, password);
     }
 
