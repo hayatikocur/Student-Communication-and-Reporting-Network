@@ -2,6 +2,8 @@ package com.example;
 
 import java.util.*;
 
+import javafx.scene.image.ImageView;
+
 public class ProblemReport {
     private static int counter = 0;
     private int reportId;
@@ -17,17 +19,19 @@ public class ProblemReport {
     private Location location;
     private Category category;
     private boolean resolved = false;
+    private ImageView imageView;
     private ArrayList<User> savedUsers;
 
-    public ProblemReport(String title, String description, Category category, Location location, MediaAttachment attachment) {
+
+    public ProblemReport(String title, String description, Category category, Location location, ImageView imageView) {
         this.reportId = ++counter;
         this.reportTitle = title;
         this.description = description;
         this.category = category;
         this.location = location;
+        this.imageView = imageView;
         savedUsers = new ArrayList<>();
-        if (attachment != null)
-            mediaAttachments.add(attachment);
+        
     }
 
     public void addComment(Comment c) {
