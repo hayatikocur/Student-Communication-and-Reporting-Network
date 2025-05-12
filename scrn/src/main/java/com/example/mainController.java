@@ -582,14 +582,20 @@ public class mainController implements Initializable{
         VBox postBox = new VBox(5);
         postBox.setStyle("-fx-background-color: white; -fx-padding: 10; -fx-border-color: #ccc; -fx-border-width: 1;");
 
+        // Kullanıcı adı
+        String fullName = App.getCurrentUser().getUserName() + " " + App.getCurrentUser().getUserSurname();
+        Label userLabel = new Label(fullName);
+        userLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2e7d32;");
+
+        // Başlık ve içerik
         Label titleLabel = new Label(title);
         titleLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
-
         Label contentLabel = new Label(content);
         contentLabel.setWrapText(true);
 
-        postBox.getChildren().addAll(titleLabel, contentLabel);
+        postBox.getChildren().addAll(userLabel, titleLabel, contentLabel);
 
+        // Görsel varsa ekle
         if (selectedImageFile != null) {
             ImageView imageView = new ImageView(new Image(selectedImageFile.toURI().toString()));
             imageView.setFitWidth(300);
@@ -597,16 +603,45 @@ public class mainController implements Initializable{
             postBox.getChildren().add(imageView);
         }
 
-        // 📌 Global listeye ekle
-        App.addPost(postBox);
+        // ✅ Upvote / Downvote bölümü
+        Label voteCountLabel = new Label("0");
+        voteCountLabel.setStyle("-fx-font-size: 14px; -fx-padding: 5;");
 
-        // Temizlik
+        Button upvoteButton = new Button("▲");
+        Button downvoteButton = new Button("▼");
+
+        upvoteButton.setOnAction(e -> {
+            int currentVotes = Integer.parseInt(voteCountLabel.getText());
+            voteCountLabel.setText(String.valueOf(currentVotes + 1));
+        });
+
+        downvoteButton.setOnAction(e -> {
+            int currentVotes = Integer.parseInt(voteCountLabel.getText());
+            voteCountLabel.setText(String.valueOf(currentVotes - 1));
+        });
+
+        VBox voteBox = new VBox(5, upvoteButton, voteCountLabel, downvoteButton);
+        voteBox.setStyle("-fx-alignment: center;");
+        
+        AnchorPane votePane = new AnchorPane();
+        votePane.setPrefHeight(60);
+        votePane.setPrefWidth(60);
+        votePane.getChildren().add(voteBox);
+        AnchorPane.setTopAnchor(voteBox, 0.0);
+        AnchorPane.setLeftAnchor(voteBox, 0.0);
+
+        AnchorPane postWithVotes = new AnchorPane();
+        postWithVotes.setPrefWidth(600);
+        AnchorPane.setLeftAnchor(postBox, 60.0);
+        postWithVotes.getChildren().addAll(votePane, postBox);
+
+        App.addPost(postWithVotes);
+
         tfPostTitle.clear();
         tfPostContent.clear();
         selectedImageFile = null;
         postImagePreview.setImage(null);
 
-        // 🔁 Post sonrası anasayfaya dön
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("homePage.fxml"));
             Parent root = loader.load();
@@ -617,6 +652,7 @@ public class mainController implements Initializable{
             e.printStackTrace();
         }
     }
+
 
 
     public void addReport(ProblemReport report){

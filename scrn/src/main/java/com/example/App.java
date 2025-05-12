@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -15,15 +16,15 @@ import java.util.ArrayList;
  */
 public class App extends Application {
 
-    private static ArrayList<VBox> allPosts = new ArrayList<>();
-
-    public static ArrayList<VBox> getAllPosts() {
+    private static ArrayList<AnchorPane> allPosts = new ArrayList<>();
+    public static ArrayList<AnchorPane> getAllPosts() {
         return allPosts;
     }
-
-    public static void addPost(VBox postBox) {
-        allPosts.add(0, postBox); // en üste ekle
+    public static void addPost(AnchorPane postBox) {
+        allPosts.add(0, postBox);
     }
+
+    
 
     private static Scene scene;
 
