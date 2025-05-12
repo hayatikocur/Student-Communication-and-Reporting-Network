@@ -65,6 +65,8 @@ public class mainController implements Initializable{
     @FXML
     Label profileEditLabel;
     
+
+    
   
     static String tempPassword = "";
     //
@@ -383,10 +385,6 @@ public class mainController implements Initializable{
             App.getCurrentUser().changePassword(tfProfilePassword.getText());
 
         }
-
-
-        
-        
     }   
 
     @FXML
@@ -419,10 +417,14 @@ public class mainController implements Initializable{
             tfProfilePassword.setText(App.getCurrentUser().getPassword());
         }
         if (profileLabel != null) {
-            profileLabel.setText("Student"); // ya da Student / Authority'ye göre ayır
+            if(App.getCurrentUser().getEmail().contains("ug")){
+                profileLabel.setText("Student"); // ya da Student / Authority'ye göre ayır
+            }
+            else{
+                profileLabel.setText("Authority"); 
+            }
         }
 
-        
         if (mailToggle != null) {
             setupToggleButton(mailToggle, App.getCurrentUser().isMailNotificationEnabled());
         }
