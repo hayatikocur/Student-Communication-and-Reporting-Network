@@ -107,14 +107,10 @@ public class User {
     }
 
     private void saveToDatabase() {
-        String url = "jdbc:mysql://localhost:3306/mydb";
-        String dbUser = "root";
-        String dbPassword = "12345678";
-
         String sql = "INSERT INTO users (userName, userSurname, email, password, mailNotification, appNotification, isAuthority) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
-        try (Connection conn = DriverManager.getConnection(url, dbUser, dbPassword);
+        try (Connection conn = DriverManager.getConnection(DBConfig.url, DBConfig.user, DBConfig.password);
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, this.userName);
