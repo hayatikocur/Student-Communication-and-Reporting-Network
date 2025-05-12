@@ -76,7 +76,7 @@
                 <Image url="@createIcon.png" />
             </image>
         </ImageView>
-        <Button layoutX="248.0" layoutY="16.0" onAction="#createPost" prefHeight="55.0" prefWidth="98.0" style="-fx-background-color: bold;" text="Create">
+        <Button layoutX="248.0" layoutY="16.0" onAction="#goToCreatePage" prefHeight="55.0" prefWidth="98.0" style="-fx-background-color: bold;" text="Create">
             <font><Font name="System Bold Italic" size="20.0" /></font>
         </Button>
 
