@@ -322,7 +322,7 @@ public class mainController implements Initializable{
             tfProfileName.setEditable(false);
             tfProfilePassword.setEditable(false);
             editInfoLabel.setText("̶E̶D̶I̶T̶");
-            editInfoLabel.setStyle("-fx-text-fill #e53935;");
+            editInfoLabel.setStyle("-fx-text-fill: #e53935;");
 
             App.getCurrentUser().changeName(tfProfileName.getText());
             App.getCurrentUser().changeSurname(tfProfileSurname.getText());
