@@ -54,6 +54,7 @@ public class mainController implements Initializable{
     @FXML
     TextField tfProfileName;
     @FXML
+    Label profileEditLabel;
     
   
     //
@@ -289,15 +290,21 @@ public class mainController implements Initializable{
 
         if (tfProfilePassword.isEditable() == false) {
             tfProfilePassword.setEditable(true);
-            tfProfilePassword.setVisible(true);
             tfProfileName.setEditable(true);
             tfProfileSurname.setEditable(true);
+            profileEditLabel.setText("You can Edit!");
+            profileEditLabel.setStyle("-fx-text-fill: #66bb6a;");
         }
         else{
             tfProfileSurname.setEditable(false);
-            tfProfilePassword.setVisible(false);
             tfProfileName.setEditable(false);
             tfProfilePassword.setEditable(false);
+            profileEditLabel.setText("Press Icon to Edit");
+            profileEditLabel.setStyle("-fx-text-fill: #e53935;");
+
+            App.getCurrentUser().changeName(tfProfileName.getText());
+            App.getCurrentUser().changeSurname(tfProfileSurname.getText());
+            App.getCurrentUser().changePassword(tfProfilePassword.getText());
 
         }
 
@@ -305,17 +312,6 @@ public class mainController implements Initializable{
         
         
     }   
-
-    //Bunu da
-    public void confirmChangesToProfile(ActionEvent event){
-        //User'ın passwordu ve username i değiştirmesi lazım.
-        App.getCurrentUser().changeName(tfProfileName.getText());
-        App.getCurrentUser().changeSurname(tfProfileSurname.getText());
-        App.getCurrentUser().changePassword(tfProfilePassword.getText());
-
-        //System.out.println("hello world");
-        //System.out.println(App.getCurrentUser().getUserName());
-    }
 
     @FXML
     ToggleButton mailToggle;
