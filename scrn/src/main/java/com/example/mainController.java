@@ -526,12 +526,10 @@ public class mainController implements Initializable{
 
     private void updateToggleOfCategories (ToggleButton toggle){
         if (toggle.isSelected()) {
-            //toggle.setStyle("-fx-background-color: #ffffff; -fx-border-color: #000000;-fx-border-radius: 20;");
             toggle.setStyle("-fx-background-color: linear-gradient(to right, #cdffd8, #94b9ff);-fx-border-color: #000000;-fx-border-radius: 20; -fx-background-radius: 20;");
         }
         else{
             toggle.setStyle("-fx-background-color: #ffffff; -fx-border-color: #000000;-fx-border-radius: 20; -fx-background-radius: 20");
-            //toggle.setStyle("-fx-background-color: linear-gradient(to right, #cdffd8, #94b9ff);-fx-border-color: #000000;-fx-border-radius: 20;");
         }
     }
 
