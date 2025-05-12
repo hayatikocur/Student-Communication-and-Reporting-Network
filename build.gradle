@@ -1,0 +1,47 @@
+plugins {
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.14'
+}
+
+repositories {
+    mavenCentral()
+}
+
+javafx {
+    version = "21"
+    modules = [
+            'javafx.controls',
+            'javafx.fxml',
+            'javafx.web',
+            'javafx.graphics',
+            'javafx.base'
+    ]
+}
+
+application {
+    mainClass = "com.example.App"
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['scrn/src/main/java']
+        }
+        resources {
+            srcDirs = ['scrn/src/main/resources']
+        }
+    }
+}
+
+dependencies {
+    // JavaFX modülleri zaten javafx {} bloğunda tanımlı, burada tekrar gerekmez ama zararsızdır.
+    implementation 'org.openjfx:javafx-controls:21'
+    implementation 'org.openjfx:javafx-fxml:21'
+    implementation 'org.openjfx:javafx-web:21'
+    implementation 'org.openjfx:javafx-graphics:21'
+    implementation 'org.openjfx:javafx-base:21'
+
+    // Jakarta Mail ve Activation
+    implementation 'com.sun.mail:jakarta.mail:2.0.1'
+    implementation 'com.sun.activation:jakarta.activation:2.0.1'
+}
