@@ -51,7 +51,6 @@ public class mainController implements Initializable{
     PasswordField tfConfirmPasswordSup;
 
     //
-
     
     @FXML
     Label profileLabel;
@@ -430,16 +429,21 @@ public class mainController implements Initializable{
     ToggleButton appNotiToggle;
 
     private void updateToggleText(ToggleButton button) {
-    if (button != null) {
-        button.setText(button.isSelected() ? "Turn On" : "Turn Off");
-        button.setOnAction(e -> {
-        button.setText(button.isSelected() ? "Turn On" : "Turn Off");
-        });
+        if (button != null) {
+            button.setText(button.isSelected() ? "Turn On" : "Turn Off");
+            button.setOnAction(e -> {
+            button.setText(button.isSelected() ? "Turn On" : "Turn Off");
+            });
+        }
     }
-}
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        
+        if (postFormPane != null) {
+            postFormPane.setVisible(true); // Sayfa yüklenince post formu açık gelsin
+        }
+
         if (tfProfileName != null) {
             tfProfileName.setText(App.getCurrentUser().getUserName());
         }
@@ -568,6 +572,7 @@ public class mainController implements Initializable{
         
     @FXML
     private void submitPost(ActionEvent event) {
+
         String title = tfPostTitle.getText();
         String content = tfPostContent.getText();
 
@@ -589,7 +594,9 @@ public class mainController implements Initializable{
             imageView.setFitWidth(300);
             imageView.setPreserveRatio(true);
             postBox.getChildren().add(imageView);
+            addReport(new ProblemReport(title, content, null, null, imageView));
         }
+        addReport(new ProblemReport(title, content, null, null, null));
 
         // Post'u scrollPane içindeki container'a ekle
         postContainer.getChildren().add(0, postBox); // en üste ekler
@@ -599,6 +606,10 @@ public class mainController implements Initializable{
         tfPostContent.clear();
         selectedImageFile = null;
         postImagePreview.setImage(null);
+    }
+
+    public void addReport(ProblemReport report){
+        App.getReports().add(report);
     }
 
     @FXML

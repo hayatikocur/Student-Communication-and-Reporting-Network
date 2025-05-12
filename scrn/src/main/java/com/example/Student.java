@@ -37,8 +37,8 @@ public class Student extends User {
         savedReports.remove(pr);
     }
 
-    public void createReport(String title, String description, Category category, Location location, MediaAttachment attachment) {
-        ProblemReport report = new ProblemReport(title, description, category, location, attachment);
-        // Add report to global list or DB
-    }
+    //public void createReport(String title, String description, Category category, Location location, MediaAttachment attachment) {
+    //    ProblemReport report = new ProblemReport(title, description, category, location, attachment);
+    //    // Add report to global list or DB
+    //}
 }

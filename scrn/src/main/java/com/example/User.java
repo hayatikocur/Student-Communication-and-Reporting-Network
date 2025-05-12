@@ -103,7 +103,6 @@ public class User {
         pr.addComment(new Comment(this, comment));
     }
 
-
     public void saveToDatabase() {
         String url = "jdbc:mysql://localhost:3306/mydb";
         String user = "root";
