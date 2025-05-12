@@ -1,12 +1,16 @@
 package com.example;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.*;
 
 public class ProblemReport {
     private static int counter = 0;
     private int reportId;
     private String reportTitle;
-    private String description;
+    private String reportDescription;
     private ArrayList<Comment> comments = new ArrayList<>();
     private int upvoteCount = 0;
     private int downvoteCount = 0;
@@ -18,6 +22,8 @@ public class ProblemReport {
     private Category category;
     private boolean resolved = false;
     private ArrayList<User> savedUsers;
+    private int categoryID = 0;
+    private int locationID = 0;
 
     /*
     reportId(int): PK, AI
@@ -49,7 +55,7 @@ public class ProblemReport {
     public ProblemReport(String title, String description, Category category, Location location, MediaAttachment attachment) {
         this.reportId = ++counter;
         this.reportTitle = title;
-        this.description = description;
+        this.reportDescription = description;
         this.category = category;
         this.location = location;
         savedUsers = new ArrayList<>();
@@ -92,5 +98,32 @@ public class ProblemReport {
 
     public ArrayList<User> getSavedUsers(){
         return savedUsers;
+    }
+
+    private void saveToDatabase() {
+        String sql = "INSERT INTO problem_report (reportTitle, reportDescription, reportTime, upvoteCount, downvoteCount, wasUsefulCount, wasNotUsefulCount, commentNumber, resolved, category, location) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try (Connection conn = DriverManager.getConnection(DBConfig.url, DBConfig.user, DBConfig.password);
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, this.reportTitle);
+            stmt.setString(2, this.reportDescription);
+            stmt.setTime(3, this.reportTime);
+            stmt.setInt(4, this.upvoteCount);
+            stmt.setInt(5, this.downvoteCount);
+            stmt.setInt(6, this.wasUsefulCount);
+            stmt.setInt(7, this.wasNotUsefulCount);
+            stmt.setInt(8, this.commentNumber);
+            stmt.setBoolean(9, this.resolved);
+            stmt.setInt(10, categoryID);
+            stmt.setInt(11, locationID);
+
+            stmt.executeUpdate();
+            System.out.println("Problem Report saved to database.");
+        } catch (SQLException e) {
+            System.err.println("Failed to save problem report to database:");
+            e.printStackTrace();
+        }
     }
 }
