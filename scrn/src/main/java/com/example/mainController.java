@@ -50,7 +50,9 @@ public class mainController implements Initializable{
     @FXML
     PasswordField tfConfirmPasswordSup;
 
-    //
+    private boolean isBold = false;
+    private boolean isItalic = false;
+    private boolean isUnderline = false;
     
     @FXML
     Label profileLabel;
@@ -540,6 +542,43 @@ public class mainController implements Initializable{
     }
 
     @FXML
+    private void toggleBold(ActionEvent event) {
+        isBold = !isBold;
+        updateTextFieldStyle();
+    }
+
+    @FXML
+    private void toggleItalic(ActionEvent event) {
+        isItalic = !isItalic;
+        updateTextFieldStyle();
+    }
+
+    @FXML
+    private void toggleUnderline(ActionEvent event) {
+        isUnderline = !isUnderline;
+        updateTextFieldStyle();
+    }
+
+    private void updateTextFieldStyle() {
+
+        StringBuilder style = new StringBuilder();
+        style.append("-fx-background-color: #D9DDDC; ");
+        style.append("-fx-background-radius: 0 0 0 20; ");
+
+        if (isBold) {
+            style.append("-fx-font-weight: bold;");
+        }
+        if (isItalic) {
+            style.append("-fx-font-style: italic;");
+        }
+        if (isUnderline) {
+            style.append("-fx-underline: true;");
+        }
+
+        tfPostContent.setStyle(style.toString());
+}
+
+    @FXML
     public void toggleMail(ActionEvent event) {
         boolean currentState = mailToggle.isSelected();
         App.getCurrentUser().setMailNotification(currentState);
@@ -578,7 +617,7 @@ public class mainController implements Initializable{
         String content = tfPostContent.getText();
 
         VBox postBox = new VBox(5);
-        postBox.setStyle("-fx-background-color: white; -fx-padding: 10; -fx-border-color: #ccc; -fx-border-width: 1;");
+        postBox.setStyle(tfPostContent.getStyle());
 
         Label titleLabel = new Label(title);
         titleLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
