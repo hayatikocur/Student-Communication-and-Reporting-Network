@@ -414,16 +414,21 @@ public class mainController implements Initializable{
     ToggleButton appNotiToggle;
 
     private void updateToggleText(ToggleButton button) {
-    if (button != null) {
-        button.setText(button.isSelected() ? "Turn On" : "Turn Off");
-        button.setOnAction(e -> {
-        button.setText(button.isSelected() ? "Turn On" : "Turn Off");
-        });
+        if (button != null) {
+            button.setText(button.isSelected() ? "Turn On" : "Turn Off");
+            button.setOnAction(e -> {
+            button.setText(button.isSelected() ? "Turn On" : "Turn Off");
+            });
+        }
     }
-}
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        
+        if (postFormPane != null) {
+            postFormPane.setVisible(true); // Sayfa yüklenince post formu açık gelsin
+        }
+
         if (tfProfileName != null) {
             tfProfileName.setText(App.getCurrentUser().getUserName());
         }
@@ -529,6 +534,7 @@ public class mainController implements Initializable{
         
     @FXML
     private void submitPost(ActionEvent event) {
+
         String title = tfPostTitle.getText();
         String content = tfPostContent.getText();
 
