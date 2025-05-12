@@ -377,7 +377,25 @@ public class mainController implements Initializable{
     
     @FXML
     public void deleteAccount(ActionEvent event) {
-        // Şimdilik boş bırakıldı
+        App.getUsers().remove(App.getCurrentUser());
+        App.setCurrentUser(null);
+
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Account Deleted");
+        alert.setHeaderText(null);
+        alert.setContentText("Your account has been successfully deleted.");
+        alert.showAndWait();
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("loginPage.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void setupToggleButton(ToggleButton toggle, boolean isOn) {
