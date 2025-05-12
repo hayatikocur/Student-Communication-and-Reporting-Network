@@ -42,15 +42,8 @@
             <Button layoutX="60.0" layoutY="99.0" style="-fx-background-color: transparent;" text="Home" textFill="WHITE">
                <font><Font size="20.0" /></font>
             </Button>
-<<<<<<< HEAD
-            <Button layoutX="58.0" layoutY="180.0" mnemonicParsing="false" onAction="#goToSearchPage" style="-fx-background-color: transparent;" text="Search" textFill="WHITE">
-               <font>
-                  <Font size="20.0" />
-               </font>
-=======
             <Button layoutX="58.0" layoutY="180.0" style="-fx-background-color: transparent;" text="Search" textFill="WHITE">
                <font><Font size="20.0" /></font>
->>>>>>> f40c7b5f42873e859217741d9196305abf8aad66
             </Button>
             <Button layoutX="59.0" layoutY="251.0" onAction="#goToMapPage" style="-fx-background-color: transparent;" text="Map" textFill="WHITE">
                <font><Font size="20.0" /></font>

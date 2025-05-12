@@ -37,10 +37,6 @@ public class App extends Application {
         launch();
     }
 
-    public static ArrayList<User> getUsers(){
-        return allUsers;
-    }
-
     public static User getCurrentUser() {
         return currentUser;
     }
