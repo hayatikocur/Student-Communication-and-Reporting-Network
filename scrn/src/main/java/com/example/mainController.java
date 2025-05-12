@@ -549,8 +549,9 @@ public class mainController implements Initializable{
             imageView.setFitWidth(300);
             imageView.setPreserveRatio(true);
             postBox.getChildren().add(imageView);
+            addReport(new ProblemReport(title, content, null, null, imageView));
         }
-
+        addReport(new ProblemReport(title, content, null, null, null));
 
         // Post'u scrollPane içindeki container'a ekle
         postContainer.getChildren().add(0, postBox); // en üste ekler

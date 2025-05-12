@@ -18,7 +18,12 @@ public class App extends Application {
 
     private static ArrayList<User> allUsers = new ArrayList();
     private static User currentUser;// this is for one time use when user signs in. dont store this in database.
-    
+    public static ArrayList<ProblemReport> getReports() {
+        return reports;
+    }
+
+    private static ArrayList<ProblemReport> reports = new ArrayList();
+
     @Override
     public void start(Stage stage) throws IOException{
         Parent root = FXMLLoader.load(getClass().getResource("loginPage.fxml"));
@@ -31,15 +36,30 @@ public class App extends Application {
         launch();
     }
 
-    public static ArrayList<User> getUsers(){
-        return allUsers;
-    }
+    
 
     public static User getCurrentUser() {
         return currentUser;
     }
 
-    public static void setCurrentUser(User currentUser) {
-        App.currentUser = currentUser;
+    public static void setCurrentUser(User user) {
+        currentUser = user;
+    } 
+
+    public static Scene getScene() {
+        return scene;
     }
+
+    public static void setScene(Scene scene) {
+        App.scene = scene;
+    }
+
+    public static ArrayList<User> getAllUsers() {
+        return allUsers;
+    }
+
+    public static ArrayList<User> getUsers(){
+        return allUsers;
+    }
+    
 }
