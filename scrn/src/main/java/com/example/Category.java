@@ -5,6 +5,11 @@ public class Category {
     private String categoryName;
     private String[] categories;
 
+    /*
+    categoryId(int): AI, PK
+    category(varchar)
+     */
+
     public void sortByDate() {
         // implement sorting
     }

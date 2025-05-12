@@ -19,6 +19,33 @@ public class ProblemReport {
     private boolean resolved = false;
     private ArrayList<User> savedUsers;
 
+    /*
+    reportId(int): PK, AI
+     reportTitle(varchar(limit)):
+     reportDescription(varchar()):
+     reportTime(time):
+     We will get comments by Problem report id (select * from ... where id=x)
+     upvoteCount(int) (0 by default):
+     downvoteCount(int) (0 by default):
+     mediaAttachments: create a media attachment table, store report's id in there, pull media attachments by that id.
+     wasUsefulCount(int) (0 by default):
+     wasNotUsefulCount(int) (0 by default):
+     commentNumber(int) (0 by default):
+     location: same as media attachments (maybe store each location as int?)
+     category: same as media attachments
+     resolved (boolean) (false by default):
+
+     delete savedUsers and create a table in database named saved_posts. Its mysql code will be somwthing like:
+     CREATE TABLE saved_posts (
+        user_id INT,
+        post_id INT,
+        saved_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        PRIMARY KEY (user_id, post_id),
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+        FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE
+    );
+     */
+
     public ProblemReport(String title, String description, Category category, Location location, MediaAttachment attachment) {
         this.reportId = ++counter;
         this.reportTitle = title;

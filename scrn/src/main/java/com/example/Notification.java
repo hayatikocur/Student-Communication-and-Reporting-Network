@@ -9,6 +9,12 @@ public class Notification {
     private int notificationId;
     private String notifContent;
 
+    /*
+    notificationId (int): AI, PK
+    userId(int):
+    notifContent(varchar):
+     */
+
     public Notification(String content) {
         this.notifContent = content;
     }

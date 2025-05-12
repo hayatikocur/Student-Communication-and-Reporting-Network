@@ -19,6 +19,16 @@ public class User {
     private boolean mailNotification;
     private boolean appNotification;
 
+    /*
+    userId(int): PK, AI
+    userName(varchar):
+    userSurname(varchar):
+    email(varchar): PRIMARY KEY
+    password(varchar):
+    mailNotification(boolean) (true by default):
+    appNotification(boolean) (true by default):
+    isAuthority(boolean):
+     */
     public User(String name, String surname, String email, String password) {
         this.userName = name;
         this.userSurname = surname;

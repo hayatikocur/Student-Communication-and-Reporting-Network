@@ -11,6 +11,15 @@ public class Comment {
     private User author;
     private ProblemReport belongingReport;
 
+    /*
+    commentId(int): PK, AI
+    userId(int):
+    reportId(int):
+    commentContent(varchar):
+    time(Time):
+    likeNumber(int):
+     */
+
     public Comment(User author, String content) {
         this.commentId = ++counter;
         this.author = author;
