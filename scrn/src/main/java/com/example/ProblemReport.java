@@ -1,13 +1,9 @@
 package com.example;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.*;
+import java.sql.*;
+import java.util.ArrayList;
 
 public class ProblemReport {
-    private static int counter = 0;
     private int reportId;
     private String reportTitle;
     private String reportDescription;
@@ -22,45 +18,22 @@ public class ProblemReport {
     private Category category;
     private boolean resolved = false;
     private ArrayList<User> savedUsers;
-    private int categoryID = 0;
-    private int locationID = 0;
-
-    /*
-    reportId(int): PK, AI
-     reportTitle(varchar(limit)):
-     reportDescription(varchar()):
-     reportTime(time):
-     We will get comments by Problem report id (select * from ... where id=x)
-     upvoteCount(int) (0 by default):
-     downvoteCount(int) (0 by default):
-     mediaAttachments: create a media attachment table, store report's id in there, pull media attachments by that id.
-     wasUsefulCount(int) (0 by default):
-     wasNotUsefulCount(int) (0 by default):
-     commentNumber(int) (0 by default):
-     location: same as media attachments (maybe store each location as int?)
-     category: same as media attachments
-     resolved (boolean) (false by default):
-
-     delete savedUsers and create a table in database named saved_posts. Its mysql code will be somwthing like:
-     CREATE TABLE saved_posts (
-        user_id INT,
-        post_id INT,
-        saved_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        PRIMARY KEY (user_id, post_id),
-        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-        FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE
-    );
-     */
+    private int categoryID;
+    private int locationID;
 
     public ProblemReport(String title, String description, Category category, Location location, MediaAttachment attachment) {
-        this.reportId = ++counter;
         this.reportTitle = title;
         this.reportDescription = description;
         this.category = category;
         this.location = location;
-        savedUsers = new ArrayList<>();
+        this.categoryID = 0; //category.getCategoryId();       // assumes valid Category object
+        this.locationID = 0; //location.getLocationId();       // assumes valid Location object
+        this.savedUsers = new ArrayList<>();
+
         if (attachment != null)
             mediaAttachments.add(attachment);
+
+        saveToDatabase();
     }
 
     public void addComment(Comment c) {
@@ -83,44 +56,48 @@ public class ProblemReport {
     public void setResolved(boolean resolved) {
         this.resolved = resolved;
     }
-  
-    public void incrementCommentNumber() {
-      
-    }
 
-    public void incrementWasNotUsefulCount(){
+    public void incrementWasNotUsefulCount() {
         wasNotUsefulCount++;
     }
 
-    public void incrementWasUsefulCount(){
+    public void incrementWasUsefulCount() {
         wasUsefulCount++;
     }
 
-    public ArrayList<User> getSavedUsers(){
+    public ArrayList<User> getSavedUsers() {
         return savedUsers;
     }
 
     private void saveToDatabase() {
-        String sql = "INSERT INTO problem_report (reportTitle, reportDescription, reportTime, upvoteCount, downvoteCount, wasUsefulCount, wasNotUsefulCount, commentNumber, resolved, category, location) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO problem_report " +
+                "(reportTitle, reportDescription, upvoteCount, downvoteCount, wasUsefulCount, wasNotUsefulCount, commentNumber, resolved, category, location) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = DriverManager.getConnection(DBConfig.url, DBConfig.user, DBConfig.password);
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             stmt.setString(1, this.reportTitle);
             stmt.setString(2, this.reportDescription);
-            stmt.setTime(3, this.reportTime);
-            stmt.setInt(4, this.upvoteCount);
-            stmt.setInt(5, this.downvoteCount);
-            stmt.setInt(6, this.wasUsefulCount);
-            stmt.setInt(7, this.wasNotUsefulCount);
-            stmt.setInt(8, this.commentNumber);
-            stmt.setBoolean(9, this.resolved);
-            stmt.setInt(10, categoryID);
-            stmt.setInt(11, locationID);
+            stmt.setInt(3, this.upvoteCount);
+            stmt.setInt(4, this.downvoteCount);
+            stmt.setInt(5, this.wasUsefulCount);
+            stmt.setInt(6, this.wasNotUsefulCount);
+            stmt.setInt(7, this.commentNumber);
+            stmt.setBoolean(8, this.resolved);
+            stmt.setInt(9, this.categoryID);
+            stmt.setInt(10, this.locationID);
 
             stmt.executeUpdate();
-            System.out.println("Problem Report saved to database.");
+
+            try (ResultSet rs = stmt.getGeneratedKeys()) {
+                if (rs.next()) {
+                    this.reportId = rs.getInt(1);
+                }
+            }
+
+            System.out.println("Problem Report saved to database with ID: " + reportId);
+
         } catch (SQLException e) {
             System.err.println("Failed to save problem report to database:");
             e.printStackTrace();

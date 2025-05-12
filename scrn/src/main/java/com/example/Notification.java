@@ -1,41 +1,39 @@
 package com.example;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class Notification {
+    private User user;
     private int notificationId;
     private String notifContent;
 
-    /*
-    notificationId (int): AI, PK
-    userId(int):
-    notifContent(varchar):
-     */
-
-    public Notification(String content) {
+    public Notification(User user, String content) {
+        this.user = user;
         this.notifContent = content;
+        saveToDatabase();
     }
 
     public void saveToDatabase() {
-        String url = "jdbc:mysql://localhost:3306/mydb";
-        String user = "root";
-        String password = "12345678";
+        String sql = "INSERT INTO notifications (userId, notifContent) VALUES (?, ?)";
 
-        String sql = "INSERT INTO notifications (notif_content) VALUES (?)";
+        try (Connection conn = DriverManager.getConnection(DBConfig.url, DBConfig.user, DBConfig.password);
+             PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
-        System.out.println("Loading MySQL driver...");
+            stmt.setInt(1, this.user.getUserId());
+            stmt.setString(2, this.notifContent);
 
-        System.out.println("Connection URL: jdbc:mysql://localhost:3306/mydb");
-
-        try (Connection conn = DriverManager.getConnection(url, user, password);
-            PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, this.notifContent);
             stmt.executeUpdate();
-            System.out.println("Notification saved.");
+
+            try (ResultSet rs = stmt.getGeneratedKeys()) {
+                if (rs.next()) {
+                    this.notificationId = rs.getInt(1);
+                }
+            }
+
+            System.out.println("Notification saved to database with ID: " + notificationId);
+
         } catch (SQLException e) {
+            System.err.println("Failed to save notification to database:");
             e.printStackTrace();
         }
     }
