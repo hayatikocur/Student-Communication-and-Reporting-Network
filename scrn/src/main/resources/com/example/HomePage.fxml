@@ -52,7 +52,7 @@
                 <Button layoutX="60.0" layoutY="99.0" onAction="#goToHomePage" style="-fx-background-color: transparent;" text="Home" textFill="WHITE">
                     <font><Font size="20.0" /></font>
                 </Button>
-                <Button layoutX="58.0" layoutY="180.0" style="-fx-background-color: transparent;" text="Search" textFill="WHITE">
+                <Button layoutX="58.0" layoutY="180.0" onAction="#goToSearchPage" style="-fx-background-color: transparent;" text="Search" textFill="WHITE">
                     <font><Font size="20.0" /></font>
                 </Button>
                 <Button layoutX="59.0" layoutY="251.0" onAction="#goToMapPage" style="-fx-background-color: transparent;" text="Map" textFill="WHITE">
