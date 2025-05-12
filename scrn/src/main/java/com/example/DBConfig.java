@@ -1,3 +1,4 @@
+package com.example;
 import java.util.Properties;
 import java.io.InputStream;
 import java.io.IOException;
