@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -128,18 +129,13 @@
             <Font size="20.0" />
          </font>
       </TextField>
-      <TextField fx:id="tfProfilePassword" editable="false" layoutX="491.0" layoutY="425.0" prefHeight="31.0" prefWidth="378.0" style="-fx-background-color: transparent;" text="password123">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </TextField>
       <StackPane layoutX="287.0" layoutY="91.0" />
       <Button layoutX="772.0" layoutY="141.0" mnemonicParsing="false" onAction="#confirmChangesToProfile" prefHeight="66.0" prefWidth="86.0" style="-fx-background-color: transparent;" text="✔">
          <font>
             <Font size="30.0" />
          </font>
       </Button>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" height="39.0" layoutX="294.0" layoutY="184.0" stroke="BLACK" strokeType="INSIDE" style="-fx-arc-height: 30; -fx-arc-width: 30;" width="105.0">
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="39.0" layoutX="295.0" layoutY="155.0" stroke="BLACK" strokeType="INSIDE" style="-fx-arc-height: 30; -fx-arc-width: 30;" width="105.0">
          <fill>
             <LinearGradient endX="1.0" endY="1.0" startX="0.07575756311416615" startY="0.9924242713234642">
                <stops>
@@ -157,10 +153,15 @@
             </LinearGradient>
          </fill>
       </Rectangle>
-      <Label fx:id="profileLabel" layoutX="317.0" layoutY="191.0" text="Student">
+      <Label fx:id="profileLabel" layoutX="318.0" layoutY="162.0" text="Student">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
+      <PasswordField layoutX="491.0" layoutY="426.0" prefHeight="26.0" prefWidth="262.0" style="-fx-background-color: transparent;" text="password123">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </PasswordField>
    </children>
 </AnchorPane>
