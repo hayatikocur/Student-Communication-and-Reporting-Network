@@ -4,13 +4,12 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.jar.Attributes.Name;
 
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 public class User {
-    
+
     protected int userId;
     protected String userName;
     protected String userSurname;
@@ -18,24 +17,18 @@ public class User {
     protected String password;
     private boolean mailNotification;
     private boolean appNotification;
+    private boolean isAuthority;
 
-    /*
-    userId(int): PK, AI
-    userName(varchar):
-    userSurname(varchar):
-    email(varchar): PRIMARY KEY
-    password(varchar):
-    mailNotification(boolean) (true by default):
-    appNotification(boolean) (true by default):
-    isAuthority(boolean):
-     */
     public User(String name, String surname, String email, String password) {
         this.userName = name;
         this.userSurname = surname;
         this.email = email;
         this.password = password;
-        mailNotification = true;
-        appNotification = true;
+        this.mailNotification = true;
+        this.appNotification = true;
+        this.isAuthority = false;
+
+        saveToDatabase(); // Save user to DB upon creation
     }
 
     public boolean validatePassword(String password) {
@@ -85,16 +78,16 @@ public class User {
         return userSurname;
     }
 
-    public void changePassword(String password) {
-        this.password = password;
-    }
-
     public String getEmail() {
         return email;
     }
 
     public void changeName(String newName) {
         this.userName = newName;
+    }
+
+    public void changeSurname(String newSurname) {
+        this.userSurname = newSurname;
     }
 
     public String getPassword() {
@@ -105,33 +98,37 @@ public class User {
         this.password = password;
     }
 
-    public void changeSurname(String newSurname) {
-        this.userSurname = newSurname;
+    public void changePassword(String password) {
+        this.password = password;
     }
 
     public void addComment(ProblemReport pr, String comment) {
         pr.addComment(new Comment(this, comment));
     }
 
-
-    public void saveToDatabase() {
+    private void saveToDatabase() {
         String url = "jdbc:mysql://localhost:3306/mydb";
-        String user = "root";
-        String pwd = "12345678";
+        String dbUser = "root";
+        String dbPassword = "12345678";
 
-        String sql = "INSERT INTO users (user_name, user_surname, email, password) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO users (userName, userSurname, email, password, mailNotification, appNotification, isAuthority) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
-        try (Connection conn = DriverManager.getConnection(url, user, pwd);
+        try (Connection conn = DriverManager.getConnection(url, dbUser, dbPassword);
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, this.userName);
             stmt.setString(2, this.userSurname);
             stmt.setString(3, this.email);
             stmt.setString(4, this.password);
-            stmt.executeUpdate();
+            stmt.setBoolean(5, this.mailNotification);
+            stmt.setBoolean(6, this.appNotification);
+            stmt.setBoolean(7, this.isAuthority);
 
+            stmt.executeUpdate();
             System.out.println("User saved to database.");
         } catch (SQLException e) {
+            System.err.println("Failed to save user to database:");
             e.printStackTrace();
         }
     }

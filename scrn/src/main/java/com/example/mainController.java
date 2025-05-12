@@ -24,6 +24,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class mainController implements Initializable{
 
@@ -199,17 +204,41 @@ public class mainController implements Initializable{
         }
     }
 
-    public boolean validationOnSignIn(String email, String password){
-        for(int i=0; i<App.getUsers().size(); i++){
-            if(tfEmailSin.getText().equals(App.getUsers().get(i).getEmail())){
-                App.setCurrentUser(App.getUsers().get(i));
-                if(App.getCurrentUser().getPassword().equals(password)){
+    public boolean validationOnSignIn(String email, String password) {
+        String url = "jdbc:mysql://localhost:3306/mydb";
+        String dbUser = "root";
+        String dbPassword = "12345678";
 
-                    return true;
-                }
-                return false;
+        String sql = "SELECT * FROM users WHERE email = ? AND password = ?";
+
+        try (Connection conn = DriverManager.getConnection(url, dbUser, dbPassword);
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, email);
+            stmt.setString(2, password);
+
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                // Create and assign current user if credentials are valid
+                User user = new User(
+                        rs.getString("userName"),
+                        rs.getString("userSurname"),
+                        rs.getString("email"),
+                        rs.getString("password")
+                );
+                user.userId = rs.getInt("userId");
+                user.setMailNotification(rs.getBoolean("mailNotification"));
+                user.setAppNotification(rs.getBoolean("appNotification"));
+                // Set current user in app context
+                App.setCurrentUser(user);
+                return true;
             }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+
         return false;
     }
 
