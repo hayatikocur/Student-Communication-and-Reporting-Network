@@ -42,7 +42,4 @@ public class App extends Application {
     public static void setCurrentUser(User currentUser) {
         App.currentUser = currentUser;
     }
-
-
-
 }

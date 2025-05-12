@@ -3,17 +3,15 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mainController">
    <children>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="207.0" layoutX="266.0" layoutY="171.0" stroke="BLACK" strokeType="INSIDE" style="-fx-arc-height: 50; -fx-arc-width: 50;" width="566.0" />
-      <Label layoutX="266.0" layoutY="53.0" prefHeight="88.0" prefWidth="288.0" text="SETTINGS">
+      <Label layoutX="408.0" prefHeight="88.0" prefWidth="364.0" text="SAVED ISSUES">
          <font>
             <Font name="System Bold" size="50.0" />
          </font>
@@ -65,7 +63,7 @@
                   <Font size="20.0" />
                </font>
             </Button>
-            <Button layoutX="57.0" layoutY="345.0" mnemonicParsing="false" onAction="#goToSavedIssuesPage" style="-fx-background-color: transparent;" text="Saved Issues" textFill="WHITE">
+            <Button layoutX="57.0" layoutY="345.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Saved Issues" textFill="WHITE">
                <font>
                   <Font size="20.0" />
                </font>
@@ -75,7 +73,8 @@
                   <Font size="20.0" />
                </font>
             </Button>
-            <Button layoutX="65.0" layoutY="502.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Settings" textFill="WHITE">
+            <Button layoutX="65.0" layoutY="502.0" mnemonicParsing="false" onAction="#goToOptionPage" style="-fx-background-color: transparent;" text="Settings" textFill="WHITE">
+nsparent;" text="Settings">
                <font>
                   <Font size="20.0" />
                </font>
@@ -84,28 +83,6 @@
          <opaqueInsets>
             <Insets />
          </opaqueInsets></AnchorPane>
-      <Button layoutX="276.0" layoutY="413.0" mnemonicParsing="false" onAction="#returnToFirstPage" style="-fx-background-color: transparent;" text="Logout" textFill="#e70000">
-         <font>
-            <Font name="Arial" size="20.0" />
-         </font>
-      </Button>
-      <Button layoutX="274.0" layoutY="462.0" mnemonicParsing="false" onAction="#deleteAccount" style="-fx-background-color: transparent;" text="Delete Account" textFill="RED">
-         <font>
-            <Font name="Arial" size="20.0" />
-         </font>
-      </Button>
-      <Label layoutX="317.0" layoutY="222.0" prefHeight="47.0" prefWidth="300.0" text="Enable Mail Notifications&#10;">
-         <font>
-            <Font name="Arial" size="22.0" />
-         </font>
-      </Label>
-      <Label layoutX="317.0" layoutY="280.0" style="-fx-font-family: Arial;" text="Enable In-App Notifications&#10;">
-         <font>
-            <Font size="22.0" />
-         </font>
-      </Label>
-      <ToggleButton fx:id="mailToggle" layoutX="657.0" layoutY="222.0" mnemonicParsing="false" onAction="#toggleMail" prefHeight="36.0" prefWidth="120.0" style="-fx-background-color: #66bb6a; -fx-text-fill: white; -fx-background-radius: 20;" text="Turn On" />
-
-      <ToggleButton fx:id="appNotiToggle" layoutX="657.0" layoutY="280.0" mnemonicParsing="false" onAction="#toggleInApp" prefHeight="36.0" prefWidth="120.0" style="-fx-background-color: #66bb6a; -fx-text-fill: white; -fx-background-radius: 20;" text="Turn On" />
+      <ListView layoutX="228.0" layoutY="69.0" prefHeight="531.0" prefWidth="672.0" />
    </children>
 </AnchorPane>

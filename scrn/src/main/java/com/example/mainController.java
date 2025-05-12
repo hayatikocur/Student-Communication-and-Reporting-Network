@@ -56,6 +56,7 @@ public class mainController implements Initializable{
     @FXML
     TextField tfProfileName;
     @FXML
+    Label profileEditLabel;
     
   
     static String tempPassword = "";
@@ -316,21 +317,45 @@ public class mainController implements Initializable{
         }
     }
 
+    public void goToSavedIssuesPage(ActionEvent event){
+
+        try {
+            Thread.sleep(175);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("SavedIssuesPage.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
 
     //Şunları database bağlayın.
     public void setEditAction(Event arg0){ 
 
         if (tfProfilePassword.isEditable() == false) {
             tfProfilePassword.setEditable(true);
-            tfProfilePassword.setVisible(true);
             tfProfileName.setEditable(true);
             tfProfileSurname.setEditable(true);
+            profileEditLabel.setText("You can Edit!");
+            profileEditLabel.setStyle("-fx-text-fill: #66bb6a;");
         }
         else{
             tfProfileSurname.setEditable(false);
-            tfProfilePassword.setVisible(false);
             tfProfileName.setEditable(false);
             tfProfilePassword.setEditable(false);
+            profileEditLabel.setText("Press Icon to Edit");
+            profileEditLabel.setStyle("-fx-text-fill: #e53935;");
+
+            App.getCurrentUser().changeName(tfProfileName.getText());
+            App.getCurrentUser().changeSurname(tfProfileSurname.getText());
+            App.getCurrentUser().changePassword(tfProfilePassword.getText());
 
         }
 
@@ -338,17 +363,6 @@ public class mainController implements Initializable{
         
         
     }   
-
-    //Bunu da
-    public void confirmChangesToProfile(ActionEvent event){
-        //User'ın passwordu ve username i değiştirmesi lazım.
-        App.getCurrentUser().changeName(tfProfileName.getText());
-        App.getCurrentUser().changeSurname(tfProfileSurname.getText());
-        App.getCurrentUser().changePassword(tfProfilePassword.getText());
-
-        //System.out.println("hello world");
-        //System.out.println(App.getCurrentUser().getUserName());
-    }
 
     @FXML
     ToggleButton mailToggle;
@@ -396,7 +410,25 @@ public class mainController implements Initializable{
     
     @FXML
     public void deleteAccount(ActionEvent event) {
-        // Şimdilik boş bırakıldı
+        App.getUsers().remove(App.getCurrentUser());
+        App.setCurrentUser(null);
+
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Account Deleted");
+        alert.setHeaderText(null);
+        alert.setContentText("Your account has been successfully deleted.");
+        alert.showAndWait();
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("loginPage.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void setupToggleButton(ToggleButton toggle, boolean isOn) {
