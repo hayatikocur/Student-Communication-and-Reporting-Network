@@ -229,7 +229,7 @@ public class mainController implements Initializable{
     }
 
     public void forgotPassword(ActionEvent e){
-        //TODO: Will check if email exists then send random generated password through email.
+        //TODO: Will check if email exists then send random generated password through email
     }
 
      public void goToMapPage(ActionEvent event){
