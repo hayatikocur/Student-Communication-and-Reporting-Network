@@ -157,8 +157,7 @@ public class mainController implements Initializable{
     }
 
      public void goToHomePageFromLogin(ActionEvent event){
-        //TODO: Need to check if user's email and password is correct. Then it should go to home page.
-
+        
         try {
             if(!validationOnSignIn(tfEmailSin.getText(), tfPasswordSin.getText())){
                 Alert alert = new Alert(AlertType.ERROR);
@@ -313,23 +312,21 @@ public class mainController implements Initializable{
         }
     }
 
-
-    //Şunları database bağlayın.
     public void setEditAction(Event arg0){ 
 
         if (tfProfilePassword.isEditable() == false) {
             tfProfilePassword.setEditable(true);
             tfProfileName.setEditable(true);
             tfProfileSurname.setEditable(true);
-            editInfoLabel.setText("Now You Can Edit");
-            editInfoLabel.setStyle("-fx-text-fill: #e53935;");
+            editInfoLabel.setText("EDIT");
+            editInfoLabel.setStyle("-fx-text-fill: #66bb6a;");
         }
         else{
             tfProfileSurname.setEditable(false);
             tfProfileName.setEditable(false);
             tfProfilePassword.setEditable(false);
-            editInfoLabel.setText("Press Edit");
-            editInfoLabel.setStyle("-fx-text-fill #66bb6a;");
+            editInfoLabel.setText("̶E̶D̶I̶T̶");
+            editInfoLabel.setStyle("-fx-text-fill #e53935;");
 
             App.getCurrentUser().changeName(tfProfileName.getText());
             App.getCurrentUser().changeSurname(tfProfileSurname.getText());
