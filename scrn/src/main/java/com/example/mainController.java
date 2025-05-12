@@ -120,6 +120,17 @@ public class mainController implements Initializable{
             alert.showAndWait();
             return false;
         }
+        for(int i=0; i<App.getUsers().size(); i++){
+            if(App.getUsers().get(i).getEmail().equals(email)){
+                Alert alert = new Alert(AlertType.ERROR);
+                //alert.setTitle("");
+                alert.setHeaderText(null); // No header
+                alert.setContentText("User with the same email already exists");
+                alert.showAndWait();
+                return false;
+            }
+        }
+
         String[] parts = email.split("@")[0].split("\\.");
         String name = parts[0];
         String surname = parts[1];
