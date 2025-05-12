@@ -5,6 +5,10 @@ public class Location {
     locationId(int): AI, PK
     location(varchar)
      */
+
+    /*
+
+     */
     private String name;
     private int reportNumber;
     private String[] locations;

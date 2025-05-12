@@ -29,6 +29,7 @@ public class ProblemReport {
         this.categoryID = 0; //category.getCategoryId();       // assumes valid Category object
         this.locationID = 0; //location.getLocationId();       // assumes valid Location object
         this.savedUsers = new ArrayList<>();
+        this.reportId = 0; //change later.
 
         if (attachment != null)
             mediaAttachments.add(attachment);
@@ -67,6 +68,10 @@ public class ProblemReport {
 
     public ArrayList<User> getSavedUsers() {
         return savedUsers;
+    }
+
+    public int getReportId() {
+        return reportId;
     }
 
     private void saveToDatabase() {
