@@ -1163,6 +1163,7 @@ public class mainController implements Initializable{
         String selectedBuilding = cbPostLocation.getValue();
         Label buildingLabel = new Label("🏢 " + (selectedBuilding != null && !selectedBuilding.isEmpty() ? selectedBuilding : "No Building Selected"));
         buildingLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: #000000;");  // Siyah renk
+        buildingLabel.setId("postBuildingLabel");
 
         // Oy bileşenleri
         Label voteCountLabel = new Label("0");
