@@ -105,6 +105,11 @@ public class mainController implements Initializable{
     @FXML
     private ListView<String> categoryListView;
 
+    @FXML
+    private ScrollPane notificationsScrollPane;
+    @FXML
+    private Button notificationBtn;
+
   
     static String tempPassword = "";
     //
@@ -557,6 +562,20 @@ public class mainController implements Initializable{
             "Maintenance", "Cleaning", "Electrical", "Safety", "Other"
         ));
         }
+
+        if(notificationsScrollPane != null && notificationBtn != null){
+            notificationsScrollPane.setVisible(false);
+
+            notificationBtn.setOnAction(e -> {
+            // toggle visibility
+            boolean showing = notificationsScrollPane.isVisible();
+            notificationsScrollPane.setVisible(!showing);
+            });
+        }
+        
+
+        
+       
 
         // ✔ Tüm postların durum butonlarını tekrar bağla
         for (AnchorPane post : App.getAllPosts()) {
