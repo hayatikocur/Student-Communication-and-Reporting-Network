@@ -1016,9 +1016,6 @@ public class mainController implements Initializable{
         selectedLocations.clear();
     }
     
-    ArrayList<String> selectedCategories = new ArrayList();
-    ArrayList<String> selectedDates = new ArrayList();
-    ArrayList<String> selectedLocations = new ArrayList();
     
     @FXML
     private void categoryAction(ActionEvent event){
