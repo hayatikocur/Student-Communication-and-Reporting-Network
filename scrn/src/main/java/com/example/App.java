@@ -26,7 +26,30 @@ import java.util.Map;
  */
 public class App extends Application {
 
-   private static final Map<User, List<AnchorPane>> savedPosts = new HashMap<>();
+    private static final Map<User, List<AnchorPane>> savedPosts = new HashMap<>();
+
+    public static String currentMapHtmlContent = "<!DOCTYPE html><html><head><title>Map Initializing...</title></head><body><h1>Map content is being prepared. Please wait...</h1></body></html>";
+
+    private static Map<String, Integer> buildingReports = new HashMap<>();
+
+
+    static {
+        System.out.println("App static block: Initializing building reports...");
+        buildingReports.put("B Binası", 15);
+        buildingReports.put("SB Binası", 22);
+        buildingReports.put("V Binası", 5);
+        buildingReports.put("FC Binası", 9);
+        buildingReports.put("FB Binası", 13);
+        buildingReports.put("FA Binası", 6);
+        buildingReports.put("FD Binası", 18);
+        buildingReports.put("FF Binası", 11);
+        buildingReports.put("Kütüphane", 30);
+        // Add other buildings if needed
+
+        System.out.println("App static block: Generating initial map HTML content...");
+        generateMapHTML(); // Generate initial map content and store it in currentMapHtmlContent
+    }
+
 
     public static void toggleSavedPost(User user, AnchorPane post) {
         savedPosts.computeIfAbsent(user, k -> new ArrayList<>());
@@ -156,19 +179,17 @@ public class App extends Application {
 
     //MAP EKLEME DENEMESİNDEN ÖNCEKİ VERSİYON
 
-    private static Map<String, Integer> buildingReports = new HashMap<>();
-
     static {
-        buildingReports.put("B Binası", 15);
-        buildingReports.put("SB Binası", 22);
-        buildingReports.put("V Binası", 5);
-        buildingReports.put("FC Binası", 9);
-        buildingReports.put("FB Binası", 13);
-        buildingReports.put("FA Binası", 6);
-        buildingReports.put("FD Binası", 18);
-        buildingReports.put("FF Binası", 11);
-        buildingReports.put("Kütüphane", 30);
-        // Eklemek istersen catering building vs
+        buildingReports.put("B Binası", 0);
+        buildingReports.put("SB Binası", 0);
+        buildingReports.put("V Binası", 0);
+        buildingReports.put("FC Binası", 0);
+        buildingReports.put("FB Binası", 0);
+        buildingReports.put("FA Binası", 0);
+        buildingReports.put("FD Binası", 0);
+        buildingReports.put("FF Binası", 0);
+        buildingReports.put("Kütüphane", 0);
+
     }
 
     public static Map<String, Integer> getBuildingReports() {
@@ -182,55 +203,57 @@ public class App extends Application {
 
 
     public static void generateMapHTML() {
-        System.out.println("App: generateMapHTML() called.");
+        System.out.println("App: generateMapHTML() called to create HTML string.");
         try {
             InputStream is = App.class.getResourceAsStream("/com/example/map_template.html");
             if (is == null) {
-                System.err.println("App: Template file '/com/example/map_template.html' not found.");
+                System.err.println("App: CRITICAL - map_template.html not found in resources at /com/example/map_template.html");
+                currentMapHtmlContent = "<!DOCTYPE html><html><head><title>Error</title></head><body><h1>Critical Error: Map template file not found. Cannot display map.</h1></body></html>";
+                // Attempt to notify MapController even on error so it displays the error message
+                MapController.refreshMapGlobally();
                 return;
             }
+
             String template = new String(is.readAllBytes(), StandardCharsets.UTF_8);
+            is.close();
 
             StringBuilder buildingsJS = new StringBuilder("[\n");
-            if (buildingReports != null && !buildingReports.isEmpty()) { // Check if map is populated
+            if (buildingReports != null && !buildingReports.isEmpty()) {
                 for (Map.Entry<String, Integer> entry : buildingReports.entrySet()) {
                     String name = entry.getKey();
                     int reports = entry.getValue();
                     double lat = BuildingLocations.getLat(name);
                     double lng = BuildingLocations.getLng(name);
-                    // Ensure name is properly escaped if it can contain quotes or special chars
                     String escapedName = name.replace("\"", "\\\"");
                     buildingsJS.append(String.format(java.util.Locale.US, "  { name: \"%s\", lat: %.6f, lng: %.6f, reports: %d },\n", escapedName, lat, lng, reports));
                 }
-                if (buildingsJS.length() > 2) { // Remove last comma if buildings were added
+                if (buildingsJS.length() > 2) {
                     buildingsJS.setLength(buildingsJS.length() - 2);
                 }
             } else {
-                System.out.println("App: buildingReports is null or empty. Map will have no building data.");
+                 System.out.println("App: buildingReports is null or empty. Map will show no specific building data.");
             }
             buildingsJS.append("\n]");
-            System.out.println("App: Generated buildingsJS: " + buildingsJS.toString());
+            // System.out.println("App: Generated buildingsJS: " + buildingsJS.toString()); // Can be very long
+
+            currentMapHtmlContent = template.replace("__BUILDINGS__", buildingsJS.toString());
+            System.out.println("App: map.html content successfully generated and stored in currentMapHtmlContent (length: " + currentMapHtmlContent.length() + ").");
+            // System.out.println("App: HTML Content Snippet: " + currentMapHtmlContent.substring(0, Math.min(300, currentMapHtmlContent.length())));
 
 
-            String finalHtml = template.replace("__BUILDINGS__", buildingsJS.toString());
-            File target = new File(com.example.MapController.MAP_FILE_PATH); // Use the same path definition
-
-            // Ensure parent directories exist
-            if (target.getParentFile() != null) {
-                target.getParentFile().mkdirs();
-            }
-
-            Files.writeString(target.toPath(), finalHtml, StandardCharsets.UTF_8);
-            System.out.println("App: map.html generated successfully at: " + target.getAbsolutePath());
-
+            // Signal MapController to refresh with the new content
             MapController.refreshMapGlobally();
 
         } catch (IOException e) {
             System.err.println("App: IOException in generateMapHTML: " + e.getMessage());
             e.printStackTrace();
+            currentMapHtmlContent = "<!DOCTYPE html><html><head><title>Error</title></head><body><h1>IOException occurred while generating map content.</h1><pre>" + e.toString() + "</pre></body></html>";
+            MapController.refreshMapGlobally(); // Attempt to show error in map
         } catch (Exception e) {
             System.err.println("App: Unexpected exception in generateMapHTML: " + e.getMessage());
             e.printStackTrace();
+            currentMapHtmlContent = "<!DOCTYPE html><html><head><title>Error</title></head><body><h1>Unexpected error occurred while generating map content.</h1><pre>" + e.toString() + "</pre></body></html>";
+            MapController.refreshMapGlobally(); // Attempt to show error in map
         }
 }
 
@@ -260,7 +283,12 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException{
-        Parent root = FXMLLoader.load(getClass().getResource("loginPage.fxml"));
+        if (currentMapHtmlContent.contains("Map content is being prepared")) {
+            System.out.println("App.start(): Initial map content seems to be the placeholder. Forcing regeneration.");
+            generateMapHTML();
+        }
+
+        Parent root = FXMLLoader.load(getClass().getResource("loginPage.fxml")); // Ensure this FXML exists
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
