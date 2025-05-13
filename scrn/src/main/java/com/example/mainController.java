@@ -99,6 +99,9 @@ public class mainController implements Initializable{
     @FXML private ToggleButton ffBuildingButton;
     @FXML private ToggleButton kutuphaneButton;
 
+    @FXML private Button createBtn;
+    @FXML private ImageView createIcon;
+
     @FXML
     private ListView<String> categoryListView;
 
@@ -122,7 +125,7 @@ public class mainController implements Initializable{
 
     public void changeToSignInFromSignUp(ActionEvent event){
         try {
-            if(validateBilkentEmail(tfEmailSup.getText())){
+            if(validateBilkentEmail(tfEmailSup.getText().trim())){
                 Thread.sleep(175);
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("SignIn.fxml"));
                 Parent root = loader.load();
@@ -230,7 +233,7 @@ public class mainController implements Initializable{
         //TODO: Need to check if user's email and password is correct. Then it should go to home page.
 
         try {
-            if(!validationOnSignIn(tfEmailSin.getText(), tfPasswordSin.getText())){
+            if(!validationOnSignIn(tfEmailSin.getText().trim(), tfPasswordSin.getText())){
                 Alert alert = new Alert(AlertType.ERROR);
                 alert.setTitle("Wrong email or password");
                 alert.setHeaderText(null); // No header
@@ -276,7 +279,7 @@ public class mainController implements Initializable{
 
     public boolean validationOnSignIn(String email, String password){
         for(int i=0; i<App.getUsers().size(); i++){
-            if(tfEmailSin.getText().equals(App.getUsers().get(i).getEmail())){
+            if(tfEmailSin.getText().trim().equals(App.getUsers().get(i).getEmail())){
                 App.setCurrentUser(App.getUsers().get(i));
                 if(App.getCurrentUser().getPassword().equals(password)){
 
@@ -305,7 +308,7 @@ public class mainController implements Initializable{
     }
 
     public void forgotPassword(ActionEvent e){
-        if(tfEmailSin.getText().equals("")){
+        if(tfEmailSin.getText().trim().equals("")){
             Alert alert = new Alert(AlertType.ERROR);
             //alert.setTitle("Wrong email or password");
             alert.setHeaderText(null); // No header
@@ -314,7 +317,7 @@ public class mainController implements Initializable{
         }
         //TODO: Will check if email exists then send random generated password through email
         for(int i=0; i<App.getUsers().size(); i++){
-            if(tfEmailSin.getText().equals(App.getUsers().get(i).getEmail())){
+            if(tfEmailSin.getText().trim().equals(App.getUsers().get(i).getEmail())){
                 tempPassword = createRandomPassword();
                 App.getUsers().get(i).setPassword(tempPassword);
                 SendGmail.sendPassword(App.getUsers().get(i).getEmail());
@@ -409,19 +412,25 @@ public class mainController implements Initializable{
 
     public void goToCreatePage(ActionEvent event){
 
-        try {
-            Thread.sleep(175);
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("createPage.fxml"));
-            Parent root = loader.load();
+        if(App.getCurrentUser().getEmail().contains("ug")){
+            try {
+                Thread.sleep(175);
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("createPage.fxml"));
+                Parent root = loader.load();
 
-            Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
+                Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                stage.show();
 
-        } catch (Exception e) {
-            e.printStackTrace();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+
+
+        
 
     }
 
@@ -529,6 +538,11 @@ public class mainController implements Initializable{
 
         if (cbPostLocation != null) {
             cbPostLocation.setItems(FXCollections.observableArrayList(App.getBuildingReports().keySet()));
+        }
+
+        if(createBtn != null && !App.getCurrentUser().getEmail().contains("ug")){
+            createBtn.setVisible(false);
+            createIcon.setVisible(false);
         }
 
         //Category Initializing
@@ -1093,8 +1107,13 @@ public class mainController implements Initializable{
 
     @FXML
     public void createPost(ActionEvent event) {
+
+        //only student can creat posts
         // Formu aç
+        
         postFormPane.setVisible(true);
+        
+        
     }
 
     @FXML
