@@ -82,10 +82,6 @@
         <Label layoutX="465.0" layoutY="0.0" prefHeight="88.0" prefWidth="197.0" text="HOME">
             <font><Font name="System Bold" size="50.0" /></font>
         </Label>
-
-        <Label layoutX="728.0" layoutY="16.0" prefHeight="55.0" prefWidth="125.0" style="-fx-background-color: bold;" text="Notifications">
-            <font><Font name="System Bold Italic" size="20.0" /></font>
-        </Label>
         <ImageView fitHeight="44.0" fitWidth="39.0" layoutX="854.0" layoutY="24.0" preserveRatio="true">
             <image>
                 <Image url="@notifIcon.png" />
@@ -105,6 +101,20 @@
                 </VBox>
             </content>
         </ScrollPane>
+      <ScrollPane fx:id="notificationsScrollPane" fitToWidth="true" layoutX="650.0" layoutY="68.0" prefHeight="474.0" prefWidth="260.0" style="-fx-background-color: blue;" vbarPolicy="ALWAYS">
+         <content>
+            <VBox fx:id="postContainer1" spacing="10.0" style="-fx-background-color: blue;">
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </VBox>
+         </content>
+      </ScrollPane>
+      <Button fx:id="notificationBtn" layoutX="718.0" layoutY="24.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Notifications">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
 
     </children>
 </AnchorPane>
