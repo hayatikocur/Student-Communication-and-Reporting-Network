@@ -149,6 +149,14 @@ public class mainController implements Initializable{
             alert.showAndWait();
             return false;
         }
+        if (tfPasswordSup.getText().isEmpty()) {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Password mistake");
+            alert.setHeaderText(null); // No header
+            alert.setContentText("Please enter a password!");
+            alert.showAndWait();
+            return false;
+        }
         if(!tfPasswordSup.getText().equals(tfConfirmPasswordSup.getText())){
             Alert alert = new Alert(AlertType.ERROR);
             alert.setTitle("Password mistake");
@@ -157,6 +165,7 @@ public class mainController implements Initializable{
             alert.showAndWait();
             return false;
         }
+        
         for(int i=0; i<App.getUsers().size(); i++){
             if(App.getUsers().get(i).getEmail().equals(email)){
                 Alert alert = new Alert(AlertType.ERROR);
@@ -225,7 +234,7 @@ public class mainController implements Initializable{
                 Alert alert = new Alert(AlertType.ERROR);
                 alert.setTitle("Wrong email or password");
                 alert.setHeaderText(null); // No header
-                alert.setContentText("Entered email or password wrong!");
+                alert.setContentText("Email or Password wrong!");
                 alert.showAndWait();
             }
             else{
@@ -830,9 +839,9 @@ public class mainController implements Initializable{
         Label voteCountLabel = new Label("0");
         voteCountLabel.setStyle("-fx-font-size: 14px; -fx-padding: 5;");
         Button upvoteButton = new Button("🢙");
-        upvoteButton.setStyle("-fx-background-color: transparent; -fx-font-size: 20");
+        upvoteButton.setStyle("-fx-background-color: transparent; -fx-font-size: 24");
         Button downvoteButton = new Button("🢛");
-        downvoteButton.setStyle("-fx-background-color: transparent; -fx-font-size: 20");
+        downvoteButton.setStyle("-fx-background-color: transparent; -fx-font-size: 24");
 
         // Post işlemi içinde bina seçildiğinde harita raporunun arttırılması
         selectedBuilding = cbPostLocation.getValue();
@@ -974,17 +983,23 @@ public class mainController implements Initializable{
             int previousVote = voteMap.getOrDefault(App.getCurrentUser(), 0);
             int currentVotes = Integer.parseInt(voteCountLabel.getText());
 
-            if (previousVote == 1) return;
+            int newVoteCount = currentVotes;
 
-            if (previousVote == -1) {
-                voteCountLabel.setText(String.valueOf(currentVotes + 1));
+            if (previousVote == 1) {
+                // 🔁 Remove upvote
+                newVoteCount -= 1;
                 voteMap.put(App.getCurrentUser(), 0);
+                upvoteButton.setStyle("-fx-background-color: transparent; -fx-font-size: 24; -fx-text-fill: black;");
             } else {
-                voteCountLabel.setText(String.valueOf(currentVotes + 1));
+                // ⬆️ Apply upvote
+                newVoteCount += (previousVote == -1) ? 2 : 1;
                 voteMap.put(App.getCurrentUser(), 1);
+                upvoteButton.setStyle("-fx-background-color: transparent; -fx-font-size: 24; -fx-text-fill: rgb(194, 116, 7);");
+                downvoteButton.setStyle("-fx-background-color: transparent; -fx-font-size: 24; -fx-text-fill: black;");
             }
-
-            // 🔄 ANINDA SIRALAMA VE YENİDEN GÖSTERİM
+        
+            voteCountLabel.setText(String.valueOf(newVoteCount));
+        
             if (postContainer != null) {
                 App.sortPostsByVotes();
                 postContainer.getChildren().setAll(App.getAllPosts());
@@ -997,17 +1012,23 @@ public class mainController implements Initializable{
             int previousVote = voteMap.getOrDefault(App.getCurrentUser(), 0);
             int currentVotes = Integer.parseInt(voteCountLabel.getText());
 
-            if (previousVote == -1) return;
+            int newVoteCount = currentVotes;
 
-            if (previousVote == 1) {
-                voteCountLabel.setText(String.valueOf(currentVotes - 1));
+            if (previousVote == -1) {
+                // 🔁 Remove downvote
+                newVoteCount += 1;
                 voteMap.put(App.getCurrentUser(), 0);
+                downvoteButton.setStyle("-fx-background-color: transparent; -fx-font-size: 24; -fx-text-fill: black;");
             } else {
-                voteCountLabel.setText(String.valueOf(currentVotes - 1));
+                // ⬇️ Apply downvote
+                newVoteCount -= (previousVote == 1) ? 2 : 1;
                 voteMap.put(App.getCurrentUser(), -1);
+                downvoteButton.setStyle("-fx-background-color: transparent; -fx-font-size: 24; -fx-text-fill: rgb(7, 135, 194);");
+                upvoteButton.setStyle("-fx-background-color: transparent; -fx-font-size: 24; -fx-text-fill: black;");
             }
-
-            // 🔄 ANINDA SIRALAMA VE GÖRÜNTÜLEME
+        
+            voteCountLabel.setText(String.valueOf(newVoteCount));
+        
             if (postContainer != null) {
                 App.sortPostsByVotes();
                 postContainer.getChildren().setAll(App.getAllPosts());
