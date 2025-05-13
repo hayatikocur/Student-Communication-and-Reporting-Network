@@ -26,6 +26,25 @@ import java.util.Map;
  */
 public class App extends Application {
 
+   private static final Map<User, List<AnchorPane>> savedPosts = new HashMap<>();
+
+    public static void toggleSavedPost(User user, AnchorPane post) {
+        savedPosts.computeIfAbsent(user, k -> new ArrayList<>());
+        if (savedPosts.get(user).contains(post)) {
+            savedPosts.get(user).remove(post);
+        } else {
+            savedPosts.get(user).add(post);
+        }
+    }
+
+    public static boolean isPostSaved(User user, AnchorPane post) {
+        return savedPosts.containsKey(user) && savedPosts.get(user).contains(post);
+    }
+
+    public static List<AnchorPane> getSavedPostsForUser(User user) {
+        return savedPosts.getOrDefault(user, new ArrayList<>());
+    }
+
     // Her postun çözülme durumunu saklamak için:
     private static Map<AnchorPane, Boolean> postSolvedStatus = new HashMap<>();
     private static Map<AnchorPane, Button> statusButtons = new HashMap<>();

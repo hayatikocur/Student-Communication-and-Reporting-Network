@@ -44,7 +44,7 @@ import javafx.stage.Stage;
 
 public class mainController implements Initializable{
 
-    
+    @FXML private ListView<AnchorPane> savedIssuesListView;
     //TODO: those will be used for sign in page you will use those to validate the password and email. add for sign up in same way.
     //you can look at the id(variable name) in signup.fxml file
     @FXML
@@ -496,6 +496,12 @@ public class mainController implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        if (savedIssuesListView != null) {
+            List<AnchorPane> savedPosts = App.getSavedPostsForUser(App.getCurrentUser());
+            savedIssuesListView.setItems(FXCollections.observableArrayList(savedPosts));
+        }
+
+        
         if (postContainer != null) {
             App.sortPostsByVotes(); // önce sıralama
             postContainer.getChildren().clear();
@@ -604,6 +610,44 @@ public class mainController implements Initializable{
                 }
             }
         }
+
+        if (postContainer != null) {
+            for (AnchorPane post : App.getAllPosts()) {
+
+                // Eğer zaten saveButton eklenmişse bir daha eklemeyelim
+                if (post.lookup("#saveButton") == null) {
+
+                    Button saveButton = new Button();
+                    saveButton.setId("saveButton");
+
+                    updateSaveButtonState(saveButton, post);
+
+                    saveButton.setOnAction(e -> {
+                        App.toggleSavedPost(App.getCurrentUser(), post);
+                        updateSaveButtonState(saveButton, post);
+                    });
+
+                    VBox contentBox = null;
+                    for (Node node : post.getChildren()) {
+                        if (node instanceof VBox) {
+                            contentBox = (VBox) node;
+                            break;
+                        }
+                    }
+
+                    if (contentBox != null) {
+                        contentBox.getChildren().add(saveButton);
+                    }
+                } else {
+                    // varsa bile görünümünü güncelle
+                    Node node = post.lookup("#saveButton");
+                    if (node instanceof Button) {
+                        updateSaveButtonState((Button) node, post);
+                    }
+                }
+            }
+        }
+
     }
 
     private String getPostTitleFromPost(AnchorPane post) {
@@ -824,7 +868,15 @@ public class mainController implements Initializable{
     @FXML
     private ScrollPane scrollPane;
 
-        
+    private void updateSaveButtonState(Button saveButton, AnchorPane post) {
+        boolean isSaved = App.isPostSaved(App.getCurrentUser(), post);
+        saveButton.setText(isSaved ? "✅ Saved" : "🔖 Save");
+        saveButton.setStyle(isSaved
+            ? "-fx-background-color: #c8e6c9; -fx-font-weight: bold;"
+            : "-fx-background-color: #ffcc80; -fx-font-weight: bold;");
+    }
+
+
    @FXML
     private void submitPost(ActionEvent event) {
         String title = tfPostTitle.getText();
@@ -899,6 +951,23 @@ public class mainController implements Initializable{
 
         AnchorPane postWithVotes = new AnchorPane();
         postWithVotes.setPrefWidth(600);
+
+
+        Button saveButton = new Button("🔖 Save");
+        saveButton.setId("saveButton"); // 🔧 EKLE BU
+        updateSaveButtonState(saveButton, postWithVotes);
+        
+        saveButton.setStyle("-fx-background-color: #ffcc80; -fx-font-weight: bold;");
+        saveButton.setOnAction(e -> {
+            App.toggleSavedPost(App.getCurrentUser(), postWithVotes);
+            updateSaveButtonState(saveButton, postWithVotes);
+
+
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setHeaderText(null);
+            alert.setContentText("Post saved to your Saved Issues.");
+            alert.showAndWait();
+        });
 
         // Uygulamaya kaydet
         App.addPost(postWithVotes);
@@ -985,7 +1054,7 @@ public class mainController implements Initializable{
         }
 
         commentSection.getChildren().addAll(commentLabel, commentList, new HBox(5, commentInput, submitCommentButton));
-        fullPostContent.getChildren().addAll(toggleCommentButton, commentSection);
+        fullPostContent.getChildren().addAll(toggleCommentButton, saveButton, commentSection);
         fullPostContent.getChildren().add(statusButton);
         AnchorPane.setLeftAnchor(fullPostContent, 60.0);
         postWithVotes.getChildren().addAll(votePane, fullPostContent);
@@ -1096,6 +1165,8 @@ public class mainController implements Initializable{
             postContent.getChildren().addAll(categoriesLabel, postContainer);
         }
         postBox.getChildren().add(postContent);
+
+        
     }
 
 
