@@ -1050,12 +1050,12 @@ public class mainController implements Initializable{
         List<String> selectedCategories = categoryListView.getSelectionModel().getSelectedItems();
 
         AnchorPane postBox = new AnchorPane(); // or load from FXML
-        App.addPost(postBox);
-        App.setPostCategories(postBox, selectedCategories);
+        App.setPostCategories(postWithVotes, selectedCategories);
         
         // Show categories in post UI
         Label categoriesLabel = new Label("Categories: " + String.join(", ", selectedCategories));
         categoriesLabel.setStyle("-fx-font-style: italic; -fx-text-fill: #555;");
+        fullPostContent.getChildren().add(categoriesLabel);
         
         VBox postContent = new VBox();
         if (categoriesLabel != null && postContainer != null) {
