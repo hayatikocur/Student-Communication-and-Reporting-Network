@@ -714,6 +714,45 @@ public class mainController implements Initializable{
     @FXML
     public void deleteAccount(ActionEvent event) {
         App.getUsers().remove(App.getCurrentUser());
+                Properties props = new Properties();
+
+    try (InputStream input = User.class.getClassLoader().getResourceAsStream("db.properties")) {
+        if (input == null) {
+            System.err.println("❌ db.properties file not found!");
+            return;
+        }
+        props.load(input);
+    } catch (IOException e) {
+        e.printStackTrace();
+        return;
+    }
+
+    String url = props.getProperty("db.url");
+    String dbUser = props.getProperty("db.user");
+    String dbPassword = props.getProperty("db.password");
+
+    if (url == null || dbUser == null || dbPassword == null) {
+        System.err.println("❌ Database credentials are missing in db.properties");
+        return;
+    }
+
+    String query = "DELETE FROM users WHERE email = ?";
+
+    try (Connection conn = DriverManager.getConnection(url, dbUser, dbPassword);
+         PreparedStatement stmt = conn.prepareStatement(query)) {
+
+        stmt.setString(1, this.email);
+        int affected = stmt.executeUpdate();
+
+        if (affected > 0) {
+            System.out.println("✅ User deleted successfully.");
+        } else {
+            System.out.println("⚠️ No user deleted. Email may not exist.");
+        }
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
         App.setCurrentUser(null);
 
         Alert alert = new Alert(AlertType.INFORMATION);
