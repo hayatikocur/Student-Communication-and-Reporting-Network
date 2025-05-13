@@ -102,7 +102,6 @@ public class mainController implements Initializable{
         if (brokenEquipmentBtn.isSelected()) selectedCategories.add("Broken Equipment"); // Use user-friendly names or map them
         if (roadIssuesBtn.isSelected()) selectedCategories.add("Road Issues");
         if (buildingIssuesBtn.isSelected()) selectedCategories.add("Building Issues");
-        if (cateringIssuesBtn.isSelected()) selectedCategories.add("Catering Issues");
         if (dormIssuesBtn.isSelected()) selectedCategories.add("Dorm Issues");
         if (missingEquipmentBtn.isSelected()) selectedCategories.add("Missing Equipment");
         // Note: The strings "Broken Equipment", "Road Issues" etc. must match what you expect
@@ -119,14 +118,7 @@ public class mainController implements Initializable{
         if (fdBuildingButton.isSelected()) selectedLocations.add("FD Binası");
         if (ffBuildingButton.isSelected()) selectedLocations.add("FF Binası");
         if (kutuphaneButton.isSelected()) selectedLocations.add("Kütüphane");
-        if (vBuildingButton.isSelected()) selectedLocations.add("V Binası");
-        if (cateringBuildingButton.isSelected()) selectedLocations.add("Catering Building"); // Ensure consistency
-
-        // --- Gather selected dates (your existing logic) ---
-        if (lastWeekButton.isSelected()) selectedDates.add("Last Week");
-        if (lastMonthButton.isSelected()) selectedDates.add("Last Month");
-        if (lastYearButton.isSelected()) selectedDates.add("Last Year");
-
+        if (vBuildingButton.isSelected()) selectedLocations.add("V Binası");// Ensure consistency
 
         // --- Build Criteria Description for display on results page ---
         StringBuilder criteriaDescBuilder = new StringBuilder();
@@ -241,14 +233,14 @@ public class mainController implements Initializable{
 
         // Navigate to SearchResults.fxml
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("SearchResults.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("SearchResult.fxml"));
             Parent searchResultsRoot = loader.load();
             Scene scene = new Scene(searchResultsRoot);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
-            System.err.println("mainController: Failed to load SearchResults.fxml: " + e.getMessage());
+            System.err.println("mainController: Failed to load SearchResult.fxml: " + e.getMessage());
             e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR, "Could not load the search results page.");
             alert.showAndWait();
@@ -268,16 +260,10 @@ public class mainController implements Initializable{
     @FXML private ToggleButton brokenEquipmentBtn;
     @FXML private ToggleButton roadIssuesBtn;
     @FXML private ToggleButton buildingIssuesBtn;
-    @FXML private ToggleButton cateringIssuesBtn;
     @FXML private ToggleButton dormIssuesBtn;
     @FXML private ToggleButton missingEquipmentBtn;
-    // Time ToggleButtons
-    @FXML private ToggleButton lastWeekButton;
-    @FXML private ToggleButton lastMonthButton;
-    @FXML private ToggleButton lastYearButton;
     // Location ToggleButtons
     @FXML private ToggleButton bBuildingButton;
-    @FXML private ToggleButton cateringBuildingButton;
     @FXML private ToggleButton vBuildingButton;
     @FXML private ToggleButton sbBuildingButton;
     @FXML private ToggleButton faBuildingButton;
@@ -954,10 +940,6 @@ public class mainController implements Initializable{
            selectedCategories.add("buildingIssues");
         } 
     
-        if (cateringIssuesBtn.isSelected()) {
-            selectedCategories.add("cateringIssues");
-        } 
-    
         if (dormIssuesBtn.isSelected()) {
             selectedCategories.add("dormIssues");
         } 
@@ -966,24 +948,12 @@ public class mainController implements Initializable{
             selectedCategories.add("missingEquipment");
         } 
 
-        // Time selections
-        if (lastWeekButton.isSelected()) {
-            selectedDates.add("Last Week");
-        }
-        if (lastMonthButton.isSelected()) {
-            selectedDates.add("Last Month");
-        }
-        if (lastYearButton.isSelected()) {
-            selectedDates.add("Last Year");
-        }
 
         // Location selections
         if (bBuildingButton.isSelected()) {
             selectedLocations.add("B Building");
         }
-        if (cateringBuildingButton.isSelected()) {
-            selectedLocations.add("Catering Building");
-        }
+
         if (vBuildingButton.isSelected()) {
             selectedLocations.add("V Building");
         }
