@@ -140,7 +140,6 @@ public class mainController implements Initializable{
         }
     }
 
-
     public boolean validateBilkentEmail(String email){
         // email must be in this format: name.surname@ug.bilkent.edu.tr
         String regex = "^[a-zA-Z]+\\.([a-zA-Z]+)?@(ug\\.)?bilkent\\.edu\\.tr$";
