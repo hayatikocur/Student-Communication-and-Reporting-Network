@@ -489,6 +489,10 @@ public class mainController implements Initializable{
     @FXML
     private ComboBox<String> cbPostLocation;
 
+    @FXML
+    private VBox postContainer1;
+
+
 
     private void updateToggleText(ToggleButton button) {
         if (button != null) {
@@ -609,7 +613,7 @@ public class mainController implements Initializable{
                                         User postOwner = App.getPostOwner(post);
                                         User resolver = App.getCurrentUser();
 
-                                        if (postOwner != null && resolver != null) {
+                                        if (postOwner != null && resolver != null && postOwner.isMailNotificationEnabled()) {
                                             String subject = "Problem Solved: \"" + getPostTitleFromPost(post) + "\"";
                                             String message = "Dear " + postOwner.getUserName() + ",\n\n"
                                                 + "Your reported problem titled \"" + getPostTitleFromPost(post) + "\" has been marked as SOLVED by "
@@ -667,7 +671,60 @@ public class mainController implements Initializable{
             }
         }
 
+        if (notificationsScrollPane != null && notificationBtn != null) {
+            notificationsScrollPane.setVisible(false);
+
+            notificationBtn.setOnAction(e -> {
+
+                if (!App.getCurrentUser().isAppNotificationEnabled()) {
+                    Alert alert = new Alert(AlertType.INFORMATION);
+                    alert.setTitle("Notifications Disabled");
+                    alert.setHeaderText(null);
+                    alert.setContentText("You have disabled in-app notifications in Settings.");
+                    alert.showAndWait();
+                    return;
+                }
+
+                boolean showing = notificationsScrollPane.isVisible(); // mevcut durumu kontrol et
+                notificationsScrollPane.setVisible(!showing); // tersi duruma geçir
+                postContainer1.getChildren().clear(); // Öncekileri temizle
+
+                for (AnchorPane post : App.getAllPosts()) {
+                    User owner = App.getPostOwner(post);
+                    boolean isSolved = App.getPostSolvedStatus(post);
+
+                    if (owner != null && owner.equals(App.getCurrentUser()) && isSolved) {
+                        String title = getPostTitleFromPost(post);
+                        Label solvedPostLabel = new Label("✅ \"" + title + "\" has been marked as SOLVED.");
+                        solvedPostLabel.setWrapText(true);
+                        solvedPostLabel.setMaxWidth(230);
+                        solvedPostLabel.setStyle("""
+                            -fx-background-color: white;
+                            -fx-padding: 8;
+                            -fx-background-radius: 10;
+                            -fx-border-radius: 10;
+                            -fx-border-color: #66bb6a;
+                            -fx-font-size: 14px;
+                            -fx-text-fill: #2e7d32;
+                        """);
+                        postContainer1.getChildren().add(solvedPostLabel);
+                    }
+                }
+
+                if (postContainer1.getChildren().isEmpty()) {
+                    Label emptyLabel = new Label("No solved posts yet.");
+                    emptyLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: gray;");
+                    postContainer1.getChildren().add(emptyLabel);
+                }
+            });
+        }
+
+
+
     }
+
+
+    
 
     private String getPostTitleFromPost(AnchorPane post) {
         Node found = post.lookup("#postTitleLabel");
@@ -1049,7 +1106,7 @@ public class mainController implements Initializable{
                         User resolver = App.getCurrentUser();
                         String postTitle = tfPostTitle.getText();
 
-                        if (postOwner != null && resolver != null) {
+                        if (postOwner != null && resolver != null && postOwner.isMailNotificationEnabled()) {
                             String subject = "Problem Solved: \"" + postTitle + "\"";
                             String contentMail = "Dear " + postOwner.getUserName() + ",\n\n"
                                     + "Your reported problem titled \"" + postTitle + "\" has been marked as SOLVED by "
