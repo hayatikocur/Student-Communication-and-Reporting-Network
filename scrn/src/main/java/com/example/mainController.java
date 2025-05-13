@@ -77,6 +77,8 @@ public class mainController implements Initializable{
     TextField tfProfileName;
     @FXML
     Label profileEditLabel;
+    @FXML
+    ListView searchResultsListView;
 
     @FXML private TextField searchKeywordTextField;
 
