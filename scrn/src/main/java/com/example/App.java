@@ -26,6 +26,25 @@ import java.util.Map;
  */
 public class App extends Application {
 
+   private static final Map<User, List<AnchorPane>> savedPosts = new HashMap<>();
+
+    public static void toggleSavedPost(User user, AnchorPane post) {
+        savedPosts.computeIfAbsent(user, k -> new ArrayList<>());
+        if (savedPosts.get(user).contains(post)) {
+            savedPosts.get(user).remove(post);
+        } else {
+            savedPosts.get(user).add(post);
+        }
+    }
+
+    public static boolean isPostSaved(User user, AnchorPane post) {
+        return savedPosts.containsKey(user) && savedPosts.get(user).contains(post);
+    }
+
+    public static List<AnchorPane> getSavedPostsForUser(User user) {
+        return savedPosts.getOrDefault(user, new ArrayList<>());
+    }
+
     // Her postun çözülme durumunu saklamak için:
     private static Map<AnchorPane, Boolean> postSolvedStatus = new HashMap<>();
     private static Map<AnchorPane, Button> statusButtons = new HashMap<>();
@@ -163,39 +182,56 @@ public class App extends Application {
 
 
     public static void generateMapHTML() {
-    try {
-        // Template dosyasını oku
-        InputStream is = App.class.getResourceAsStream("/com/example/map_template.html");
-        if (is == null) {
-            System.err.println("Template file not found.");
-            return;
+        System.out.println("App: generateMapHTML() called.");
+        try {
+            InputStream is = App.class.getResourceAsStream("/com/example/map_template.html");
+            if (is == null) {
+                System.err.println("App: Template file '/com/example/map_template.html' not found.");
+                return;
+            }
+            String template = new String(is.readAllBytes(), StandardCharsets.UTF_8);
+
+            StringBuilder buildingsJS = new StringBuilder("[\n");
+            if (buildingReports != null && !buildingReports.isEmpty()) { // Check if map is populated
+                for (Map.Entry<String, Integer> entry : buildingReports.entrySet()) {
+                    String name = entry.getKey();
+                    int reports = entry.getValue();
+                    double lat = BuildingLocations.getLat(name);
+                    double lng = BuildingLocations.getLng(name);
+                    // Ensure name is properly escaped if it can contain quotes or special chars
+                    String escapedName = name.replace("\"", "\\\"");
+                    buildingsJS.append(String.format(java.util.Locale.US, "  { name: \"%s\", lat: %.6f, lng: %.6f, reports: %d },\n", escapedName, lat, lng, reports));
+                }
+                if (buildingsJS.length() > 2) { // Remove last comma if buildings were added
+                    buildingsJS.setLength(buildingsJS.length() - 2);
+                }
+            } else {
+                System.out.println("App: buildingReports is null or empty. Map will have no building data.");
+            }
+            buildingsJS.append("\n]");
+            System.out.println("App: Generated buildingsJS: " + buildingsJS.toString());
+
+
+            String finalHtml = template.replace("__BUILDINGS__", buildingsJS.toString());
+            File target = new File(com.example.MapController.MAP_FILE_PATH); // Use the same path definition
+
+            // Ensure parent directories exist
+            if (target.getParentFile() != null) {
+                target.getParentFile().mkdirs();
+            }
+
+            Files.writeString(target.toPath(), finalHtml, StandardCharsets.UTF_8);
+            System.out.println("App: map.html generated successfully at: " + target.getAbsolutePath());
+
+            MapController.refreshMapGlobally();
+
+        } catch (IOException e) {
+            System.err.println("App: IOException in generateMapHTML: " + e.getMessage());
+            e.printStackTrace();
+        } catch (Exception e) {
+            System.err.println("App: Unexpected exception in generateMapHTML: " + e.getMessage());
+            e.printStackTrace();
         }
-
-        String template = new String(is.readAllBytes(), StandardCharsets.UTF_8);
-
-        // JSON array üret
-        StringBuilder buildingsJS = new StringBuilder("[\n");
-        for (Map.Entry<String, Integer> entry : buildingReports.entrySet()) {
-            String name = entry.getKey();
-            int reports = entry.getValue();
-            double lat = BuildingLocations.getLat(name);
-            double lng = BuildingLocations.getLng(name);
-            buildingsJS.append(String.format("  { name: \"%s\", lat: %.6f, lng: %.6f, reports: %d },\n", name, lat, lng, reports));
-        }
-        if (buildingsJS.length() > 2) buildingsJS.setLength(buildingsJS.length() - 2); // sondaki virgülü sil
-        buildingsJS.append("\n]");
-
-        // Şablondaki placeholder'ı değiştir
-        String finalHtml = template.replace("__BUILDINGS__", buildingsJS.toString());
-
-        // map.html olarak kaydet
-        File target = new File("src/main/resources/com/example/map.html");
-        Files.writeString(target.toPath(), finalHtml, StandardCharsets.UTF_8);
-
-        System.out.println("✅ map.html generated successfully.");
-    } catch (IOException e) {
-        e.printStackTrace();
-    }
 }
 
 

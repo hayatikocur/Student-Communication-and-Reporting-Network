@@ -14,14 +14,19 @@
 <div id="map"></div>
 
 <script>
-  const buildings = __BUILDINGS__;  <!-- 🔁 Java burayı değiştirecek -->
-
   const map = L.map('map').setView([39.8678, 32.7494], 17);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19
   }).addTo(map);
 
-  const maxReports = Math.max(...buildings.map(b => b.reports));
+  const buildings = __BUILDINGS__; // Replaced by Java later
+
+  const maxReports = Math.max(...buildings.map(b => b.reports), 1); // avoid divide-by-zero
+
+  function addMarker(lat, lng, locationName) {
+    L.marker([lat, lng]).addTo(map)
+      .bindPopup("<b>" + locationName + "</b><br>New Post!");
+  }
 
   function getColor(reports) {
     const intensity = reports / maxReports;
@@ -32,13 +37,18 @@
   }
 
   buildings.forEach(b => {
+    const baseRadius = 8;
+    const maxExtraRadius = 12;
+    const radius = baseRadius + (b.reports / maxReports) * maxExtraRadius;
+
     const circle = L.circleMarker([b.lat, b.lng], {
-      radius: 18,
+      radius: radius,
       color: "#000000",
       weight: 1,
       fillColor: getColor(b.reports),
       fillOpacity: 0.7
     }).addTo(map);
+
     circle.bindPopup(`<b>${b.name}</b><br>${b.reports} rapor`);
   });
 </script>
