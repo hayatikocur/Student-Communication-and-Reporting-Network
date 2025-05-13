@@ -4,6 +4,7 @@ import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.ResourceBundle;
@@ -33,6 +34,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
@@ -96,6 +98,9 @@ public class mainController implements Initializable{
     @FXML private ToggleButton fdBuildingButton;
     @FXML private ToggleButton ffBuildingButton;
     @FXML private ToggleButton kutuphaneButton;
+
+    @FXML
+    private ListView<String> categoryListView;
 
   
     static String tempPassword = "";
@@ -516,6 +521,18 @@ public class mainController implements Initializable{
         if (cbPostLocation != null) {
             cbPostLocation.setItems(FXCollections.observableArrayList(App.getBuildingReports().keySet()));
         }
+
+        //Category Initializing
+        if (categoryListView != null) {
+            categoryListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+            categoryListView.setItems(FXCollections.observableArrayList(
+            "Maintenance", "Cleaning", "Electrical", "Safety", "Other"
+        ));
+        } else {
+            System.err.println("categoryListView is null. Check FXML binding.");
+        }
+
+        
 
 
 
@@ -1035,10 +1052,21 @@ public class mainController implements Initializable{
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        List<String> selectedCategories = categoryListView.getSelectionModel().getSelectedItems();
+
+        AnchorPane postBox = new AnchorPane(); // or load from FXML
+        App.addPost(postBox);
+        App.setPostCategories(postBox, selectedCategories);
+        
+        // Show categories in post UI
+        Label categoriesLabel = new Label("Categories: " + String.join(", ", selectedCategories));
+        categoriesLabel.setStyle("-fx-font-style: italic; -fx-text-fill: #555;");
+        
+        VBox postContent = new VBox();
+        postContent.getChildren().addAll(categoriesLabel, postContainer);
+        postBox.getChildren().add(postContent);
     }
-
-
-
 
 
 
@@ -1074,5 +1102,7 @@ public class mainController implements Initializable{
             postImagePreview.setImage(image);
         }
     }
+
+    
 
 }

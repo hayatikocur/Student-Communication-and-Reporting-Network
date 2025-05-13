@@ -18,6 +18,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -227,6 +228,17 @@ public class App extends Application {
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+    }
+
+    //Choosing categories for posts.
+    private static Map<AnchorPane, List<String>> postCategories = new HashMap<>();  
+
+    public static void setPostCategories(AnchorPane post, List<String> categories) {
+    postCategories.put(post, categories);
+    }
+    
+    public static List<String> getPostCategories(AnchorPane post) {
+        return postCategories.getOrDefault(post, List.of());
     }
 
     
