@@ -35,15 +35,15 @@ public class App extends Application {
 
     static {
         System.out.println("App static block: Initializing building reports...");
-        buildingReports.put("B Binası", 15);
-        buildingReports.put("SB Binası", 22);
-        buildingReports.put("V Binası", 5);
-        buildingReports.put("FC Binası", 9);
-        buildingReports.put("FB Binası", 13);
-        buildingReports.put("FA Binası", 6);
-        buildingReports.put("FD Binası", 18);
-        buildingReports.put("FF Binası", 11);
-        buildingReports.put("Kütüphane", 30);
+        buildingReports.put("B Binası", 0);
+        buildingReports.put("SB Binası", 0);
+        buildingReports.put("V Binası", 0);
+        buildingReports.put("FC Binası", 0);
+        buildingReports.put("FB Binası", 0);
+        buildingReports.put("FA Binası", 0);
+        buildingReports.put("FD Binası", 0);
+        buildingReports.put("FF Binası", 0);
+        buildingReports.put("Kütüphane", 0);
         // Add other buildings if needed
 
         System.out.println("App static block: Generating initial map HTML content...");
