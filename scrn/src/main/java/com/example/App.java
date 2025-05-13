@@ -228,6 +228,7 @@ public class App extends Application {
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+        stage.setResizable(false);
     }
 
     //Choosing categories for posts.
