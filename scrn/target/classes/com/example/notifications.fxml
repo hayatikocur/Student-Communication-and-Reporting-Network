@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+
+<AnchorPane fx:id="root" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.NotificationController">
+    <!-- Bell icon button -->
+    <Button fx:id="notificationBell" layoutX="20" layoutY="20" styleClass="icon-button">
+        <graphic>
+            <FontAwesomeIconView glyphName="BELL" />
+        </graphic>
+    </Button>
+
+    <!-- Notification side panel (initially hidden off-screen) -->
+    <AnchorPane fx:id="notificationPanel"
+                prefWidth="300"
+                AnchorPane.topAnchor="0"
+                AnchorPane.bottomAnchor="0"
+                AnchorPane.rightAnchor="-300"
+                styleClass="notification-panel">
+
+        <VBox spacing="10" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20" AnchorPane.bottomAnchor="20">
+            <!-- Header -->
+            <Label text="Notifications" styleClass="header" />
+
+            <!-- Scrollable feed -->
+            <ScrollPane fx:id="notificationFeed" fitToWidth="true" VBox.vgrow="ALWAYS">
+                <content>
+                    <VBox fx:id="feedContainer" spacing="10" />
+                </content>
+            </ScrollPane>
+        </VBox>
+    </AnchorPane>
+</AnchorPane>
