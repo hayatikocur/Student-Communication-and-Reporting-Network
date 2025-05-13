@@ -746,7 +746,7 @@ public class mainController implements Initializable{
         if (categoryListView != null) {
             categoryListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
             categoryListView.setItems(FXCollections.observableArrayList(
-            "Broken equipment", "Road related issues", "Building related issues", "Catering related issues", "Dorm related issues", "Missing equipment"
+            "Broken equipment", "Road related issues", "Building related issues", "Dorm related issues", "Missing equipment"
         ));
         }
 
