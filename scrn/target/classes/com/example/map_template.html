@@ -23,6 +23,11 @@
 
   const maxReports = Math.max(...buildings.map(b => b.reports), 1); // avoid divide-by-zero
 
+  function addMarker(lat, lng, locationName) {
+    L.marker([lat, lng]).addTo(map)
+      .bindPopup("<b>" + locationName + "</b><br>New Post!");
+  }
+
   function getColor(reports) {
     const intensity = reports / maxReports;
     const red = 255;
