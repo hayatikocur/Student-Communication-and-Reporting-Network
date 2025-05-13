@@ -8,7 +8,6 @@ com/example/mainController.class
 module-info.class
 com/example/User.class
 com/example/ImageUploader.class
-com/example/Main.class
 com/example/BuildingLocations.class
 com/example/ProblemReport.class
 com/example/SendGmail.class

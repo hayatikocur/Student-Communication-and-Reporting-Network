@@ -1,0 +1,3 @@
+db.url=jdbc:mysql://<host>:<port>/<db>?sslMode=REQUIRED
+db.user=<your-username>
+db.password=<your-password>

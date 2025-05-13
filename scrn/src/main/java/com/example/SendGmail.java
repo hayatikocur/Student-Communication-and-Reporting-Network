@@ -1,70 +1,67 @@
 package com.example;
 
-import java.util.*;
 import jakarta.mail.*;
-import jakarta.mail.internet.*;
-import java.io.UnsupportedEncodingException;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeMessage;
+
+import java.io.InputStream;
+import java.util.Properties;
 
 public class SendGmail {
 
-    public static void sendEmail(String toEmail, String subject, String body) {
-        final String fromEmail = "06mert.mustafa13.mumcu@gmail.com"; // Gönderen Gmail
-        final String password = "sgjfphwswqibtwnt"; // App password buraya
+    private static final String PROPERTIES_FILE = "mail.properties";
 
-        Properties props = new Properties();
-        props.put("mail.smtp.host", "smtp.gmail.com");
-        props.put("mail.smtp.port", "587");
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
+    public static void sendPassword(String recipient, String newPassword) {
+        String subject = "SCRN Password Reset";
+        String message = "Your new temporary password is: " + newPassword + "\n\nPlease log in and change it immediately.";
 
-        Session session = Session.getInstance(props, new Authenticator() {
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(fromEmail, password);
-            }
-        });
+        sendEmail(recipient, subject, message);
+    }
 
+    public static void sendEmail(String recipient) {
+        String subject = "SCRN Email Verification";
+        String message = "Your email has been successfully registered. Welcome to the platform!";
+
+        sendEmail(recipient, subject, message);
+    }
+
+    public static void sendEmail(String recipient, String subject, String messageText) {
         try {
-            Message message = new MimeMessage(session);
-            try {
-                message.setFrom(new InternetAddress(fromEmail, "Student Communication and Network System"));
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
+            Properties mailProps = new Properties();
+            try (InputStream input = SendGmail.class.getClassLoader().getResourceAsStream(PROPERTIES_FILE)) {
+                if (input == null) {
+                    throw new IllegalStateException("mail.properties not found");
+                }
+                mailProps.load(input);
             }
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail));
+
+            String senderEmail = mailProps.getProperty("mail.username");
+            String senderPassword = mailProps.getProperty("mail.password");
+
+            Properties props = new Properties();
+            props.put("mail.smtp.auth", "true");
+            props.put("mail.smtp.starttls.enable", "true");
+            props.put("mail.smtp.host", "smtp.gmail.com");
+            props.put("mail.smtp.port", "587");
+
+            Session session = Session.getInstance(props, new Authenticator() {
+                protected PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication(senderEmail, senderPassword);
+                }
+            });
+
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(senderEmail));
+            message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
             message.setSubject(subject);
-            message.setText(body);
+            message.setText(messageText);
 
             Transport.send(message);
-            System.out.println("E-posta başarıyla gönderildi.");
+            System.out.println("Email sent to " + recipient);
 
-        } catch (MessagingException e) {
+        } catch (Exception e) {
             e.printStackTrace();
+            System.err.println("Failed to send email to " + recipient);
         }
-    }
-
-    public static void sendEmail (String mail) {
-        sendEmail(mail,  "User Registration Successful", "Welcome! Your account has been successfully created in the Student Communication and Reporting Network System.");
-    }
-
-    public static void sendPassword(String mail){
-        sendEmail(mail, "New Password", "Your new password is: " + mainController.tempPassword);
-    }
-
-    public static void main(String[] args) {
-        // ArrayList<String> names = new ArrayList<>();
-
-        // names.add("mert.mumcu@ug.bilkent.edu.tr");
-        // // names.add("yigitkaanonder@ug.bilkent.edu.tr");
-        // names.add("hayati.kocur@ug.bilkent.edu.tr");
-        // // names.add("burhan.bulut@ug.bilkent.edu.tr");
-        // // names.add("emir.akar@ug.bilkent.edu.tr");
-
-        // for (int i = 0; i < names.size(); i++) {
-        //     sendEmail(
-        //         names.get(i),
-        //         "Sorununuz Çözüldü!",
-        //         "B-202'deki Bozuk Bilgisayarlar Tamir Edildi. Detaylı Bilgi İçin..."
-        //     );
-        // }
     }
 }

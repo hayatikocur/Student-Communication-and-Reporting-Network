@@ -1,1 +1,4 @@
 scrn/src/main/resources/db.properties
+scrn/target/classes/db.properties
+scrn/src/main/resources/mail.properties
+scrn/src/main/resources/mail.properties

@@ -1,13 +1,12 @@
 package com.example;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.ResourceBundle;
+import java.security.SecureRandom;
+import java.sql.*;
+import java.util.*;
 
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -102,7 +101,6 @@ public class mainController implements Initializable{
     @FXML
     private ListView<String> categoryListView;
 
-  
     static String tempPassword = "";
     //
     
@@ -138,62 +136,51 @@ public class mainController implements Initializable{
     }
 
 
-    public boolean validateBilkentEmail(String email){
-        // email must be in this format: name.surname@ug.bilkent.edu.tr
+    public boolean validateBilkentEmail(String email) {
+        // 1. Validate format
         String regex = "^[a-zA-Z]+\\.([a-zA-Z]+)?@(ug\\.)?bilkent\\.edu\\.tr$";
-        if(!email.matches(regex)){    
-            Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Invalid Email");
-            alert.setHeaderText(null); // No header
-            alert.setContentText("Email is not valid!");
-            alert.showAndWait();
+        if (!email.matches(regex)) {
+            showError("Invalid Email", "Email is not valid!");
             return false;
-        }
-        if (tfPasswordSup.getText().isEmpty()) {
-            Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Password mistake");
-            alert.setHeaderText(null); // No header
-            alert.setContentText("Please enter a password!");
-            alert.showAndWait();
-            return false;
-        }
-        if(!tfPasswordSup.getText().equals(tfConfirmPasswordSup.getText())){
-            Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Password mistake");
-            alert.setHeaderText(null); // No header
-            alert.setContentText("Passwords do not match!");
-            alert.showAndWait();
-            return false;
-        }
-        
-        for(int i=0; i<App.getUsers().size(); i++){
-            if(App.getUsers().get(i).getEmail().equals(email)){
-                Alert alert = new Alert(AlertType.ERROR);
-                //alert.setTitle("");
-                alert.setHeaderText(null); // No header
-                alert.setContentText("User with the same email already exists");
-                alert.showAndWait();
-                return false;
-            }
         }
 
+        // 2. Validate password inputs
+        String password = tfPasswordSup.getText();
+        String confirmPassword = tfConfirmPasswordSup.getText();
+
+        if (password.isEmpty()) {
+            showError("Password mistake", "Please enter a password!");
+            return false;
+        }
+
+        if (!password.equals(confirmPassword)) {
+            showError("Password mistake", "Passwords do not match!");
+            return false;
+        }
+
+        // 3. Check email existence in database
+        if (emailExistsInDatabase(email)) {
+            showError("Email already exists", "User with the same email already exists");
+            return false;
+        }
+
+        // 4. Parse name and surname
         String[] parts = email.split("@")[0].split("\\.");
-        String name = parts[0];
-        String surname = parts[1];
+        String name = capitalize(parts[0]);
+        String surname = capitalize(parts[1]);
 
-        name = name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
-        surname = surname.substring(0, 1).toUpperCase() + surname.substring(1).toLowerCase();
-
+        // 5. Send confirmation email
         SendGmail.sendEmail(email);
-        //TODO: in this code everybody is added as users not separated such as student or authority. separate them. 
-        if(email.contains("ug")){
-            App.getUsers().add(new Student(name, surname, email, tfPasswordSup.getText()));
+
+        // 6. Create user and save
+        if (email.contains("ug")) {
+            Student s = new Student(name, surname, email, password, true, true, false);
+            s.saveToDatabase();
+        } else {
+            Authority a = new Authority(name, surname, email, password, true, true, false);
+            a.saveToDatabase();
         }
-        else{
-            App.getUsers().add(new Authority(name, surname, email, tfPasswordSup.getText()));
-        }
-        
-        // App.getUsers().add(new User(name, surname, email, tfPasswordSup.getText()));
+
         return true;
     }
 
@@ -229,63 +216,106 @@ public class mainController implements Initializable{
      public void goToHomePageFromLogin(ActionEvent event){
         //TODO: Need to check if user's email and password is correct. Then it should go to home page.
 
-        try {
-            if(!validationOnSignIn(tfEmailSin.getText(), tfPasswordSin.getText())){
-                Alert alert = new Alert(AlertType.ERROR);
-                alert.setTitle("Wrong email or password");
-                alert.setHeaderText(null); // No header
-                alert.setContentText("Email or Password wrong!");
-                alert.showAndWait();
-            }
-            else{
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("Profile.fxml"));
-                Parent root = loader.load();
+         try {
+             String email = tfEmailSin.getText();
+             String password = tfPasswordSin.getText();
 
-                // Create elements
-                TextField tfProfileName = (TextField) root.lookup("#tfProfileName");
-                TextField tfProfileSurname = (TextField) root.lookup("#tfProfileSurname");
-                TextField tfProfileMail = (TextField) root.lookup("#tfProfileMail");
-                TextField tfProfilePassword = (TextField) root.lookup("#tfProfilePassword");
-                Label profileLabel = (Label) root.lookup("#profileLabel");
+             if (!validateUserFromDatabase(email, password)) {
+                 Alert alert = new Alert(Alert.AlertType.ERROR);
+                 alert.setTitle("Wrong email or password");
+                 alert.setHeaderText(null);
+                 alert.setContentText("Email or Password wrong!");
+                 alert.showAndWait();
+             } else {
+                 FXMLLoader loader = new FXMLLoader(getClass().getResource("Profile.fxml"));
+                 Parent root = loader.load();
 
-                Stage stage = new Stage();
-                stage.setScene(new Scene(root));
+                 // Look up UI elements
+                 TextField tfProfileName = (TextField) root.lookup("#tfProfileName");
+                 TextField tfProfileSurname = (TextField) root.lookup("#tfProfileSurname");
+                 TextField tfProfileMail = (TextField) root.lookup("#tfProfileMail");
+                 TextField tfProfilePassword = (TextField) root.lookup("#tfProfilePassword");
+                 Label profileLabel = (Label) root.lookup("#profileLabel");
 
-                stage.setOpacity(0);
-                stage.show();                
+                 Stage stage = new Stage();
+                 stage.setScene(new Scene(root));
+                 stage.setOpacity(0);
+                 stage.show();
 
-                // Set profile informations
-                App.getCurrentUser().setProfileFields(tfProfileName, tfProfileSurname, tfProfileMail, tfProfilePassword, profileLabel);
+                 // Fill profile info
+                 App.getCurrentUser().setProfileFields(tfProfileName, tfProfileSurname, tfProfileMail, tfProfilePassword, profileLabel);
 
-                stage.close();
+                 stage.close();
 
-                Thread.sleep(175);
-                loader = new FXMLLoader(getClass().getResource("homePage.fxml"));
-                root = loader.load();
+                 Thread.sleep(175);
+                 loader = new FXMLLoader(getClass().getResource("homePage.fxml"));
+                 root = loader.load();
 
-                stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-                Scene scene = new Scene(root);
-                stage.setScene(scene);
-                stage.show();
-            }
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+                 stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+                 stage.setScene(new Scene(root));
+                 stage.show();
+             }
+
+         } catch (Exception e) {
+             e.printStackTrace();
+         }
     }
 
-    public boolean validationOnSignIn(String email, String password){
-        for(int i=0; i<App.getUsers().size(); i++){
-            if(tfEmailSin.getText().equals(App.getUsers().get(i).getEmail())){
-                App.setCurrentUser(App.getUsers().get(i));
-                if(App.getCurrentUser().getPassword().equals(password)){
+    public boolean validationOnSignIn(String email, String password) {
+        Properties props = new Properties();
 
-                    return true;
-                }
+        try (InputStream input = getClass().getClassLoader().getResourceAsStream("db.properties")) {
+            if (input == null) {
+                System.err.println("Missing db.properties file");
                 return false;
             }
+            props.load(input);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
         }
-        return false;
+
+        String url = props.getProperty("db.url");
+        String dbUser = props.getProperty("db.user");
+        String dbPassword = props.getProperty("db.password");
+
+        String query = "SELECT * FROM users WHERE email = ?";
+
+        try (Connection conn = DriverManager.getConnection(url, dbUser, dbPassword);
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, email);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                String storedPassword = rs.getString("password");
+                if (storedPassword.equals(password)) {
+                    // Build appropriate user (Student or Authority)
+                    String name = rs.getString("userName");
+                    String surname = rs.getString("userSurname");
+                    boolean mailNotification = rs.getBoolean("mailNotification");
+                    boolean appNotification = rs.getBoolean("appNotification");
+                    boolean isAuthority = rs.getBoolean("isAuthority");
+
+                    User user;
+                    if (isAuthority) {
+                        user = new Authority(name, surname, email, storedPassword, mailNotification, appNotification, true);
+                    } else {
+                        user = new Student(name, surname, email, storedPassword, mailNotification, appNotification, false);
+                    }
+
+                    App.setCurrentUser(user);
+                    return true;
+                } else {
+                    return false; // Password mismatch
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false; // Email not found
     }
 
     public void goToHomePage(ActionEvent event){
@@ -304,38 +334,63 @@ public class mainController implements Initializable{
         }
     }
 
-    public void forgotPassword(ActionEvent e){
-        if(tfEmailSin.getText().equals("")){
-            Alert alert = new Alert(AlertType.ERROR);
-            //alert.setTitle("Wrong email or password");
-            alert.setHeaderText(null); // No header
-            alert.setContentText("Enter your email to the email field.");
-            alert.showAndWait();
+    public void forgotPassword(ActionEvent e) {
+        String email = tfEmailSin.getText().trim();
+
+        if (email.isEmpty()) {
+            showError("Input Error", "Enter your email to the email field.");
+            return;
         }
-        //TODO: Will check if email exists then send random generated password through email
-        for(int i=0; i<App.getUsers().size(); i++){
-            if(tfEmailSin.getText().equals(App.getUsers().get(i).getEmail())){
-                tempPassword = createRandomPassword();
-                App.getUsers().get(i).setPassword(tempPassword);
-                SendGmail.sendPassword(App.getUsers().get(i).getEmail());
-                break;
+
+        Properties props = new Properties();
+        try (InputStream input = getClass().getClassLoader().getResourceAsStream("db.properties")) {
+            if (input == null) {
+                showError("Config Error", "Cannot load db.properties.");
+                return;
             }
+            props.load(input);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            showError("I/O Error", "Could not load DB configuration.");
+            return;
         }
 
-        Alert alert = new Alert(AlertType.ERROR);
-        //alert.setTitle("Wrong email or password");
-        alert.setHeaderText(null); // No header
-        alert.setContentText("user not found.");
-        alert.showAndWait();
-    }
+        String url = props.getProperty("db.url");
+        String dbUser = props.getProperty("db.user");
+        String dbPassword = props.getProperty("db.password");
 
-    private String createRandomPassword(){
-        String password = "";
-        Random ran = new Random();
-        for(int i=0; i<5; i++){
-            password += ran.nextInt(10);
+        String selectQuery = "SELECT * FROM users WHERE email = ?";
+        String updateQuery = "UPDATE users SET password = ? WHERE email = ?";
+
+        try (Connection conn = DriverManager.getConnection(url, dbUser, dbPassword);
+             PreparedStatement selectStmt = conn.prepareStatement(selectQuery)) {
+
+            selectStmt.setString(1, email);
+            ResultSet rs = selectStmt.executeQuery();
+
+            if (rs.next()) {
+                String newTempPassword = tempPassword;
+
+                try (PreparedStatement updateStmt = conn.prepareStatement(updateQuery)) {
+                    updateStmt.setString(1, newTempPassword);
+                    updateStmt.setString(2, email);
+                    int updated = updateStmt.executeUpdate();
+
+                    if (updated > 0) {
+                        // Optionally update in-memory object if loaded
+                        SendGmail.sendPassword(email, newTempPassword);
+                        showInfo("Password Reset", "A new password has been sent to your email.");
+                        return;
+                    }
+                }
+            }
+
+            showError("User Not Found", "No user registered with this email.");
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            showError("Database Error", "Could not query or update user.");
         }
-        return password;
     }
 
      public void goToMapPage(ActionEvent event){
@@ -607,24 +662,59 @@ public class mainController implements Initializable{
 
     @FXML
     public void deleteAccount(ActionEvent event) {
-        App.getUsers().remove(App.getCurrentUser());
-        App.setCurrentUser(null);
+        User currentUser = App.getCurrentUser();
+        if (currentUser == null) {
+            showError("Deletion Failed", "No user is currently signed in.");
+            return;
+        }
 
-        Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle("Account Deleted");
-        alert.setHeaderText(null);
-        alert.setContentText("Your account has been successfully deleted.");
-        alert.showAndWait();
+        Properties props = new Properties();
+        try (InputStream input = getClass().getClassLoader().getResourceAsStream("db.properties")) {
+            if (input == null) {
+                showError("Configuration Error", "Missing db.properties file.");
+                return;
+            }
+            props.load(input);
+        } catch (IOException e) {
+            e.printStackTrace();
+            showError("I/O Error", "Could not load database configuration.");
+            return;
+        }
 
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("loginPage.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
+        String url = props.getProperty("db.url");
+        String dbUser = props.getProperty("db.user");
+        String dbPassword = props.getProperty("db.password");
+
+        String sql = "DELETE FROM users WHERE email = ?";
+
+        try (Connection conn = DriverManager.getConnection(url, dbUser, dbPassword);
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, currentUser.getEmail());
+            int rowsAffected = stmt.executeUpdate();
+
+            if (rowsAffected > 0) {
+                App.setCurrentUser(null);
+
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Account Deleted");
+                alert.setHeaderText(null);
+                alert.setContentText("Your account has been successfully deleted.");
+                alert.showAndWait();
+
+                // Load login page
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("loginPage.fxml"));
+                Parent root = loader.load();
+                Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
+                stage.setScene(new Scene(root));
+                stage.show();
+            } else {
+                showError("Account Deletion Failed", "User could not be found in the database.");
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
+            showError("Database Error", "An error occurred while deleting the account.");
         }
     }
 
@@ -1120,6 +1210,105 @@ public class mainController implements Initializable{
         }
     }
 
-    
+    private boolean validateUserFromDatabase(String email, String password) {
+        Properties props = new Properties();
+        try (InputStream input = getClass().getClassLoader().getResourceAsStream("db.properties")) {
+            props.load(input);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
 
+        String url = props.getProperty("db.url");
+        String dbUser = props.getProperty("db.user");
+        String dbPassword = props.getProperty("db.password");
+
+        String query = "SELECT * FROM users WHERE email = ? AND password = ?";
+
+        try (Connection conn = DriverManager.getConnection(url, dbUser, dbPassword);
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, email);
+            stmt.setString(2, password); // ❗Consider hashing in production
+
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                // User exists – set current user info
+                User user = new User(
+                        rs.getString("userName"),
+                        rs.getString("userSurname"),
+                        rs.getString("email"),
+                        rs.getString("password"),
+                        rs.getBoolean("mailNotification"),
+                        rs.getBoolean("appNotification"),
+                        rs.getBoolean("isAuthority")
+                );
+                App.setCurrentUser(user);
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    private boolean emailExistsInDatabase(String email) {
+        Properties props = new Properties();
+        try (InputStream input = getClass().getClassLoader().getResourceAsStream("db.properties")) {
+            props.load(input);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return true;
+        }
+
+        String url = props.getProperty("db.url");
+        String dbUser = props.getProperty("db.user");
+        String dbPassword = props.getProperty("db.password");
+
+        String query = "SELECT 1 FROM users WHERE email = ?";
+
+        try (Connection conn = DriverManager.getConnection(url, dbUser, dbPassword);
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, email);
+            ResultSet rs = stmt.executeQuery();
+            return rs.next(); // If any row is returned, email exists
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return true;
+        }
+    }
+
+    private void showError(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    private String capitalize(String word) {
+        if (word == null || word.isEmpty()) return word;
+        return word.substring(0, 1).toUpperCase() + word.substring(1).toLowerCase();
+    }
+
+    private String createRandomPassword() {
+        int length = 10;
+        String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        SecureRandom rnd = new SecureRandom();
+        StringBuilder sb = new StringBuilder(length);
+        for (int i = 0; i < length; i++) {
+            sb.append(chars.charAt(rnd.nextInt(chars.length())));
+        }
+        return sb.toString();
+    }
+
+    private void showInfo(String title, String msg) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(msg);
+        alert.showAndWait();
+    }
 }

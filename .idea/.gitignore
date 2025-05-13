@@ -10,3 +10,5 @@
 /dataSources.local.xml
 # Exclude real DB credentials
 src/main/resources/db.properties
+#Exclude mail properties.
+src/main/resources/mail.properties

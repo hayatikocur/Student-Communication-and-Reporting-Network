@@ -214,7 +214,6 @@ public class App extends Application {
 
     private static Scene scene;
 
-    private static ArrayList<User> allUsers = new ArrayList();
     private static User currentUser;// this is for one time use when user signs in. dont store this in database.
     public static ArrayList<ProblemReport> getReports() {
         return reports;
@@ -262,13 +261,4 @@ public class App extends Application {
     public static void setScene(Scene scene) {
         App.scene = scene;
     }
-
-    public static ArrayList<User> getAllUsers() {
-        return allUsers;
-    }
-
-    public static ArrayList<User> getUsers(){
-        return allUsers;
-    }
-    
 }
