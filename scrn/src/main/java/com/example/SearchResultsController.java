@@ -27,13 +27,6 @@ public class SearchResultsController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        System.out.println("SearchResultsController initialized.");
-        if (App.currentSearchCriteriaDescription != null && !App.currentSearchCriteriaDescription.isEmpty()) {
-            searchResultsTitleLabel.setText("Results for: " + App.currentSearchCriteriaDescription);
-        } else {
-            searchResultsTitleLabel.setText("Search Results");
-        }
-
         if (App.currentSearchResults != null && !App.currentSearchResults.isEmpty()) {
             resultsListView.setItems(FXCollections.observableArrayList(App.currentSearchResults));
             System.out.println("SearchResultsController: Displaying " + App.currentSearchResults.size() + " results.");
