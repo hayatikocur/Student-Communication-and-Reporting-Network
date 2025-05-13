@@ -63,7 +63,7 @@
                 <Button layoutX="59.0" layoutY="425.0" onAction="#goToProfilePage" style="-fx-background-color: transparent;" text="Profile" textFill="WHITE">
                     <font><Font size="20.0" /></font>
                 </Button>
-                <Button layoutX="65.0" layoutY="502.0" onAction="#goToOptionPage" style="-fx-background-color: transparent;" text="Settings" textFill="WHITE">
+                <Button layoutX="58.0" layoutY="502.0" onAction="#goToOptionPage" style="-fx-background-color: transparent;" text="Settings" textFill="WHITE">
                     <font><Font size="20.0" /></font>
                 </Button>
             </children>
@@ -72,7 +72,7 @@
         <Label layoutX="465.0" prefHeight="88.0" prefWidth="197.0" text="SEARCH">
             <font><Font name="System Bold" size="50.0" /></font>
         </Label>
-      <TextField layoutX="355.0" layoutY="68.0" prefHeight="39.0" prefWidth="418.0" promptText="🔎 Enter a keyword or select categories" style="-fx-background-radius: 40;">
+      <TextField fx:id="searchQueryTextField" layoutX="355.0" layoutY="68.0" prefHeight="39.0" prefWidth="418.0" promptText="Enter a keyword or select categories" style="-fx-background-radius: 40;">
          <font>
             <Font size="14.0" />
          </font>
@@ -108,6 +108,11 @@
       <ToggleButton fx:id="ffBuildingButton" layoutX="285.0" layoutY="394.0" mnemonicParsing="false" onAction="#categoryAction" prefHeight="27.0" prefWidth="130.0" style="-fx-background-color: #ffffff; -fx-border-color: #000000; -fx-border-radius: 20; -fx-background-color: 20;" text="FF Building" />
       <ToggleButton fx:id="kutuphaneButton" layoutX="431.0" layoutY="323.0" mnemonicParsing="false" onAction="#categoryAction" prefHeight="27.0" prefWidth="130.0" style="-fx-background-color: #ffffff; -fx-border-color: #000000; -fx-border-radius: 20; -fx-background-color: 20;" text="Kütüphane" />
       <ToggleButton fx:id="fdBuildingButton" layoutX="708.0" layoutY="356.0" mnemonicParsing="false" onAction="#categoryAction" prefHeight="27.0" prefWidth="130.0" style="-fx-background-color: #ffffff; -fx-border-color: #000000; -fx-border-radius: 20; -fx-background-color: 20;" text="FD Building" />
+      <Button fx:id="searchButton" layoutX="311.0" layoutY="66.0" mnemonicParsing="false" onAction="#handleSearchAction" style="-fx-background-color: transparent;" text="🔎">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
 
     </children>
 </AnchorPane>
