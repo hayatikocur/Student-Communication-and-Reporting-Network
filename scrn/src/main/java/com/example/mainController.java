@@ -77,6 +77,8 @@ public class mainController implements Initializable{
     TextField tfProfileName;
     @FXML
     Label profileEditLabel;
+    @FXML
+    ListView searchResultsListView;
 
     @FXML private TextField searchKeywordTextField;
 
@@ -675,14 +677,14 @@ public class mainController implements Initializable{
 
 
 
-    private void updateToggleText(ToggleButton button) {
-        if (button != null) {
-            button.setText(button.isSelected() ? "Turn On" : "Turn Off");
-            button.setOnAction(e -> {
-            button.setText(button.isSelected() ? "Turn On" : "Turn Off");
-            });
-        }
-    }
+    // private void updateToggleText(ToggleButton button) {
+    //     if (button != null) {
+    //         button.setText(button.isSelected() ? "Turn On" : "Turn Off");
+    //         button.setOnAction(e -> {
+    //         button.setText(button.isSelected() ? "Turn On" : "Turn Off");
+    //         });
+    //     }
+    // }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -974,11 +976,11 @@ public class mainController implements Initializable{
     // Toggle durumuna göre görünüm güncelle
     private void updateToggleAppearance(ToggleButton toggle) {
         if (toggle.isSelected()) {
-            toggle.setText("Turn Off");
-            toggle.setStyle("-fx-background-color: #e53935; -fx-text-fill: white; -fx-background-radius: 20;");
-        } else {
-            toggle.setText("Turn On");
+            toggle.setText("Turned On");
             toggle.setStyle("-fx-background-color: #66bb6a; -fx-text-fill: white; -fx-background-radius: 20;");
+        } else {
+            toggle.setText("Turned Off");
+            toggle.setStyle("-fx-background-color: #e53935; -fx-text-fill: white; -fx-background-radius: 20;");
         }
     }
 
