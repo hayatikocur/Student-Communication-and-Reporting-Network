@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
@@ -65,12 +66,13 @@
             <!-- 📥 POST FORMU -->
       <AnchorPane fx:id="postFormPane" layoutX="228.0" layoutY="167.0" prefHeight="418.0" prefWidth="671.0">
          <children>
+
             <TextField fx:id="tfPostTitle" layoutX="11.0" layoutY="258.0" prefWidth="650.0" promptText="SET TITLE HERE" style="-fx-background-color: #D9DDDC;" />
             <TextField fx:id="tfPostContent" layoutX="11.0" layoutY="284.0" prefHeight="134.0" prefWidth="650.0" promptText="DESCRIPTION" style="-fx-background-radius: 0 0 0 20; -fx-background-color: #D9DDDC;" />
             <ImageView fx:id="postImagePreview" fitHeight="253.0" fitWidth="291.0" layoutX="21.0" layoutY="-51.0" preserveRatio="true" />
             <Region layoutX="11.0" layoutY="209.0" prefHeight="52.0" prefWidth="650.0" style="-fx-background-color: #D9DDDC; -fx-background-radius: 20 0 0 0;" />
       
-                  <Button fx:id="btnChooseImage" layoutX="507.0" layoutY="209.0" onAction="#chooseImage" prefHeight="39.0" prefWidth="75.0" style="-fx-background-color: transparent;" text="📁">
+                  <Button fx:id="btnChooseImage" layoutX="527.0" layoutY="209.0" onAction="#chooseImage" prefHeight="39.0" prefWidth="75.0" style="-fx-background-color: transparent;" text="📁">
                <font>
                   <Font size="25.0" />
                </font>
@@ -92,6 +94,7 @@
                   <Font name="System Bold" size="20.0" />
                </font>
             </Button>
+            <ComboBox fx:id="cbPostLocation" layoutX="396.0" layoutY="222.0" prefHeight="26.0" prefWidth="120.0" promptText="Select Building" />
          </children>
       </AnchorPane>
 

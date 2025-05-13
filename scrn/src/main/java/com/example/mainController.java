@@ -3,10 +3,13 @@ package com.example;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 import java.util.ResourceBundle;
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -21,9 +24,11 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.PasswordField;
@@ -173,7 +178,8 @@ public class mainController implements Initializable{
         else{
             App.getUsers().add(new Authority(name, surname, email, tfPasswordSup.getText()));
         }
-        App.getUsers().add(new User(name, surname, email, tfPasswordSup.getText()));
+        
+        // App.getUsers().add(new User(name, surname, email, tfPasswordSup.getText()));
         return true;
     }
 
@@ -453,6 +459,10 @@ public class mainController implements Initializable{
     @FXML
     ToggleButton appNotiToggle;
 
+    @FXML
+    private ComboBox<String> cbPostLocation;
+
+
     private void updateToggleText(ToggleButton button) {
         if (button != null) {
             button.setText(button.isSelected() ? "Turn On" : "Turn Off");
@@ -465,10 +475,11 @@ public class mainController implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         if (postContainer != null) {
+            App.sortPostsByVotes(); // önce sıralama
             postContainer.getChildren().clear();
             postContainer.getChildren().addAll(App.getAllPosts());
         }
-    
+
         if (postFormPane != null) {
             postFormPane.setVisible(true); // Sayfa yüklenince post formu açık gelsin
         }
@@ -501,9 +512,79 @@ public class mainController implements Initializable{
         if (appNotiToggle != null) {
             setupToggleButton(appNotiToggle, App.getCurrentUser().isAppNotificationEnabled());
         }
+
+        if (cbPostLocation != null) {
+            cbPostLocation.setItems(FXCollections.observableArrayList(App.getBuildingReports().keySet()));
+        }
+
+
+
+        // ✔ Tüm postların durum butonlarını tekrar bağla
+    for (AnchorPane post : App.getAllPosts()) {
+        Button btn = App.getStatusButtons().get(post);
+        if (btn != null) {
+            boolean isSolved = App.getPostSolvedStatus(post);
+            btn.setText(isSolved ? "SOLVED" : "UNSOLVED");
+            btn.setStyle(isSolved
+                ? "-fx-background-color: #66bb6a; -fx-text-fill: white; -fx-font-weight: bold;"
+                : "-fx-background-color: #ef5350; -fx-text-fill: white; -fx-font-weight: bold;");
+            
+            if (App.getCurrentUser() instanceof Authority) {
+                btn.setDisable(isSolved); // ✅ zaten SOLVED ise kapalı olsun
+
+                if (!isSolved) {
+                    btn.setOnAction(e -> {
+                        if (btn.getText().equals("UNSOLVED")) {
+                            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                            alert.setTitle("Confirm Resolution");
+                            alert.setHeaderText("Are you sure you want to mark this issue as SOLVED?");
+                            alert.setContentText("Once marked as solved, it cannot be changed again.");
+
+                            alert.showAndWait().ifPresent(response -> {
+                                if (response == javafx.scene.control.ButtonType.OK) {
+                                    App.setPostSolvedStatus(post, true);
+                                    btn.setText("SOLVED");
+                                    btn.setStyle("-fx-background-color: #66bb6a; -fx-text-fill: white; -fx-font-weight: bold; -fx-opacity: 1.0;");
+                                    btn.setDisable(true);
+
+                                    // ✅ MAIL GÖNDER
+                                    User postOwner = App.getPostOwner(post);
+                                    User resolver = App.getCurrentUser();
+
+                                    if (postOwner != null && resolver != null) {
+                                        String subject = "Problem Solved: \"" + getPostTitleFromPost(post) + "\"";
+                                        String message = "Dear " + postOwner.getUserName() + ",\n\n"
+                                            + "Your reported problem titled \"" + getPostTitleFromPost(post) + "\" has been marked as SOLVED by "
+                                            + resolver.getUserName() + " " + resolver.getUserSurname() + ".\n\n"
+                                            + "Thank you for your feedback.\n\nBest regards,\nSCRN System";
+
+                                        SendGmail.sendEmail(postOwner.getEmail(), subject, message);
+                                    }
+                                }
+                            });
+                        }
+                    });
+
+                }
+            } else {
+                btn.setDisable(true); // öğrenci zaten tıklayamaz
+            }
+        }
+    }
+}
+
+    private String getPostTitleFromPost(AnchorPane post) {
+        Node found = post.lookup("#postTitleLabel");
+        if (found instanceof Label) {
+            return ((Label) found).getText();
+        }
+        return "Unknown Title";
     }
 
-    
+
+
+
+
     @FXML
     public void deleteAccount(ActionEvent event) {
         App.getUsers().remove(App.getCurrentUser());
@@ -690,8 +771,10 @@ public class mainController implements Initializable{
         updateToggleAppearance(appNotiToggle);
     }
 
+    
     @FXML
     private TextField tfPostTitle;
+
 
     @FXML
     private TextField tfPostContent;
@@ -709,74 +792,238 @@ public class mainController implements Initializable{
     private ScrollPane scrollPane;
 
         
-    @FXML
+   @FXML
     private void submitPost(ActionEvent event) {
         String title = tfPostTitle.getText();
         String content = tfPostContent.getText();
 
-        VBox postBox = new VBox(5);
-        postBox.setStyle(tfPostContent.getStyle());
-
-        // Kullanıcı adı
+        // Kullanıcı bilgileri
         String fullName = App.getCurrentUser().getUserName() + " " + App.getCurrentUser().getUserSurname();
         Label userLabel = new Label(fullName);
         userLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2e7d32;");
 
         // Başlık ve içerik
         Label titleLabel = new Label(title);
+        titleLabel.setId("postTitleLabel"); // 🔹 bu çok önemli
         titleLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
         Label contentLabel = new Label(content);
         contentLabel.setWrapText(true);
+        
 
-        postBox.getChildren().addAll(userLabel, titleLabel, contentLabel);
+        // Binanın adı
+        String selectedBuilding = cbPostLocation.getValue();
+        Label buildingLabel = new Label("🏢 " + (selectedBuilding != null && !selectedBuilding.isEmpty() ? selectedBuilding : "No Building Selected"));
+        buildingLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: #000000;");  // Siyah renk
 
-        // Görsel varsa ekle
-        if (selectedImageFile != null) {
-            ImageView imageView = new ImageView(new Image(selectedImageFile.toURI().toString()));
-            imageView.setFitWidth(300);
-            imageView.setPreserveRatio(true);
-            postBox.getChildren().add(imageView);
-        }
-
-        // ✅ Upvote / Downvote bölümü
+        // Oy bileşenleri
         Label voteCountLabel = new Label("0");
         voteCountLabel.setStyle("-fx-font-size: 14px; -fx-padding: 5;");
-
         Button upvoteButton = new Button("▲");
         Button downvoteButton = new Button("▼");
 
-        upvoteButton.setOnAction(e -> {
-            int currentVotes = Integer.parseInt(voteCountLabel.getText());
-            voteCountLabel.setText(String.valueOf(currentVotes + 1));
-        });
+        // Post işlemi içinde bina seçildiğinde harita raporunun arttırılması
+        selectedBuilding = cbPostLocation.getValue();
+        if (selectedBuilding != null && !selectedBuilding.isEmpty()) {
+            App.incrementBuildingReport(selectedBuilding);
+        }
 
-        downvoteButton.setOnAction(e -> {
-            int currentVotes = Integer.parseInt(voteCountLabel.getText());
-            voteCountLabel.setText(String.valueOf(currentVotes - 1));
-        });
 
         VBox voteBox = new VBox(5, upvoteButton, voteCountLabel, downvoteButton);
         voteBox.setStyle("-fx-alignment: center;");
-        
         AnchorPane votePane = new AnchorPane();
-        votePane.setPrefHeight(60);
         votePane.setPrefWidth(60);
         votePane.getChildren().add(voteBox);
         AnchorPane.setTopAnchor(voteBox, 0.0);
         AnchorPane.setLeftAnchor(voteBox, 0.0);
 
+        // Post içeriği
+        VBox fullPostContent = new VBox(10, userLabel, titleLabel, contentLabel, buildingLabel);
+
+        if (selectedImageFile != null) {
+            ImageView imageView = new ImageView(new Image(selectedImageFile.toURI().toString()));
+            imageView.setFitWidth(300);
+            imageView.setPreserveRatio(true);
+            fullPostContent.getChildren().add(imageView);
+        }
+
+        // Yorum bileşenleri
+        VBox commentSection = new VBox(5);
+        commentSection.setVisible(false);
+        commentSection.setManaged(false);
+        commentSection.setStyle("-fx-padding: 10;");
+        Label commentLabel = new Label("Comments:");
+        commentLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
+
+        ListView<HBox> commentList = new ListView<>();
+        commentList.setPrefHeight(100);
+        TextField commentInput = new TextField();
+        commentInput.setPromptText("Write a comment...");
+        commentInput.setPrefWidth(400);
+        Button submitCommentButton = new Button("Post");
+        Button toggleCommentButton = new Button("💬 Comment");
+
         AnchorPane postWithVotes = new AnchorPane();
         postWithVotes.setPrefWidth(600);
-        AnchorPane.setLeftAnchor(postBox, 60.0);
-        postWithVotes.getChildren().addAll(votePane, postBox);
 
+        // Uygulamaya kaydet
         App.addPost(postWithVotes);
+        App.initVotesForPost(postWithVotes);
+        App.initCommentsForPost(postWithVotes);
+        App.registerPostOwner(postWithVotes, App.getCurrentUser());
+        commentList.setItems(FXCollections.observableArrayList(App.getCommentsForPost(postWithVotes)));
 
+        toggleCommentButton.setOnAction(ev -> {
+            boolean visible = commentSection.isVisible();
+            commentSection.setVisible(!visible);
+            commentSection.setManaged(!visible);
+            toggleCommentButton.setText(!visible ? "❌ Hide Comments" : "💬 Comment");
+            toggleCommentButton.setStyle(!visible
+                ? "-fx-background-color: #E3F2FD; -fx-border-color: #2196f3; -fx-border-radius: 5; -fx-background-radius: 5;"
+                : "-fx-background-color: transparent;");
+        });
+
+        submitCommentButton.setOnAction(ev -> {
+            String comment = commentInput.getText().trim();
+            if (!comment.isEmpty()) {
+                String name = App.getCurrentUser().getUserName();
+                String surname = App.getCurrentUser().getUserSurname();
+
+                Label nameLabel = new Label(name + " " + surname + ": ");
+                nameLabel.setStyle("-fx-font-weight: bold;");
+                Label commentText = new Label(comment);
+                HBox commentLine = new HBox(5, nameLabel, commentText);
+
+                App.addCommentToPost(postWithVotes, commentLine);
+                commentList.setItems(FXCollections.observableArrayList(App.getCommentsForPost(postWithVotes)));
+                commentInput.clear();
+            }
+        });
+
+        Button statusButton = new Button("UNSOLVED");
+        statusButton.setStyle("-fx-background-color: #ef5350; -fx-text-fill: white; -fx-font-weight: bold;");
+            
+        App.registerStatusButton(postWithVotes, statusButton);
+        App.setPostSolvedStatus(postWithVotes, false);
+
+        //haha
+        // Erişim yetkisi kontrolü
+        if (App.getCurrentUser() instanceof Authority) {
+            statusButton.setOnAction(ev -> {
+            if (statusButton.getText().equals("UNSOLVED")) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Confirm Resolution");
+                alert.setHeaderText("Are you sure you want to mark this issue as SOLVED?");
+                alert.setContentText("Once marked as solved, it cannot be changed again.");
+
+                // Evet/Hayır butonlarını bekle
+                alert.showAndWait().ifPresent(response -> {
+                    if (response == javafx.scene.control.ButtonType.OK) {
+                        App.setPostSolvedStatus(postWithVotes, true);
+                        statusButton.setText("SOLVED");
+                        statusButton.setStyle("-fx-background-color: #66bb6a; -fx-text-fill: white; -fx-font-weight: bold; -fx-opacity: 1.0;");
+
+                        User postOwner = App.getPostOwner(postWithVotes);
+                        User resolver = App.getCurrentUser();
+                        String postTitle = tfPostTitle.getText();
+
+                        if (postOwner != null && resolver != null) {
+                            String subject = "Problem Solved: \"" + postTitle + "\"";
+                            String contentMail = "Dear " + postOwner.getUserName() + ",\n\n"
+                                    + "Your reported problem titled \"" + postTitle + "\" has been marked as SOLVED by "
+                                    + resolver.getUserName() + " " + resolver.getUserSurname() + ".\n\n"
+                                    + "Thank you for your feedback.\n\nBest regards,\nSCRN System";
+
+                            SendGmail.sendEmail(postOwner.getEmail(), subject, contentMail);
+                        }
+
+                        statusButton.setDisable(true); // artık tıklanamaz
+                    }
+                });
+            }
+        });
+
+
+        } else {
+            statusButton.setDisable(true); // Diğer kullanıcılar tıklayamasın
+            statusButton.setStyle("-fx-background-color: #cccccc; -fx-text-fill: black;");
+            statusButton.setTooltip(new javafx.scene.control.Tooltip("Only authorities can mark posts as solved."));
+        }
+
+        commentSection.getChildren().addAll(commentLabel, commentList, new HBox(5, commentInput, submitCommentButton));
+        fullPostContent.getChildren().addAll(toggleCommentButton, commentSection);
+        fullPostContent.getChildren().add(statusButton);
+        AnchorPane.setLeftAnchor(fullPostContent, 60.0);
+        postWithVotes.getChildren().addAll(votePane, fullPostContent);
+
+        // Oy işlemleri
+        upvoteButton.setOnAction(e -> {
+            Map<User, Integer> voteMap = App.getVotesForPost(postWithVotes);
+            int previousVote = voteMap.getOrDefault(App.getCurrentUser(), 0);
+            int currentVotes = Integer.parseInt(voteCountLabel.getText());
+
+            if (previousVote == 1) return;
+
+            if (previousVote == -1) {
+                voteCountLabel.setText(String.valueOf(currentVotes + 1));
+                voteMap.put(App.getCurrentUser(), 0);
+            } else {
+                voteCountLabel.setText(String.valueOf(currentVotes + 1));
+                voteMap.put(App.getCurrentUser(), 1);
+            }
+
+            // 🔄 ANINDA SIRALAMA VE YENİDEN GÖSTERİM
+            if (postContainer != null) {
+                App.sortPostsByVotes();
+                postContainer.getChildren().setAll(App.getAllPosts());
+            }
+        });
+
+
+        downvoteButton.setOnAction(e -> {
+            Map<User, Integer> voteMap = App.getVotesForPost(postWithVotes);
+            int previousVote = voteMap.getOrDefault(App.getCurrentUser(), 0);
+            int currentVotes = Integer.parseInt(voteCountLabel.getText());
+
+            if (previousVote == -1) return;
+
+            if (previousVote == 1) {
+                voteCountLabel.setText(String.valueOf(currentVotes - 1));
+                voteMap.put(App.getCurrentUser(), 0);
+            } else {
+                voteCountLabel.setText(String.valueOf(currentVotes - 1));
+                voteMap.put(App.getCurrentUser(), -1);
+            }
+
+            // 🔄 ANINDA SIRALAMA VE GÖRÜNTÜLEME
+            if (postContainer != null) {
+                App.sortPostsByVotes();
+                postContainer.getChildren().setAll(App.getAllPosts());
+            }
+        });
+
+        if (postContainer != null) {
+            App.sortPostsByVotes(); // oylara göre sırala
+            postContainer.getChildren().clear();
+            for (AnchorPane post : App.getAllPosts()) {
+                postContainer.getChildren().add(post);
+            }
+        }
+
+
+
+        // Temizle ve formu kapat
         tfPostTitle.clear();
         tfPostContent.clear();
         selectedImageFile = null;
         postImagePreview.setImage(null);
 
+        // HomePage yeniden yüklenmeden anlık olarak güncellensin
+        if (postContainer != null) {
+            App.sortPostsByVotes();
+            postContainer.getChildren().setAll(App.getAllPosts());
+        }
+
+        // Sayfayı yeniden yükle
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("homePage.fxml"));
             Parent root = loader.load();
@@ -787,6 +1034,9 @@ public class mainController implements Initializable{
             e.printStackTrace();
         }
     }
+
+
+
 
 
 

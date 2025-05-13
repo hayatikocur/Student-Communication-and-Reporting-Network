@@ -11,13 +11,17 @@
 
 <AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mainController">
    <children>
-      <Label layoutX="408.0" prefHeight="88.0" prefWidth="364.0" text="SAVED ISSUES">
+      <!-- Başlık -->
+      <Label layoutX="406.0" layoutY="-7.0" prefHeight="88.0" prefWidth="364.0" text="SAVED ISSUES">
          <font>
             <Font name="System Bold" size="50.0" />
          </font>
       </Label>
+
+      <!-- Sol Menü -->
       <AnchorPane prefHeight="600.0" prefWidth="228.0" style="-fx-background-color: linear-gradient(to right, #0d54a1, #ff0000);">
          <children>
+            <!-- Menü Simge ve Butonlar -->
             <ImageView fitHeight="42.0" fitWidth="39.0" layoutX="14.0" layoutY="102.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@homeIcon.png" />
@@ -48,6 +52,8 @@
                   <Image url="@settingsIcon.png" />
                </image>
             </ImageView>
+
+            <!-- Menü Butonları -->
             <Button layoutX="60.0" layoutY="99.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Home" textFill="WHITE">
                <font>
                   <Font size="20.0" />
@@ -74,15 +80,14 @@
                </font>
             </Button>
             <Button layoutX="77.0" layoutY="502.0" mnemonicParsing="false" onAction="#goToOptionPage" style="-fx-background-color: transparent;" text="Settings" textFill="WHITE">
-nsparent;" text="Settings">
                <font>
                   <Font size="20.0" />
                </font>
             </Button>
          </children>
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets></AnchorPane>
-      <ListView layoutX="228.0" layoutY="69.0" prefHeight="531.0" prefWidth="672.0" />
+      </AnchorPane>
+
+      <!-- Kaydedilen Issues Listesi -->
+      <ListView fx:id="savedIssuesListView" layoutX="228.0" layoutY="69.0" prefHeight="531.0" prefWidth="672.0" />
    </children>
 </AnchorPane>
