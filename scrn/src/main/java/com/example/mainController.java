@@ -818,8 +818,10 @@ public class mainController implements Initializable{
         // Oy bileşenleri
         Label voteCountLabel = new Label("0");
         voteCountLabel.setStyle("-fx-font-size: 14px; -fx-padding: 5;");
-        Button upvoteButton = new Button("▲");
-        Button downvoteButton = new Button("▼");
+        Button upvoteButton = new Button("🢙");
+        upvoteButton.setStyle("-fx-background-color: transparent; -fx-font-size: 20");
+        Button downvoteButton = new Button("🢛");
+        downvoteButton.setStyle("-fx-background-color: transparent; -fx-font-size: 20");
 
         // Post işlemi içinde bina seçildiğinde harita raporunun arttırılması
         selectedBuilding = cbPostLocation.getValue();
