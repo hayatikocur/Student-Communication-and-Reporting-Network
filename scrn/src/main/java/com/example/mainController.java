@@ -528,67 +528,61 @@ public class mainController implements Initializable{
             categoryListView.setItems(FXCollections.observableArrayList(
             "Maintenance", "Cleaning", "Electrical", "Safety", "Other"
         ));
-        } else {
-            System.err.println("categoryListView is null. Check FXML binding.");
         }
 
-        
-
-
-
         // ✔ Tüm postların durum butonlarını tekrar bağla
-    for (AnchorPane post : App.getAllPosts()) {
-        Button btn = App.getStatusButtons().get(post);
-        if (btn != null) {
-            boolean isSolved = App.getPostSolvedStatus(post);
-            btn.setText(isSolved ? "SOLVED" : "UNSOLVED");
-            btn.setStyle(isSolved
-                ? "-fx-background-color: #66bb6a; -fx-text-fill: white; -fx-font-weight: bold;"
-                : "-fx-background-color: #ef5350; -fx-text-fill: white; -fx-font-weight: bold;");
-            
-            if (App.getCurrentUser() instanceof Authority) {
-                btn.setDisable(isSolved); // ✅ zaten SOLVED ise kapalı olsun
+        for (AnchorPane post : App.getAllPosts()) {
+            Button btn = App.getStatusButtons().get(post);
+            if (btn != null) {
+                boolean isSolved = App.getPostSolvedStatus(post);
+                btn.setText(isSolved ? "SOLVED" : "UNSOLVED");
+                btn.setStyle(isSolved
+                    ? "-fx-background-color: #66bb6a; -fx-text-fill: white; -fx-font-weight: bold;"
+                    : "-fx-background-color: #ef5350; -fx-text-fill: white; -fx-font-weight: bold;");
 
-                if (!isSolved) {
-                    btn.setOnAction(e -> {
-                        if (btn.getText().equals("UNSOLVED")) {
-                            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                            alert.setTitle("Confirm Resolution");
-                            alert.setHeaderText("Are you sure you want to mark this issue as SOLVED?");
-                            alert.setContentText("Once marked as solved, it cannot be changed again.");
+                if (App.getCurrentUser() instanceof Authority) {
+                    btn.setDisable(isSolved); // ✅ zaten SOLVED ise kapalı olsun
 
-                            alert.showAndWait().ifPresent(response -> {
-                                if (response == javafx.scene.control.ButtonType.OK) {
-                                    App.setPostSolvedStatus(post, true);
-                                    btn.setText("SOLVED");
-                                    btn.setStyle("-fx-background-color: #66bb6a; -fx-text-fill: white; -fx-font-weight: bold; -fx-opacity: 1.0;");
-                                    btn.setDisable(true);
+                    if (!isSolved) {
+                        btn.setOnAction(e -> {
+                            if (btn.getText().equals("UNSOLVED")) {
+                                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                                alert.setTitle("Confirm Resolution");
+                                alert.setHeaderText("Are you sure you want to mark this issue as SOLVED?");
+                                alert.setContentText("Once marked as solved, it cannot be changed again.");
 
-                                    // ✅ MAIL GÖNDER
-                                    User postOwner = App.getPostOwner(post);
-                                    User resolver = App.getCurrentUser();
+                                alert.showAndWait().ifPresent(response -> {
+                                    if (response == javafx.scene.control.ButtonType.OK) {
+                                        App.setPostSolvedStatus(post, true);
+                                        btn.setText("SOLVED");
+                                        btn.setStyle("-fx-background-color: #66bb6a; -fx-text-fill: white; -fx-font-weight: bold; -fx-opacity: 1.0;");
+                                        btn.setDisable(true);
 
-                                    if (postOwner != null && resolver != null) {
-                                        String subject = "Problem Solved: \"" + getPostTitleFromPost(post) + "\"";
-                                        String message = "Dear " + postOwner.getUserName() + ",\n\n"
-                                            + "Your reported problem titled \"" + getPostTitleFromPost(post) + "\" has been marked as SOLVED by "
-                                            + resolver.getUserName() + " " + resolver.getUserSurname() + ".\n\n"
-                                            + "Thank you for your feedback.\n\nBest regards,\nSCRN System";
+                                        // ✅ MAIL GÖNDER
+                                        User postOwner = App.getPostOwner(post);
+                                        User resolver = App.getCurrentUser();
 
-                                        SendGmail.sendEmail(postOwner.getEmail(), subject, message);
+                                        if (postOwner != null && resolver != null) {
+                                            String subject = "Problem Solved: \"" + getPostTitleFromPost(post) + "\"";
+                                            String message = "Dear " + postOwner.getUserName() + ",\n\n"
+                                                + "Your reported problem titled \"" + getPostTitleFromPost(post) + "\" has been marked as SOLVED by "
+                                                + resolver.getUserName() + " " + resolver.getUserSurname() + ".\n\n"
+                                                + "Thank you for your feedback.\n\nBest regards,\nSCRN System";
+
+                                            SendGmail.sendEmail(postOwner.getEmail(), subject, message);
+                                        }
                                     }
-                                }
-                            });
-                        }
-                    });
+                                });
+                            }
+                        });
 
+                    }
+                } else {
+                    btn.setDisable(true); // öğrenci zaten tıklayamaz
                 }
-            } else {
-                btn.setDisable(true); // öğrenci zaten tıklayamaz
             }
         }
     }
-}
 
     private String getPostTitleFromPost(AnchorPane post) {
         Node found = post.lookup("#postTitleLabel");
