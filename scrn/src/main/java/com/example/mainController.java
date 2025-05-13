@@ -1058,7 +1058,9 @@ public class mainController implements Initializable{
         categoriesLabel.setStyle("-fx-font-style: italic; -fx-text-fill: #555;");
         
         VBox postContent = new VBox();
-        postContent.getChildren().addAll(categoriesLabel, postContainer);
+        if (categoriesLabel != null && postContainer != null) {
+            postContent.getChildren().addAll(categoriesLabel, postContainer);
+        }
         postBox.getChildren().add(postContent);
     }
 
