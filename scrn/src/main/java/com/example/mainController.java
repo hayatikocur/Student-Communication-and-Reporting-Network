@@ -98,6 +98,9 @@ public class mainController implements Initializable{
     @FXML private ToggleButton ffBuildingButton;
     @FXML private ToggleButton kutuphaneButton;
 
+    @FXML private Button createBtn;
+    @FXML private ImageView createIcon;
+
     @FXML
     private ListView<String> categoryListView;
 
@@ -120,7 +123,7 @@ public class mainController implements Initializable{
 
     public void changeToSignInFromSignUp(ActionEvent event){
         try {
-            if(validateBilkentEmail(tfEmailSup.getText())){
+            if(validateBilkentEmail(tfEmailSup.getText().trim())){
                 Thread.sleep(175);
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("SignIn.fxml"));
                 Parent root = loader.load();
@@ -216,9 +219,17 @@ public class mainController implements Initializable{
      public void goToHomePageFromLogin(ActionEvent event){
         //TODO: Need to check if user's email and password is correct. Then it should go to home page.
 
-         try {
-             String email = tfEmailSin.getText();
-             String password = tfPasswordSin.getText();
+        try {
+            if(!validationOnSignIn(tfEmailSin.getText().trim(), tfPasswordSin.getText())){
+                Alert alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Wrong email or password");
+                alert.setHeaderText(null); // No header
+                alert.setContentText("Email or Password wrong!");
+                alert.showAndWait();
+            }
+            else{
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("Profile.fxml"));
+                Parent root = loader.load();
 
              if (!validateUserFromDatabase(email, password)) {
                  Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -260,6 +271,7 @@ public class mainController implements Initializable{
              e.printStackTrace();
          }
     }
+
 
     public boolean validationOnSignIn(String email, String password) {
         Properties props = new Properties();
@@ -333,7 +345,7 @@ public class mainController implements Initializable{
             e.printStackTrace();
         }
     }
-
+        
     public void forgotPassword(ActionEvent e) {
         String email = tfEmailSin.getText().trim();
 
@@ -464,19 +476,25 @@ public class mainController implements Initializable{
 
     public void goToCreatePage(ActionEvent event){
 
-        try {
-            Thread.sleep(175);
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("createPage.fxml"));
-            Parent root = loader.load();
+        if(App.getCurrentUser().getEmail().contains("ug")){
+            try {
+                Thread.sleep(175);
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("createPage.fxml"));
+                Parent root = loader.load();
 
-            Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
+                Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                stage.show();
 
-        } catch (Exception e) {
-            e.printStackTrace();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+
+
+        
 
     }
 
@@ -584,6 +602,11 @@ public class mainController implements Initializable{
 
         if (cbPostLocation != null) {
             cbPostLocation.setItems(FXCollections.observableArrayList(App.getBuildingReports().keySet()));
+        }
+
+        if(createBtn != null && !App.getCurrentUser().getEmail().contains("ug")){
+            createBtn.setVisible(false);
+            createIcon.setVisible(false);
         }
 
         //Category Initializing
@@ -1183,8 +1206,13 @@ public class mainController implements Initializable{
 
     @FXML
     public void createPost(ActionEvent event) {
+
+        //only student can creat posts
         // Formu aç
+        
         postFormPane.setVisible(true);
+        
+        
     }
 
     @FXML

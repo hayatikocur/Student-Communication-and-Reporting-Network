@@ -70,12 +70,12 @@
         </AnchorPane>
 
         <!-- ÜST BAR -->
-        <ImageView fitHeight="44.0" fitWidth="39.0" layoutX="228.0" layoutY="22.0" preserveRatio="true">
+        <ImageView fx:id="createIcon" fitHeight="44.0" fitWidth="39.0" layoutX="228.0" layoutY="22.0" preserveRatio="true">
             <image>
                 <Image url="@createIcon.png" />
             </image>
         </ImageView>
-        <Button layoutX="248.0" layoutY="16.0" onAction="#goToCreatePage" prefHeight="55.0" prefWidth="98.0" style="-fx-background-color: bold;" text="Create">
+        <Button fx:id="createBtn" layoutX="248.0" layoutY="16.0" onAction="#goToCreatePage" prefHeight="55.0" prefWidth="98.0" style="-fx-background-color: bold;" text="Create">
             <font><Font name="System Bold Italic" size="20.0" /></font>
         </Button>
 
