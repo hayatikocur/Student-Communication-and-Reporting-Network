@@ -1,6 +1,7 @@
 package com.example;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,6 +42,7 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.web.WebView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import java.util.stream.Collectors;
 
 public class mainController implements Initializable{
 
@@ -75,6 +77,173 @@ public class mainController implements Initializable{
     TextField tfProfileName;
     @FXML
     Label profileEditLabel;
+
+    @FXML private TextField searchKeywordTextField;
+
+    @FXML
+    private void confirmSearchAndNavigate(ActionEvent event) {
+        String keywordQuery = "";
+        if (searchKeywordTextField != null && searchKeywordTextField.getText() != null) {
+            keywordQuery = searchKeywordTextField.getText().trim().toLowerCase();
+        }
+
+        // --- Gather selected categories, locations, dates (your existing logic) ---
+        ArrayList<String> selectedCategoriesForFilter = new ArrayList<>();
+        if (brokenEquipmentBtn.isSelected()) selectedCategoriesForFilter.add("brokenEquipment"); // Match actual category strings used in posts
+        if (roadIssuesBtn.isSelected()) selectedCategoriesForFilter.add("roadIssues");
+        // ... (collect all selected categories from ToggleButtons into selectedCategoriesForFilter) ...
+        // This part you already have:
+        // if (brokenEquipmentBtn.isSelected()) {
+        //     selectedCategories.add("brokenEquipment"); // 'selectedCategories' is your existing ArrayList
+        // } ... etc. for all category, date, location buttons.
+        // For this example, I'll assume 'selectedCategories', 'selectedDates', 'selectedLocations'
+        // are populated as they are in your current `confirmSearch` method.
+
+        // --- Build Criteria Description ---
+        StringBuilder criteriaDescription = new StringBuilder();
+        if (!keywordQuery.isEmpty()) {
+            criteriaDescription.append("Keyword: '").append(searchKeywordTextField.getText().trim()).append("'");
+        }
+        if (!selectedCategories.isEmpty()) { // 'selectedCategories' is your instance ArrayList
+            if (criteriaDescription.length() > 0) criteriaDescription.append(", ");
+            criteriaDescription.append("Categories: ").append(String.join(", ", selectedCategories));
+        }
+        if (!selectedLocations.isEmpty()) { // 'selectedLocations' is your instance ArrayList
+             if (criteriaDescription.length() > 0) criteriaDescription.append(", ");
+            criteriaDescription.append("Locations: ").append(String.join(", ", selectedLocations));
+        }
+        if (!selectedDates.isEmpty()) { // 'selectedDates' is your instance ArrayList
+            if (criteriaDescription.length() > 0) criteriaDescription.append(", ");
+            criteriaDescription.append("Dates: ").append(String.join(", ", selectedDates));
+        }
+        if (criteriaDescription.length() == 0) {
+            criteriaDescription.append("All Posts (no filters applied)");
+        }
+        App.currentSearchCriteriaDescription = criteriaDescription.toString();
+
+
+        // --- Perform Search/Filter Logic ---
+        List<AnchorPane> matchingPosts = new ArrayList<>();
+        ArrayList<AnchorPane> allPosts = App.getAllPosts();
+
+        for (AnchorPane postPane : allPosts) {
+            boolean keywordMatch = keywordQuery.isEmpty(); // If no keyword, it's a match by default
+            boolean categoryMatch = selectedCategories.isEmpty(); // If no categories selected, it's a match
+            boolean locationMatch = selectedLocations.isEmpty(); // If no locations selected, it's a match
+            // boolean dateMatch = selectedDates.isEmpty(); // Implement date filtering if needed
+
+            // 1. Keyword Search (if keyword is provided)
+            if (!keywordQuery.isEmpty()) {
+                StringBuilder searchablePostText = new StringBuilder();
+                // Extract text from title, content, user, etc., as done previously
+                Label titleLabel = (Label) postPane.lookup("#postTitleLabel");
+                if (titleLabel != null) searchablePostText.append(titleLabel.getText().toLowerCase()).append(" ");
+
+                Label contentLabel = (Label) postPane.lookup("#postContentLabel");
+                if (contentLabel != null) searchablePostText.append(contentLabel.getText().toLowerCase()).append(" ");
+                
+                Label userLabel = (Label) postPane.lookup("#postUserLabel");
+                if (userLabel != null) searchablePostText.append(userLabel.getText().toLowerCase()).append(" ");
+
+                if (searchablePostText.toString().contains(keywordQuery)) {
+                    keywordMatch = true;
+                }
+            }
+
+            // 2. Category Filter
+            if (!selectedCategories.isEmpty()) {
+                List<String> postActualCategories = App.getPostCategories(postPane); // Retrieve actual categories of the post
+                if (postActualCategories != null && !postActualCategories.isEmpty()) {
+                    // Check if any of the post's categories are in the selected filter categories
+                    // This requires your ToggleButton values (e.g., "brokenEquipment") to match
+                    // the strings stored by App.setPostCategories.
+                    // For simplicity, let's assume direct match of category names.
+                    // You might need to map ToggleButton IDs to actual category names if they differ.
+                    for (String selectedCat : selectedCategories) { // selectedCategories is your instance list from ToggleButtons
+                        // Your `App.getPostCategories(postPane)` returns a list of strings
+                        // like "Maintenance", "Cleaning". Your `selectedCategories` from ToggleButtons
+                        // might be like "brokenEquipment". You need a mapping or consistent naming.
+                        // For now, let's assume a direct match to a post's category strings for demo.
+                        // This part needs careful alignment with how categories are stored and selected.
+                        // A simple check:
+                        if (postActualCategories.stream().anyMatch(pc -> pc.equalsIgnoreCase(selectedCat))) {
+                            categoryMatch = true;
+                            break;
+                        }
+                        // More robust: check if ANY of the post's categories match ANY selected filter.
+                        // Or if ALL selected filters must be present (AND logic).
+                        // Current example: if ANY selected category is found in the post.
+                    }
+                }
+            }
+            
+            // 3. Location Filter
+            if (!selectedLocations.isEmpty()){
+                Label buildingLabel = (Label) postPane.lookup("#postBuildingLabel");
+                if (buildingLabel != null) {
+                    String postBuildingText = buildingLabel.getText().toLowerCase(); // e.g., "🏢 b binası"
+                    for(String selectedLoc : selectedLocations){ // selectedLocations is your instance list
+                        // selectedLoc might be "B Building". Adjust for matching "b binası" vs "B Building"
+                        if(postBuildingText.contains(selectedLoc.toLowerCase().replace(" building", " binası")) ||
+                           postBuildingText.contains(selectedLoc.toLowerCase())){
+                            locationMatch = true;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            // 4. Date Filter (you'd implement logic based on post creation timestamp here)
+            // ... dateMatch = true / false ...
+
+
+            // Combine matches (currently AND logic for different filter types, OR within categories)
+            if (keywordMatch && categoryMatch && locationMatch /* && dateMatch */) {
+                matchingPosts.add(postPane);
+            }
+        }
+        
+        // Important: Clear the ArrayLists after use if they are instance variables
+        // to prevent them from accumulating across searches if the user goes back and searches again.
+        selectedCategories.clear();
+        selectedLocations.clear();
+        selectedDates.clear();
+
+        // Store results for SearchResultsController
+        App.currentSearchResults = matchingPosts;
+
+        System.out.println("Search/Filter complete. Found " + matchingPosts.size() + " posts. Navigating to results page.");
+
+        // Navigate to SearchResults.fxml
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("SearchResults.fxml"));
+            Parent searchResultsRoot = loader.load();
+            // You could pass the controller if needed, but using App.currentSearchResults is simpler here
+            // SearchResultsController resultsController = loader.getController();
+            // resultsController.setResults(matchingPosts, App.currentSearchCriteriaDescription);
+
+
+            Scene scene = new Scene(searchResultsRoot);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow(); // Get stage from event
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            System.err.println("Failed to load SearchResults.fxml: " + e.getMessage());
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Could not load search results page.");
+            alert.showAndWait();
+        }
+    }
+
+
+    // Your ArrayLists for filters - these are already in your mainController
+    // ArrayList<String> selectedCategories = new ArrayList();
+    // ArrayList<String> selectedDates = new ArrayList();
+    // ArrayList<String> selectedLocations = new ArrayList();
+
+    // ... (rest of your mainController.java, including initialize, navigation methods etc.)
+    // Make sure your categoryAction methods still update these lists correctly.
+}
     
     //Category ToggleButtons
     @FXML private ToggleButton brokenEquipmentBtn;
@@ -1227,7 +1396,3 @@ public class mainController implements Initializable{
             postImagePreview.setImage(image);
         }
     }
-
-    
-
-}

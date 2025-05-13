@@ -295,6 +295,26 @@ public class App extends Application {
         stage.setResizable(false);
     }
 
+    //Search
+
+    public static List<AnchorPane> currentSearchResults = new ArrayList<>();
+    public static String currentSearchCriteriaDescription = ""; 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     //Choosing categories for posts.
     private static Map<AnchorPane, List<String>> postCategories = new HashMap<>();  
 

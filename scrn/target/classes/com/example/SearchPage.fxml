@@ -72,7 +72,7 @@
         <Label layoutX="465.0" prefHeight="88.0" prefWidth="197.0" text="SEARCH">
             <font><Font name="System Bold" size="50.0" /></font>
         </Label>
-      <TextField fx:id="searchQueryTextField" layoutX="355.0" layoutY="68.0" prefHeight="39.0" prefWidth="418.0" promptText="Enter a keyword or select categories" style="-fx-background-radius: 40;">
+      <TextField fx:id="searchKeywordTextField" layoutX="355.0" layoutY="68.0" prefHeight="39.0" prefWidth="418.0" promptText="Enter a keyword or select categories" style="-fx-background-radius: 40;">
          <font>
             <Font size="14.0" />
          </font>
@@ -95,7 +95,7 @@
       <ToggleButton fx:id="missingEquipmentBtn" layoutX="421.0" layoutY="231.0" mnemonicParsing="false" onAction="#categoryAction" prefHeight="27.0" prefWidth="130.0" style="-fx-background-color: #ffffff; -fx-border-color: #000000; -fx-border-radius: 20; -fx-background-radius: 20;" text="Missing equipment" />
       <ToggleButton fx:id="brokenEquipmentBtn" layoutX="276.0" layoutY="183.0" mnemonicParsing="false" onAction="#categoryAction" prefHeight="27.0" prefWidth="138.0" style="-fx-background-color: #ffffff; -fx-border-color: #000000; -fx-border-radius: 20; -fx-background-radius: 20;" text="Broken equipment" />
       <ToggleButton fx:id="bBuildingButton" layoutX="285.0" layoutY="323.0" mnemonicParsing="false" onAction="#categoryAction" prefHeight="27.0" prefWidth="130.0" style="-fx-background-color: #ffffff; -fx-border-color: #000000; -fx-border-radius: 20; -fx-background-color: 20;" text="B Building" />
-      <Button layoutX="696.0" layoutY="446.0" mnemonicParsing="false" onAction="#confirmSearch" style="-fx-background-radius: 40; -fx-border-color: #000000; -fx-border-radius: 40; -fx-background-radius: 40;" text="Confirm">
+      <Button fx:id="confirmSearch" layoutX="696.0" layoutY="446.0" mnemonicParsing="false" onAction="#confirmSearchAndNavigate" style="-fx-background-radius: 40; -fx-border-color: #000000; -fx-border-radius: 40; -fx-background-radius: 40;" text="Confirm">
          <font>
             <Font size="20.0" />
          </font>
