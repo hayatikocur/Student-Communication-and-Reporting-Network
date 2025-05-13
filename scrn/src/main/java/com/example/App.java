@@ -242,6 +242,7 @@ public class App extends Application {
         return postCategories.getOrDefault(post, List.of());
     }
 
+    
     public static void main(String[] args) {
         launch();
     }
