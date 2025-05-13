@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.jar.Attributes.Name;
 
 import javafx.scene.control.Label;
@@ -18,6 +19,9 @@ public class User {
     protected String password;
     private boolean mailNotification;
     private boolean appNotification;
+    
+
+    private ArrayList<ProblemReport> savedReports;
 
     public User(String name, String surname, String email, String password) {
         this.userName = name;
@@ -26,6 +30,8 @@ public class User {
         this.password = password;
         mailNotification = true;
         appNotification = true;
+        savedReports = new ArrayList<>();
+
     }
 
     public boolean validatePassword(String password) {
@@ -101,5 +107,13 @@ public class User {
 
     public void addComment(ProblemReport pr, String comment) {
         pr.addComment(new Comment(this, comment));
+    }
+    
+    public ArrayList<ProblemReport> getSavedReports() {
+        return savedReports;
+    }
+
+    public void setSavedReports(ArrayList<ProblemReport> savedIssues) {
+        this.savedReports = savedIssues;
     }
 }
