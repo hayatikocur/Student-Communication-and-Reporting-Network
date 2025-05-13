@@ -262,7 +262,7 @@ public class mainController implements Initializable{
 
     // ... (rest of your mainController.java, including initialize, navigation methods etc.)
     // Make sure your categoryAction methods still update these lists correctly.
-}
+
     
     //Category ToggleButtons
     @FXML private ToggleButton brokenEquipmentBtn;
@@ -1444,3 +1444,4 @@ public class mainController implements Initializable{
             postImagePreview.setImage(image);
         }
     }
+}
