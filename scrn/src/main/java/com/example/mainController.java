@@ -1,11 +1,18 @@
 package com.example;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Random;
 import java.util.ResourceBundle;
 
@@ -190,12 +197,97 @@ public class mainController implements Initializable{
         SendGmail.sendEmail(email);
         //TODO: in this code everybody is added as users not separated such as student or authority. separate them. 
         if(email.contains("ug")){
-            App.getUsers().add(new Student(name, surname, email, tfPasswordSup.getText()));
+            Student willBeAdded = new Student(name, surname, email, tfPasswordSup.getText());
+            App.getUsers().add(willBeAdded);
+            Properties props = new Properties();
+
+    try (InputStream input = User.class.getClassLoader().getResourceAsStream("db.properties")) {
+        if (input == null) {
+            System.err.println("❌ db.properties file not found!");
+            return false;
+        }
+        props.load(input);
+    } catch (IOException e) {
+        e.printStackTrace();
+        return false;
+    }
+
+    String url = props.getProperty("db.url");
+    String dbUser = props.getProperty("db.user");
+    String dbPassword = props.getProperty("db.password");
+
+    if (url == null || dbUser == null || dbPassword == null) {
+        System.err.println("❌ Database credentials are missing in db.properties");
+        return false;
+    }
+
+    String query = "INSERT INTO users (userName, userSurname, email, password, mailNotification, appNotification, isAuthority) VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+    try (Connection conn = DriverManager.getConnection(url, dbUser, dbPassword);
+         PreparedStatement stmt = conn.prepareStatement(query)) {
+
+        stmt.setString(1, willBeAdded.userName);
+        stmt.setString(2, willBeAdded.userSurname);
+        stmt.setString(3, willBeAdded.email);
+        stmt.setString(4, willBeAdded.password);
+        stmt.setBoolean(5, true);
+        stmt.setBoolean(6, true);
+        stmt.setBoolean(7, false); 
+
+        stmt.executeUpdate();
+        System.out.println("✅ User inserted successfully.");
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
         }
         else{
-            App.getUsers().add(new Authority(name, surname, email, tfPasswordSup.getText()));
+            Authority willBeAdded = new Authority(name, surname, email, tfPasswordSup.getText());
+            App.getUsers().add(willBeAdded);
+            Properties props = new Properties();
+
+    try (InputStream input = User.class.getClassLoader().getResourceAsStream("db.properties")) {
+        if (input == null) {
+            System.err.println("❌ db.properties file not found!");
+            return false;
+        }
+        props.load(input);
+    } catch (IOException e) {
+        e.printStackTrace();
+        return false;
+    }
+
+    String url = props.getProperty("db.url");
+    String dbUser = props.getProperty("db.user");
+    String dbPassword = props.getProperty("db.password");
+
+    if (url == null || dbUser == null || dbPassword == null) {
+        System.err.println("❌ Database credentials are missing in db.properties");
+        return false;
+    }
+
+    String query = "INSERT INTO users (userName, userSurname, email, password, mailNotification, appNotification, isAuthority) VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+    try (Connection conn = DriverManager.getConnection(url, dbUser, dbPassword);
+         PreparedStatement stmt = conn.prepareStatement(query)) {
+
+        stmt.setString(1, willBeAdded.userName);
+        stmt.setString(2, willBeAdded.userSurname);
+        stmt.setString(3, willBeAdded.email);
+        stmt.setString(4, willBeAdded.password);
+        stmt.setBoolean(5, true);
+        stmt.setBoolean(6, true);
+        stmt.setBoolean(7, true); 
+
+        stmt.executeUpdate();
+        System.out.println("✅ User inserted successfully.");
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
         }
         
+        for (User u: App.allUsers) {
+            System.out.println(u);
+        }
         // App.getUsers().add(new User(name, surname, email, tfPasswordSup.getText()));
         return true;
     }

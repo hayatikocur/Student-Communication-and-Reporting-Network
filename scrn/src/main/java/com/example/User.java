@@ -102,4 +102,8 @@ public class User {
     public void addComment(ProblemReport pr, String comment) {
         pr.addComment(new Comment(this, comment));
     }
+
+    public String toString() {
+        return userName + " " + userSurname + " " + email + " " + password;
+    }
 }
